@@ -1,0 +1,40 @@
+.SetAssign {
+  display: flex;
+}
+
+/* 왼쪽 화면 */
+#leftside {
+  flex: 0 0 18%;
+  height: 98.5vh;
+  background-color: #F9EBD0;
+}
+
+#left_top{
+  padding-left: 2vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+}
+
+#left_bottom{
+  padding-left: 2vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+}
+
+/* 오른쪽 화면 */
+#rightside {
+  flex: 1;
+}
+
+#right_top{
+  padding-left: 2vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  background-color: #F2AC57;
+}
+
+#right_bottom{
+  padding-left: 2vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+}
