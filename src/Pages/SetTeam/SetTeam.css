@@ -1,0 +1,181 @@
+/* bottomBox를 왼쪽, 가운데, 오른쪽으로 분할 */
+/* 왼쪽과 오른쪽 공백 */
+.leftBlank,
+.rightBlank {
+  flex: 1;
+  /* 1부분 중에서의 비율 */
+  /* background-color: white; */
+}
+
+/* 가운데 핵심 */
+.midCore {
+  flex: 6;
+  /* 4부분 중에서의 비율 */
+  /* background-color: purple; */
+  display: flex;
+  flex-direction: column;
+}
+
+/* midCore를 lecture과 mainContent로 위, 아래 분할 */
+.lecture {
+  flex: 1;
+  /* background-color: red; */
+}
+
+.mainContent {
+  flex: 9;
+  display: flex;
+  /* background-color: blue; */
+  flex-direction: column;
+  height: 100vh;
+}
+
+.lecture {
+  padding-left: 2vw;
+  padding-top: 3vh;
+  font-size: 3.5vh;
+}
+
+.tabCover {
+  background-color: #f0bf83;
+  height: 8%;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  width: 100%;
+}
+
+.assignInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.teamSetting {
+  height: 15%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2vh;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  margin-bottom: 2vh;
+}
+
+.teamCover {
+  height: 30%;
+  background-color: #E6EDF4;
+  font-size: 2vh;
+  padding-top: 1vh;
+  padding-left: 1vw;
+}
+
+.inputTeamInfo {
+  flex: 1;
+  background-color: #F0F0F0;
+  display: flex;
+  padding-top: 1vh;
+  padding-left: 1vw;
+}
+
+.teamName {
+  display: flex;
+}
+
+.indicateName,
+.indicateNumber {
+  font-size: 2vh;
+  padding-right: 1vw;
+}
+
+.getName,
+.getNumber {
+  padding-right: 2vw;
+}
+
+.nameBox,
+.numberBox {
+  width: 15vw;
+  height: 4vh;
+}
+
+.teamNumber {
+  display: flex;
+}
+
+.finishButton {
+  flex: 1;
+  padding-left: 2vw;
+}
+
+.makeTeam {
+  background-color: #7EA8EB;
+  height: 4.5vh;
+  width: 8vw;
+  cursor: pointer;
+  font-size: 2vh;
+  border-radius: 5px;
+}
+
+.currentTeamState {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2vh;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  margin-bottom: 2vh;
+}
+
+.stateCover {
+  height: 4.5vh;
+  background-color: #E6EDF4;
+  font-size: 2vh;
+  padding-top: 1.5vh;
+  padding-left: 1vw;
+}
+
+.showTeamState {
+  flex: 1;
+  background-color: #F0F0F0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.teamTable {
+  margin-top: 2vh;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.tableCover {
+  display: flex;
+  height: 3vh;
+  padding-bottom: 2vh;
+}
+
+.tableName {
+  width: 10vw;
+  font-size: 2vw;
+}
+
+.coverBlank {
+  flex: 1;
+}
+
+.deleteButton {
+  padding-top: 0.5vh;
+  padding-bottom: 2.8vh;
+  font-size: 1.8vh;
+  width: 8vw;
+  height: 3vh;
+  cursor: pointer;
+  color: red;
+  background-color: rgb(247, 213, 213);
+  border-radius: 5px;
+}
+
+.showTable {
+  flex:1;
+}

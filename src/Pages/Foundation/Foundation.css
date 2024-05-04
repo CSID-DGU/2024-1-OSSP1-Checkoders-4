@@ -55,33 +55,5 @@
   width: 100%;
 }
 
-/* bottomBox를 왼쪽, 가운데, 오른쪽으로 분할 */
-/* 왼쪽과 오른쪽 공백 */
-.leftBlank, .rightBlank {
-  flex: 1; /* 1부분 중에서의 비율 */
-  /* background-color: white; */
-}
-
-/* 가운데 핵심 */
-.midCore {
-  flex: 6; /* 4부분 중에서의 비율 */
-  /* background-color: purple; */
-  display: flex;
-  flex-direction: column;
-}
-
-/* midCore를 lecture과 mainContent로 위, 아래 분할 */
-.lecture{
-  flex: 1;
-  /* background-color: red; */
-}
-
-.mainContent{
-  flex: 9;
-  display: flex;
-  /* background-color: blue; */
-  flex-direction: column;
-  height: 100vh;
-}
 
 

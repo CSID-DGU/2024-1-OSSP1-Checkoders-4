@@ -1,9 +1,9 @@
 import '../Foundation/Foundation.css'
-import './SetAssign.css';
+import './StudentProblem.css';
 import { useState } from 'react';
 
-function SetAssign() {
-  let [lectureName, changeLecture] = useState('객체지향 프로그래밍_03');
+function StudentProblem() {
+  let[lectureName, changeLecture] = useState('객체지향 프로그래밍_03');
 
   return (
     <div className="Foundation">
@@ -32,14 +32,10 @@ function SetAssign() {
           </div>
           <div className='mainContent'>
             <div className='tabCover'>
-
+              
             </div>
             <div className='assignInfo'>
-              <div className='problemName'></div>
-              <div className='problemExplanation'></div>
-              <div className=''></div>
-              <div className=''></div>
-              <div className=''></div>
+              
             </div>
           </div>
         </div>
@@ -49,4 +45,4 @@ function SetAssign() {
   );
 }
 
-export default SetAssign;
+export default StudentProblem;
