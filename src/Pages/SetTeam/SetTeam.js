@@ -1,3 +1,4 @@
+import '../Foundation/Foundation.css'
 import './SetTeam.css';
 import { useState } from 'react';
 import StudentTable from './StudentTable/StudentTable';
