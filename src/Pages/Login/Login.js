@@ -6,7 +6,17 @@ function Login() {
   const REST_API_KEY = '7e00d3c02083b9c1b801d4984fcbddda' //REST API KEY
   const REDIRECT_URI = 'http://localhost:3000/Main' //Redirect URI
   // oauth 요청 URL
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
+
+  // https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code
+
+
+
+  // https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=2b457724a50592a78abf3dcfc87166fd&redirect_uri=http://localhost:8080/login&response_type=code
+
+  // https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code
+
+
   const handleLogin = () => {
     window.location.href = kakaoURL
   }
