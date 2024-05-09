@@ -2,7 +2,6 @@ import '../Foundation/Foundation.css'
 import './SubmitAssign.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-// import { useHistory } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -16,11 +15,11 @@ function SubmitAssign() {
   const fetchData = () => {
     // GET 요청 보내기
     Promise.all([
-      axios.get('https://api.example.com/data1'),
-      axios.get('https://api.example.com/data2'),
-      axios.get('https://api.example.com/data3'),
-      axios.get('https://api.example.com/data4'),
-      axios.get('https://api.example.com/data5')
+      axios.get('api/data1'),
+      axios.get('api/data2'),
+      axios.get('api/data3'),
+      axios.get('api/data4'),
+      axios.get('api/data5')
 
     ])
       .then(([response1, response2, response3, response4, response5]) => {
@@ -33,7 +32,7 @@ function SubmitAssign() {
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        changeLecture('객체지향 프로그래밍_03(요청실패)')
+        changeLecture('객체지향 프로그래밍_03(요청실패)');
         changeAssignTitle('실습 과제2(요청실패)');
         changeAssignExplanation('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.(요청실패)');
         changeAssignLimitation('기본 생성자 사용, 조건문 사용(요청실패)');
@@ -54,11 +53,10 @@ function SubmitAssign() {
   };
 
   // 제출 관련
-  // const history = useHistory();
   const navigate = useNavigate(); 
   const handleSubmit = () => {
     // 서버로 데이터를 전송하기 위해 axios를 사용하여 POST 요청 보내기
-    axios.post('https://api.example.com/submit', { data: solvingValue })
+    axios.post('api/submit', { data: solvingValue })
       .then(response => {
         // 특정 페이지로 이동
         // history.push('/Main');
@@ -66,16 +64,19 @@ function SubmitAssign() {
       })
       .catch(error => {
         // 전송 실패 시의 처리
-        // history.push('/Main');
         navigate('/Main')
       });
   };
+
+  const handleSiteName = () => {
+    navigate('/Main');
+  }
 
   return (
     <div className="Foundation">
       <div className='topCover'>
         <div className='siteName'>
-          <button className='siteName_button'>
+          <button className='siteName_button' onClick={handleSiteName}>
             ✔ Checkoders
             {/* 온클릭하면 메인페이지 */}
           </button>

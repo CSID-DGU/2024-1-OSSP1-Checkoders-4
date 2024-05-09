@@ -5,7 +5,7 @@ import SubmitAssign from '../SubmitAssign/SubmitAssign';
 import SetAssign from '../SetAssign/SetAssign';
 import SetTeam from '../SetTeam/SetTeam'
 import StudentProblem from '../StudentProblem/StudentProblem'
-
+import CodeReview from '../CodeReview/CodeReview';
 
 function Main() {
   const navigate = useNavigate();
@@ -24,6 +24,9 @@ function Main() {
   function moveToStudentProblem() {
     navigate('/StudentProblem');
   }
+  function moveToCodeReview(){
+    navigate('/CodeReview')
+  }
   return (
     <div className="Main">
       <div id='first_row'>
@@ -39,6 +42,8 @@ function Main() {
           <button id='SetAssign' onClick={moveToSetAssign}>출제 페이지</button>
           <button id='SetTeam' onClick={moveToSetTeam}>팀배정 페이지</button>
           <button id='StudentProblem' onClick={moveToStudentProblem}>학생별 문제 출제 페이지</button>
+          <button id='CodeReview' onClick={moveToCodeReview}>코드 리뷰 페이지</button>
+          
         </div>
       </div>
 
@@ -48,6 +53,7 @@ function Main() {
         <Route path="/SetAssign" element={<SetAssign />}></Route>
         <Route path="/SetTeam" element={<SetTeam />}></Route>
         <Route path="/StudentProblem" element={<StudentProblem />}></Route>
+        <Route path="/CodeReview" element={<CodeReview />}></Route>
       </Routes>
     </div>
   );

@@ -1,17 +1,44 @@
 import '../Foundation/Foundation.css'
 import './SetTeam.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import StudentTable from './StudentTable/StudentTable';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function SetTeam() {
   let [lectureName, changeLecture] = useState('객체지향 프로그래밍_03');
   let [tableName, changeTable] = useState('실습 팀');
+  
+  const fetchData = () => {
+    // GET 요청 보내기
+    Promise.all([
+      axios.get('api/data1')
+    ])
+      .then(([response1]) => {
+        // 요청 성공 시 실행되는 코드
+        changeLecture(response1.data);
+      })
+      .catch(error => {
+        // 요청 실패 시 실행되는 코드
+        changeLecture('객체지향 프로그래밍_03');
+      });
+  }
+
+  const navigate = useNavigate(); 
+  const handleSiteName = () => {
+    navigate('/Main');
+  }
+
+  useEffect(() => {
+    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
+    fetchData();
+  }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행
 
   return (
     <div className="Foundation">
       <div className='topCover'>
         <div className='siteName'>
-          <button className='siteName_button'>
+          <button className='siteName_button' onClick={handleSiteName}>
             ✔ Checkoders
             {/* 온클릭하면 메인페이지 */}
           </button>
