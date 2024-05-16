@@ -13,6 +13,9 @@ function Foundation() {
         <div className='midBlank'>
 
         </div>
+        <div className='specificSubject'>
+          <button className='specificSubjectButton'>⬅뒤로가기</button>
+        </div>
         <div className='logOut'>
           <button className='logOut_button'>
             Logout🔓

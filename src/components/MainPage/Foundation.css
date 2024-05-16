@@ -1,3 +1,36 @@
+/* Header.css */
+/* .header {
+  background-color: #FFAE35;
+  width: 1728px;
+  height: 89px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.notebook-icon {
+  width: 30px; 
+  height: 30px;
+  margin-right: 10px; 
+  color: white;
+}
+
+.page-title {
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+} */
+
+
+
+
+
 .Foundation{
   display: flex;
   flex-direction: column;
@@ -8,7 +41,7 @@
 /* 위 */
 .topCover{ 
   flex: 0 0 10%;
-  background-color: #F2AC57;
+  background-color: #FFAE35;
   display: flex;
 }
 
@@ -34,6 +67,10 @@
   display: flex;
 }
 
+.midBlank{
+  flex: 1;
+}
+
 .logOut_button{
   font-size: 3.5vh;
   background-color: transparent;
@@ -43,26 +80,6 @@
   align-items: center; 
 }
 
-.midBlank{
-  flex: 1;
-}
-
-.specificSubjcet{
-  width: 10vw;
-  display: flex;
-}
-
-.specificSubjectButton{
-  height: 100%;
-  font-size: 3.5vh;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center; 
-}
-
-
 /* 아래 */
 .bottomBox{
   flex: 1;
@@ -70,6 +87,3 @@
   display: flex;
   width: 100%;
 }
-
-
-
