@@ -6,9 +6,16 @@ import SetAssign from '../SetAssign/SetAssign';
 import SetTeam from '../SetTeam/SetTeam'
 import StudentProblem from '../StudentProblem/StudentProblem'
 import CodeReview from '../CodeReview/CodeReview';
+import { useEffect } from 'react';
 
 function Main() {
   const navigate = useNavigate();
+  // const code = new URL(window.location.href).searchParams.get('code');
+  
+
+
+
+
   function moveToFoundation() {
     navigate('/Foundation');
   }
@@ -31,6 +38,7 @@ function Main() {
     <div className="Main">
       <div id='first_row'>
         축하합니다! 로그인 성공
+        
       </div>
       <div id='second_row'>
         메인 페이지 구현 필요

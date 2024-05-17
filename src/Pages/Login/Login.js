@@ -4,10 +4,12 @@ import kakaologo from './Images/kakao_logo.png';
 
 function Login() {
   const REST_API_KEY = '7e00d3c02083b9c1b801d4984fcbddda' //REST API KEY
-  const REDIRECT_URI = 'http://localhost:3000/Main' //Redirect URI
+  // const REDIRECT_URI = 'http://localhost:3000/Main' //Redirect URI
+  const REDIRECT_URI = 'http://localhost:3000/Waiting' // 실험 코드
+
   // oauth 요청 URL
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
-  // const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
+  // const kakaoURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
   const handleLogin = () => {
     window.location.href = kakaoURL
   }

@@ -1,16 +1,28 @@
 import './Foundation.css';
 import './MainPage2.css';
 import './CalendarStyle.css';
-import { AiOutlineHome, AiFillCalendar, AiFillPlusCircle } from "react-icons/ai";
-import {FaRegClock } from "react-icons/fa";
-import React from 'react';
+import { AiOutlineHome, AiFillCalendar } from "react-icons/ai";
+import {FaRegClock} from "react-icons/fa";
+import React, {useState} from 'react';
 import logo from '../동국대로고.png';
 import TaskCalendar from './TaskCalendar.js';
 import TaskInfo from './TaskInfo.js';
+import ClassCreate from './ClassCreate.js';
+import ClassSearch from './ClassSearch.js';
 import { Link } from 'react-router-dom'; // React Router의 Link 컴포넌트 import
 
 
 function MainPage2() {
+  // const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  // const openModal = () => {
+  //   setModalIsOpen(true); // 모달 열기
+  // };
+
+  // const closeModal = () => {
+  //   setModalIsOpen(false); // 모달을 닫기 위해 모달 상태를 false로 변경합니다.
+  // };
+
   return (
     <div className="Foundation">
       <div className='topCover'>
@@ -35,15 +47,15 @@ function MainPage2() {
         <div className='Main-name'>
           <AiOutlineHome className="home-icon" />
           메인페이지
+          <ClassCreate />
+          <ClassSearch />
         </div>
 
         <div className="main-bottom-box">
             <div className="main-container">
                <div className="main-container-title">
                   현재 진행중인 클래스
-                  <div style={{marginRight: '5%', width: '6vw'}}>
-                    <AiFillPlusCircle />
-                  </div>
+                  {/* <PopUp /> */}
                </div> 
                <div className="main-container-box">
                   <div className="main-box">

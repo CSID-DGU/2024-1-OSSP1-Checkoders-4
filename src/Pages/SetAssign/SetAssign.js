@@ -67,11 +67,11 @@ function SetAssign() {
     axios.post('api/submit', contents)
       .then(response => {
         // 전송 성공
-        navigate('/Main')
+        navigate('/detail')
       })
       .catch(error => {
         // 전송 실패
-        navigate('/Main')
+        navigate('/detail')
       });
   };
 

@@ -6,7 +6,7 @@ import StudentQListPage from './components/StudentQListPage/StudentQListPage';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 //
 import Login from './Pages/Login/Login';
-import Main from "./Pages/Main/Main";
+import MainSpare from "./Pages/MainSpare/Main";
 import Foundation from "./Pages/Foundation/Foundation";
 import SubmitAssign from "./Pages/SubmitAssign/SubmitAssign";
 import SetAssign from "./Pages/SetAssign/SetAssign";
@@ -15,18 +15,19 @@ import StudentProblem from "./Pages/StudentProblem/StudentProblem"
 import CodeReview from "./Pages/CodeReview/CodeReview"
 import StudentTable from "./Pages/SetTeam/StudentTable/StudentTable";
 //
+import Waiting from './Pages/Waiting/Waiting';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
-          <Route path={"/"} element={<MainPage2/>}> </Route>
+          <Route path={"/Main"} element={<MainPage2/>}> </Route>
           <Route path={"/detail"} element={<DetailPage/>}> </Route>
           <Route path={"/studentqlist"} element={<StudentQListPage/>}> </Route>
 
-          <Route path = '/Login' element = {<Login />}></Route>
-          <Route path = '/Main' element = {<Main />} ></Route>
+          <Route path = '/' element = {<Login />}></Route>
+          <Route path = '/MainSpare' element = {<MainSpare />} ></Route>
           <Route path = '/Foundation' element = {<Foundation />} ></Route>
           <Route path = '/SubmitAssign' element = {<SubmitAssign />} ></Route>
           <Route path = '/SetAssign' element = {<SetAssign />} ></Route>
@@ -34,6 +35,8 @@ function App() {
           <Route path = '/StudentProblem' element = {<StudentProblem />} ></Route>
           <Route path = '/CodeReview' element = {<CodeReview />} ></Route>
           <Route path = '/StudentTable' element = {<StudentTable />} ></Route>
+          //
+          <Route path = '/Waiting' element = {<Waiting />} ></Route>
         </Routes>
       </div>
     </BrowserRouter>

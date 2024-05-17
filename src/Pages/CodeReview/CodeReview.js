@@ -11,10 +11,9 @@ function CodeReview() {
   let [assignLimitation, changeAssignLimitation] = useState('기본 생성자 사용, 조건문 사용');
   let [assignResult, changeAssignResult] = useState('삼각형 2가 더 넓습니다!');
 
-  let [gptFeedback, changeGptFeedback] = useState('GPT가 작성한 피드백 내용')
-
-  let[userName, changeUserName] = useState('이영희');
-
+  let [gptFeedback, changeGptFeedback] = useState('GPT가 작성한 피드백 내용');
+  let [userName, changeUserName] = useState('이영희');
+  let [submittedCode, changeSubmittedCode] = useState('printf("Hello World!");');
 
   const fetchData = () => {
     // GET 요청 보내기
@@ -25,9 +24,10 @@ function CodeReview() {
       axios.get('api/data4'),
       axios.get('api/data5'),
       axios.get('api/data6'),
-      axios.get('api/data7')
+      axios.get('api/data7'),
+      axios.get('api/data8')
     ])
-      .then(([response1, response2, response3, response4, response5, response6, response7]) => {
+      .then(([response1, response2, response3, response4, response5, response6, response7, response8]) => {
         // 요청 성공 시 실행되는 코드
         changeLecture(response1.data);
         changeAssignTitle(response2.data);
@@ -36,6 +36,7 @@ function CodeReview() {
         changeAssignResult(response5.data);
         changeGptFeedback(response6.data);
         changeUserName(response7.data);
+        changeSubmittedCode(response8.data);
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
@@ -47,6 +48,7 @@ function CodeReview() {
         changeGptFeedback(
           '1. 주석 추가: 코드를 이해하기 쉽도록 주석을 추가하는 것이 좋습니다. 특히 클래스와 메서드의 역할, 변수의 용도 등을 설명하는 주석은 유용합니다.\n2. 입력 오류 처리: 사용자가 잘못된 입력을 할 경우 프로그램이 오류 없이 계속 실행되지만 예외 처리를 추가하여 이를 방지할 수 있습니다.\n 3. 변수명: 변수명은 코드를 이해하는 데 도움이 되도록 명확하고 의미 있는 이름으로 지어야 합니다.예를 들어, iBase, iHeight는 base, height로 변경하여 가독성을 높일 수 있습니다.\n 4. 매직 넘버 사용: 숫자 1, 2, 0은 코드에서 직접적으로 사용되어 있습니다.이 숫자들은 코드를 읽는 사람에게 의미를 전달하지 않습니다.이러한 숫자를 상수로 정의하고 사용하는 것이 가독성을 향상시킬 수 있습니다.\n 5. 리팩토링: 비교하는 부분을 메서드로 추출하여 코드의 재사용성을 높일 수 있습니다.(요청실패)')
         changeUserName('이영희(요청실패)');
+        changeSubmittedCode('코드 내용(요청실패)')
       });
   }
 
@@ -87,20 +89,31 @@ function CodeReview() {
           </div>
           <div className='mainContent'>
             <div className='tabCover'>
-
+              
             </div>
             <div className='assignInfo'>
               <div className='problemContent'>
-                <div className='contentCover'>
-                  문제 내용
+                <div className='contentArea'>
+                  <div className='contentCover'>
+                    문제 내용
+                  </div>
+                  <div className='contentExplanation'>
+                    <p>{assignTitle}</p>
+                    <p>{assignExplanation}</p>
+                    <p>처리조건</p>
+                    <p>{assignLimitation}</p>
+                    <p>실행결과</p>
+                    <p>{assignResult}</p>
+                  </div>
+
                 </div>
-                <div className='contentExplanation'>
-                  <p>{assignTitle}</p>
-                  <p>{assignExplanation}</p>
-                  <p>처리조건</p>
-                  <p>{assignLimitation}</p>
-                  <p>실행결과</p>
-                  <p>{assignResult}</p>
+                <div className='contentCode'>
+                  <div className='codeCover'>
+                    제출 코드
+                  </div>
+                  <div className='codeResponse'>
+                    {submittedCode}
+                  </div>
                 </div>
               </div>
               <div className='feedback'>
@@ -130,9 +143,9 @@ function CodeReview() {
                     <div className='addComment'>
                       <div className='userName'>
                         {userName}
-                        </div>
+                      </div>
                       <div className='inputTextBox'>
-                        <textarea className='textBox'  placeholder='댓글을 남겨보세요'></textarea>
+                        <textarea className='textBox' placeholder='댓글을 남겨보세요'></textarea>
                       </div>
                       <div className='buttonArea'>
                         <button className='postButton'>

@@ -13,6 +13,12 @@ function DetailPage(){
   function moveToStudentQList(){
     navigate('/studentqlist');
   }
+  function moveToSetAssign(){
+    navigate('/SetAssign');
+  }
+  function moveToSetTeam(){
+    navigate('/SetTeam');
+  }
 
     return (
     <div className="Foundation">
@@ -44,10 +50,10 @@ function DetailPage(){
 
           <div className="bottom-box">
             <div className="bottom-box-sidebar">
-              <button className="side-bar">
+              <button className="side-bar" onClick={moveToSetAssign}>
                 <div style={{margin: '1vh', color: 'white', fontWeight: 'bold'}}>문제출제</div>
               </button>
-              <button className="side-bar">
+              <button className="side-bar" onClick={moveToSetTeam}>
                 <div style={{margin: '1vh', color: 'white', fontWeight: 'bold'}}>팀 배정</div>
               </button>
               <div>

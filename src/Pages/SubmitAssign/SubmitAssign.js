@@ -63,11 +63,11 @@ function SubmitAssign() {
       .then(response => {
         // 특정 페이지로 이동
         // history.push('/Main');
-        navigate('/Main')
+        navigate('/detail')
       })
       .catch(error => {
         // 전송 실패 시의 처리
-        navigate('/Main')
+        navigate('/detail')
       });
   };
 

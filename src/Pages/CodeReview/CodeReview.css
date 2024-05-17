@@ -42,7 +42,6 @@
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
   width: 100%;
-
 }
 
 .assignInfo {
@@ -54,11 +53,17 @@
 }
 
 .problemContent {
-  height: 23vh;
+  height: 40vh;
   display: flex;
-  flex-direction: column;
   padding-top: 2vh;
   padding-left: 1.5vw;
+  padding-right: 1.5vw;
+}
+
+.contentArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding-right: 1.5vw;
 }
 
@@ -74,19 +79,20 @@
 }
 
 .contentExplanation {
-  padding-left: 2vw;
+  padding-left: 1vw;
   height: 100%;
   background-color: #F0F0F0;
   overflow-y: auto;
   font-size: 1.8vh;
 }
 
-.contentExplanation p{
+.contentExplanation p {
   margin: 0.5vh;
 }
 
 .contentExplanation p:nth-child(odd) {
-  font-weight: bold; /* 홀수 번째 p 태그에 볼드체를 적용 */
+  font-weight: bold;
+  /* 홀수 번째 p 태그에 볼드체를 적용 */
   font-size: 2vh;
 }
 
@@ -94,8 +100,34 @@
   padding-left: 1vw;
   font-size: 1.9vh;
 }
-.contentExplanation.p{
+
+.contentExplanation.p {
   font-size: 10vh;
+}
+
+.contentCode {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.codeCover{
+  font-size: 2vh;
+  padding-top: 1vh;
+  padding-left: 1vw;
+  padding-bottom: 1vh;
+  height: 3.5vh;
+  background-color: #E6EDF4;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.codeResponse{
+  padding-left: 1vw;
+  height: 100%;
+  background-color: #F0F0F0;
+  overflow-y: auto;
+  font-size: 1.8vh;
 }
 
 .feedback {
@@ -206,7 +238,7 @@
   height: 60%;
 }
 
-.textBox{
+.textBox {
   height: 80%;
   width: 100%;
 }
@@ -217,7 +249,7 @@
   justify-content: flex-end;
 }
 
-.postButton{
+.postButton {
   background-color: transparent;
   border: none;
   cursor: pointer;
