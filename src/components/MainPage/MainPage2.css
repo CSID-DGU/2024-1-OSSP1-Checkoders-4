@@ -30,7 +30,9 @@
     margin-top: 5vh;
     flex-direction: row;
     background-color: #FFC571;
+    display: flex;
     justify-content: center;
+    align-items: center;
     color: black;
     font-weight: bold;
     border-radius: 4px 4px 0 0;
