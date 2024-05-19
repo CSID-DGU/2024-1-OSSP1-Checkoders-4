@@ -8,7 +8,7 @@ import axios from 'axios';
 function SetTeam() {
   let [lectureName, changeLecture] = useState('객체지향 프로그래밍_03');
   let [tableName, changeTable] = useState('실습 팀');
-  
+
   const fetchData = () => {
     // GET 요청 보내기
     Promise.all([
@@ -24,7 +24,7 @@ function SetTeam() {
       });
   }
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const handleSiteName = () => {
     navigate('/Main');
   }
@@ -102,16 +102,10 @@ function SetTeam() {
                       <div className='tableName'>
                         {tableName}
                       </div>
-                      <div className='coverBlank'></div>
-                      <div className='deleteButtonArea'>
-                        <button className='deleteButton'>
-                          배정해제
-                        </button>
-                      </div>
                     </div>
                   </div>
                   <div className='showTable'>
-                    <StudentTable/>
+                    <StudentTable />
                   </div>
                 </div>
               </div>

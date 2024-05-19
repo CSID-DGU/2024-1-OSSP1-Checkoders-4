@@ -160,22 +160,6 @@
   font-size: 2vw;
 }
 
-.coverBlank {
-  flex: 1;
-}
-
-.deleteButton {
-  padding-top: 0.5vh;
-  padding-bottom: 2.8vh;
-  font-size: 1.8vh;
-  width: 8vw;
-  height: 3vh;
-  cursor: pointer;
-  color: red;
-  background-color: rgb(247, 213, 213);
-  border-radius: 5px;
-}
-
 .showTable {
   flex:1;
 }

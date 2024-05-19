@@ -35,15 +35,13 @@ function SetAssign() {
     content1: '',
     content2: '',
     content3: '',
-    content4: '',
-    content5: '',
-    content6: ''
+    content4: ''
   });
 
   // 컴파일 관련
   const handleCompile = () => {
     // 서버로 데이터를 전송하는 코드
-    axios.post('/api/compile', contents.content6 )
+    axios.post('/api/compile', contents.content6)
       .then(response => {
         // 전송 성공
         setExecutionResult(response.data.executionResult);
@@ -122,49 +120,41 @@ function SetAssign() {
                   문제내용
                 </div>
                 <div className='problemExplanationContent'>
-                  <textarea name="content2" value={contents.content1} onChange={handleChange} className='problemExplanationTextArea' placeholder='문제 내용을 입력하세요.'></textarea>
+                  <textarea name="content2" value={contents.content2} onChange={handleChange} className='problemExplanationTextArea' placeholder='문제 내용을 입력하세요.'></textarea>
                 </div>
               </div>
               <div className='problemInputs'>
-                <div className='inputIndicate'>
-                  테스트 케이스:
+                <div className='getInputData'>
+                  <div className='inputIndicate'>
+                    입력 데이터:
+                  </div>
+                  <div className='inputDataBox'>
+                    <textarea name="content3" value={contents.content3} onChange={handleChange} className='inputBox' placeholder='ex) 
+                    2 3 4 5
+                    10 8 7 13
+                    20 10 15 12
+                    8 7 10 19
+                    4 5 3 7'>
+                    </textarea>
+                  </div>
                 </div>
-                <div>
-                  <textarea name="content3" value={contents.content1} onChange={handleChange} className='inputBox' placeholder='ex) 
-                2'></textarea>
-                </div>
-                <div className='inputIndicate'>
-                  입력 데이터:
-                </div>
-                <div>
-                  <textarea name="content4" value={contents.content1} onChange={handleChange} className='inputBox' placeholder='ex) 
-                2 3 4 5
-                4 5 3 7'></textarea>
-                </div>
-                <div className='inputIndicate'>
-                  예상 답안:
-                </div>
-                <div>
-                  <textarea name="content5" value={contents.content1} onChange={handleChange} className='inputBox' placeholder='ex) 
-                1
-                2'></textarea>
-                </div>
-              </div>
-              <div className='problemCode'>
-                <div className='prblemCodeCover'>
-                  예제 코드
-                </div>
-                <div className='problemCodeContent'>
-                  <textarea name="content6" value={contents.content1} onChange={handleChange} className='problemCodeTextArea' placeholder='예제 코드를 입력하세요.'></textarea>
+                <div className='getExpectedAnswer'>
+                  <div className='inputIndicate'>
+                    예상 답안:
+                  </div>
+                  <div className='inputDataBox'>
+                    <textarea name="content4" value={contents.content4} onChange={handleChange} className='inputBox' placeholder='ex)
+                      1
+                      2
+                      1
+                      2
+                      2'>
+                    </textarea>
+                  </div>
                 </div>
               </div>
               <div className='problemClosing'>
-                <div className='executionResult'>
-                  <div className='excutionResultCover'>컴파일 결과</div>
-                  <div className='excutionResultContent'>{executionResult} </div>
-                </div>
                 <div className='buttons'>
-                  <button className='setProblemcompileButton' onClick={handleCompile}>컴파일</button>
                   <button className='setProblemsubmitButton' onClick={handleSubmit}>제출</button>
                 </div>
               </div>

@@ -99,6 +99,19 @@
   font-size: 1.9vh;
 }
 
+.IOExample {
+  display: flex;
+  width: 100%;
+}
+
+.InputExample {
+  width: 50%;
+}
+
+.OuputExample {
+  width: 50%;
+}
+
 /* 문제 풀이 관련 */
 .submitContent {
   height: 30vh;
@@ -123,32 +136,7 @@
   display: flex;
 }
 
-.compileResponse {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
 
-.compileCover{
-  background-color: #E6EDF4;
-  font-size: 2vh;
-  height: 3vh;
-  padding-top: 1vh;
-  padding-bottom: 1vh;
-  padding-left: 1vw;
-  padding-right: 1vw;
-}
-
-.compileResponseText{
-  flex: 1;
-  font-size: 1.8vh;
-  background-color: #F0F0F0;
-  padding-top: 1vh;
-  padding-bottom: 1vh;
-  padding-left: 1vw;
-  padding-right: 1vw;
-  overflow: auto;
-}
 
 .buttonAction {
   flex: 1;
@@ -167,14 +155,6 @@
   flex-grow: 1;
   text-align: right;
   padding-right: 3vw;
-}
-
-.compileButton {
-  width: 9vw;
-  height: 5vh;
-  margin-right: 2vw;
-  cursor: pointer;
-  font-size: 2vh;
 }
 
 .submitButton {

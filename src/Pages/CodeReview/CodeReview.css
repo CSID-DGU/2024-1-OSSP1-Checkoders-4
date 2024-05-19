@@ -60,11 +60,12 @@
   padding-right: 1.5vw;
 }
 
+/* 문제 내용 */
 .contentArea {
-  flex: 1;
   display: flex;
   flex-direction: column;
   padding-right: 1.5vw;
+  width: 50%;
 }
 
 .contentCover {
@@ -105,7 +106,22 @@
   font-size: 10vh;
 }
 
+.CodeReviewIOExample {
+  display: flex;
+  width: 100%;
+}
+
+.CodeReviewInputExample {
+  width: 50%;
+}
+
+.CodeReviewOuputExample {
+  width: 50%;
+}
+
+/* 제출 코드 */
 .contentCode {
+  width: 50%;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -123,9 +139,10 @@
 }
 
 .codeResponse{
-  padding-left: 1vw;
+  display: flex;
   height: 100%;
   background-color: #F0F0F0;
+  overflow-x: auto;
   overflow-y: auto;
   font-size: 1.8vh;
 }
@@ -142,6 +159,7 @@
 
 .gptFeedback {
   flex: 1;
+  width: 50%;
   display: flex;
   flex-direction: column;
   padding-right: 1vw;
@@ -158,15 +176,18 @@
 }
 
 .gptContent {
+  display: flex;
   height: 100%;
   padding-top: 1vh;
   padding-left: 1vw;
   background-color: #F0F0F0;
-  overflow-y: auto;
+  overflow-x: scroll;
+  overflow-y: scroll;
   white-space: pre-line;
 }
 
 .teamFeedback {
+  width: 50%;
   flex: 1;
   display: flex;
   flex-direction: column;

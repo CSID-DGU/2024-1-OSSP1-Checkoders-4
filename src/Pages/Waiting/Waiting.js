@@ -30,7 +30,7 @@ function Waiting() {
             navigate('/Main');
         } catch (error) {
             console.log('kakaoLogin Failed');
-            navigate('/MainSpare');
+            navigate('/Main');
           }
     };
 
