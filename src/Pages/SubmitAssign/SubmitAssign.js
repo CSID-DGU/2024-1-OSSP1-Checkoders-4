@@ -3,7 +3,7 @@ import './SubmitAssign.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SubmitAssign() {
   let [lectureName, changeLecture] = useState('객체지향 프로그래밍_03');
@@ -11,6 +11,7 @@ function SubmitAssign() {
   let [assignExplanation, changeAssignExplanation] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
   let [inputResult, changeInputResult] = useState('');
   let [outputResult, changeOnputResult] = useState('');
+  
   const fetchData = () => {
     // GET 요청 보내기
     Promise.all([

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import StudentTable from './StudentTable/StudentTable';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SetTeam() {
   let [lectureName, changeLecture] = useState('객체지향 프로그래밍_03');

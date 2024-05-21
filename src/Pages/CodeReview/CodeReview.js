@@ -3,9 +3,9 @@ import './CodeReview.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { coy } from 'react-syntax-highlighter/dist/esm/styles/prism';
+const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function CodeReview() {
   let [lectureName, changeLecture] = useState('객체지향 프로그래밍_03');
