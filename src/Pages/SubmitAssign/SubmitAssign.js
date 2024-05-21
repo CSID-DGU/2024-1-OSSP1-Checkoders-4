@@ -6,38 +6,39 @@ import { useNavigate } from 'react-router-dom';
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SubmitAssign() {
-  let [lectureName, changeLecture] = useState('객체지향 프로그래밍_03');
-  let [assignTitle, changeAssignTitle] = useState('실습 과제2');
-  let [assignExplanation, changeAssignExplanation] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
-  let [inputResult, changeInputResult] = useState('');
-  let [outputResult, changeOnputResult] = useState('');
+  let [lecture_name, changeLecture] = useState('객체지향 프로그래밍_03');
+  let [hw_name, change_hw_name] = useState('실습 과제2');
+  let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
+  let [hw_test1, change_hw_test1] = useState('');
+  let [hw_test_answer1, change_hw_test_answer1] = useState('');
+  let [submit_source, change_submit_source] = useState('');
+  let [submitter, change_submitter] = useState('');
   
   const fetchData = () => {
     // GET 요청 보내기
     Promise.all([
-      axios.get('api/data1'),
-      axios.get('api/data2'),
-      axios.get('api/data3'),
-      axios.get('api/data4'),
-      axios.get('api/data5')
-
+      axios.get(`${API_BASE_URL}/lecture_name`),
+      axios.get(`${API_BASE_URL}/hw_name`),
+      axios.get(`${API_BASE_URL}/hw_problem`),
+      axios.get(`${API_BASE_URL}/hw_test1`),
+      axios.get(`${API_BASE_URL}/hw_test_answer1`),
     ])
-      .then(([response1, response2, response3 , response4, response5 ]) => {
+      .then(([response1, response2, response3, response4, response5]) => {
         // 요청 성공 시 실행되는 코드
         changeLecture(response1.data);
-        changeAssignTitle(response2.data);
-        changeAssignExplanation(response3.data);
-        changeInputResult(response4.data);
-        changeOnputResult(response5.data);
+        change_hw_name(response2.data);
+        change_hw_problem(response3.data);
+        change_hw_test1(response4.data);
+        change_hw_test_answer1(response5.data);
 
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
         changeLecture('객체지향 프로그래밍_03(요청실패)');
-        changeAssignTitle('실습 과제2(요청실패)');
-        changeAssignExplanation('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.(요청실패)');
-        changeInputResult('2 3 4 5\n 10 2 20 5\n 10 9 8 7\n 10 9 8 7');
-        changeOnputResult('2\n 2\n 1\n 1');
+        change_hw_name('실습 과제2(요청실패)');
+        change_hw_problem('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.(요청실패)');
+        change_hw_test1('2 3 4 5(요청실패)');
+        change_hw_test_answer1('2(요청실패)');
       });
   }
 
@@ -47,25 +48,29 @@ function SubmitAssign() {
   }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행
 
   // 초기화 관련
-  const [solvingValue, setSolvingValue] = useState('');
   const clearTextArea = () => {
     // textarea 내용을 초기화하기 위해 상태 변수 업데이트
-    setSolvingValue('');
+    change_submit_source('');
   };
 
   // 제출 관련
   const navigate = useNavigate();
   const handleSubmit = () => {
     // 서버로 데이터를 전송하기 위해 axios를 사용하여 POST 요청 보내기
-    axios.post('api/submit', { data: solvingValue })
+    Promise.all([
+      axios.post(`${API_BASE_URL}/submit_source`, { data: submit_source }),
+      // 출제자 처리
+      // axios.post(`${API_BASE_URL}/submitter`, { data: submitter })
+    ])
       .then(response => {
         // 특정 페이지로 이동
-        // history.push('/Main');
-        navigate('/detail')
+        navigate('/detail');
+        console.log("제출 성공")
       })
       .catch(error => {
         // 전송 실패 시의 처리
-        navigate('/detail')
+        navigate('/detail');
+        console.log("제출 실패")
       });
   };
 
@@ -96,7 +101,7 @@ function SubmitAssign() {
         <div className='leftBlank'></div>
         <div className='midCore'>
           <div className='lecture'>
-            📖 {lectureName}
+            📖 {lecture_name}
           </div>
           <div className='mainContent'>
             <div className='tabCover'>
@@ -108,16 +113,16 @@ function SubmitAssign() {
                   문제 내용
                 </div>
                 <div className='problemInfo'>
-                  <p>{assignTitle}</p>
-                  <p>{assignExplanation}</p>
+                  <p>{hw_name}</p>
+                  <p>{hw_problem}</p>
                   <div className='IOExample'>
                     <div className='InputExample' style={{ whiteSpace: 'pre-line' }}>
                       <p>입력 예제</p>
-                      <p>{inputResult}</p>
+                      <p>{hw_test1}</p>
                     </div>
                     <div className='OutputExample' style={{ whiteSpace: 'pre-line' }}>
                       <p>출력 예제</p>
-                      <p>{outputResult}</p>
+                      <p>{hw_test_answer1}</p>
                     </div>
                   </div>
                 </div>
@@ -127,7 +132,7 @@ function SubmitAssign() {
                   문제 풀이
                 </div>
                 <div className='solvingInfo'>
-                  <textarea className='solvingBox' value={solvingValue} onChange={(e) => setSolvingValue(e.target.value)} placeholder="풀이를 입력하세요."></textarea>
+                  <textarea className='solvingBox' value={submit_source} onChange={(e) => change_submit_source(e.target.value)} placeholder="풀이를 입력하세요."></textarea>
                 </div>
               </div>
               <div className='additionalContent'>
