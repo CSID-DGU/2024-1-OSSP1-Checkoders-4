@@ -7,13 +7,13 @@ import axios from 'axios';
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SetTeam() {
-  let [lectureName, changeLecture] = useState('객체지향 프로그래밍_03');
+  let [lecture_name, changeLecture] = useState('객체지향 프로그래밍_03');
   let [tableName, changeTable] = useState('실습 팀');
 
   const fetchData = () => {
     // GET 요청 보내기
     Promise.all([
-      axios.get('api/data1')
+      axios.get(`${API_BASE_URL}/lecture_name`),
     ])
       .then(([response1]) => {
         // 요청 성공 시 실행되는 코드
@@ -58,7 +58,7 @@ function SetTeam() {
         <div className='leftBlank'></div>
         <div className='midCore'>
           <div className='lecture'>
-            📖 {lectureName}
+            📖 {lecture_name}
           </div>
           <div className='mainContent'>
             <div className='tabCover'>

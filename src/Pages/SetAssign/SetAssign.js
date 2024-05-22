@@ -8,7 +8,6 @@ const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 function SetAssign() {
   let [lecture_name, changeLecture] = useState
     ('객체지향 프로그래밍_03');
-
   let [q_name, change_q_name] = useState('');  // 문제명
   let [q_problem, change_q_problem] = useState(''); // 문제 내용
   let [q_test, change_q_test] = useState(''); // 입력 예제 전부
@@ -24,6 +23,7 @@ function SetAssign() {
   let [q_test_answer4, change_q_test_answer4] = useState(''); // 출력 예제4
   let [q_test_answer5, change_q_test_answer5] = useState(''); // 출력 예제5
 
+  //`${API_BASE_URL}/class/{classid}/add/lecture_name`
   const fetchData = () => {
     // GET 요청 보내기
     Promise.all([
