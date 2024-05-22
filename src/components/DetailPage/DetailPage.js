@@ -16,6 +16,7 @@ function DetailPage(){
   const [team_member2, setTeamMember2] = useState("최유민");
   const [team_member3, setTeamMember3] = useState("홍길동");
   const [team_member4, setTeamMember4] = useState("김철수");
+  const [hw_name, setHwName] = useState("다음 조건에 맞는 코드를 작성하고 분석하시오. blablablablablablablabla");
 
   const handleSiteName = () => {
     navigate('/Main');
@@ -97,26 +98,26 @@ function DetailPage(){
               <div className="task-container">
                 <div className="task" >
                   <div className="task-font">
-                    밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 넓이와..
+                    {hw_name}
                       <button className="button-style">View Details</button>
                   </div>
                 </div>
                 <div className="task" >
                   <div className="task-font">
-                    밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 넓이와..
+                    {hw_name}
                     <button className="button-style">View Details</button>
                   </div>
                 </div>
                 <div className="task" >
                   <div className="task-font">
-                    다음 조건을 만족시키는 삼각형 클래스를 작성하고, 두 삼각형의 넓이와 그에 해당..
+                    {hw_name}
                     <button className="button-style" style={{color: 'red'}}>Done</button>
                   </div>
                 </div>
                 <div className="task" >
                   <div className="task-font">
-                  다음 조건을 만족시키는 삼각형 클래스를 작성하고, 두 삼각형의 넓이와 그에 해당..
-                  <button className="button-style" style={{color: 'red'}}>Done</button>
+                    {hw_name}
+                    <button className="button-style" style={{color: 'red'}}>Done</button>
                   </div>
                 </div>
               </div>
