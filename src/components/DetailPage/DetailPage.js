@@ -5,6 +5,7 @@ import '../StudentQListPage/StudentQListPage.js';
 import { BsPencilSquare } from "react-icons/bs";
 import DoughnutChart from './DoughnutChart';
 import {useNavigate, useLocation} from 'react-router-dom';
+import MainPage2 from '../MainPage/MainPage2.js';
 
 function DetailPage(){
 
@@ -16,9 +17,14 @@ function DetailPage(){
   const [team_member3, setTeamMember3] = useState("홍길동");
   const [team_member4, setTeamMember4] = useState("김철수");
 
+  const handleSiteName = () => {
+    navigate('/Main');
+  }
+
   function handleTeamMemberClick(memberName){
     navigate('/studentqlist', { state: { team_member: memberName } });
   }
+
   function moveToSetAssign(){
     navigate('/SetAssign');
   }
@@ -30,7 +36,7 @@ function DetailPage(){
     <div className="Foundation">
       <div className='topCover'>
         <div className='siteName'>
-          <button className='siteName_button'>
+          <button className='siteName_button' onClick={handleSiteName}>
             ✔ Checkoders
             {/* 온클릭하면 메인페이지 */}
           </button>

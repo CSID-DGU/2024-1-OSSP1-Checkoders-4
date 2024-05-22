@@ -3,6 +3,7 @@ import './MainPage2.css';
 import './CalendarStyle.css';
 import { AiOutlineHome } from "react-icons/ai";
 import React, {useState} from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import logo from '../동국대로고.png';
 import TaskCalendar from './TaskCalendar.js';
 import TaskInfo from './TaskInfo.js';
@@ -13,6 +14,8 @@ import { Link } from 'react-router-dom'; // React Router의 Link 컴포넌트 im
 
 
 function MainPage2(props) {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [nickname, setNickname] = useState("홍길동");
   const [lecture_name, setLectureName] = useState("객체지향 프로그래밍");
 

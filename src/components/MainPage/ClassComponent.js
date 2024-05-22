@@ -1,14 +1,21 @@
 import './MainPage2.css';
 import React, {useState} from 'react';
+import {useNavigate, useLocation} from 'react-router-dom';
 import { AiFillCalendar } from "react-icons/ai";
 import {FaRegClock} from "react-icons/fa";
-import { Link } from 'react-router-dom'; // React Router의 Link 컴포넌트 import
 
 function ClassComponent() {
     const [lecture_name, setLecturename] = useState("객체지향프로그래밍");
     const [lecture_madeby, setLectureMadeBy] = useState("윤성림");
     const [lecture_date1, setLectureDate1] = useState("월요일");
     const [lecture_date2, setLectureDate2] = useState("수요일");
+
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    function moveToDetail(lectureName){
+        navigate('/detail', { state: { lecture_name: lectureName } });
+  }
 
     return( 
                 <div className="main-box">
@@ -43,13 +50,10 @@ function ClassComponent() {
                             </div>
                         </div>
 
-                        <Link
-                            to={{
-                                pathname: "/detail",
-                                state: { lecture_name } // lecture_name을 state를 통해 전달
-                            }}
+                        <button
+                            onClick={() => moveToDetail(lecture_name)}
                             className="to-detailpage-button" // className을 Link 컴포넌트에 직접 적용
-                            >자세히 보기</Link>
+                            >자세히 보기</button>
                     </div>
                 </div>
     );
