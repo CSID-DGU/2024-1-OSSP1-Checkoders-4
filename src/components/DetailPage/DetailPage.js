@@ -1,17 +1,23 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './DetailPage.css'; // DetailPage의 스타일 파일 import
 import Foundation from '../MainPage/Foundation.js';
 import '../StudentQListPage/StudentQListPage.js';
 import { BsPencilSquare } from "react-icons/bs";
 import DoughnutChart from './DoughnutChart';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 
 function DetailPage(){
 
+  const location = useLocation();
   const navigate = useNavigate();
+  const lecture_name = location.state?.lecture_name || '강의명 없음';
+  const [team_member1, setTeamMember1] = useState("박성훈");
+  const [team_member2, setTeamMember2] = useState("최유민");
+  const [team_member3, setTeamMember3] = useState("홍길동");
+  const [team_member4, setTeamMember4] = useState("김철수");
 
-  function moveToStudentQList(){
-    navigate('/studentqlist');
+  function handleTeamMemberClick(memberName){
+    navigate('/studentqlist', { state: { team_member: memberName } });
   }
   function moveToSetAssign(){
     navigate('/SetAssign');
@@ -44,7 +50,7 @@ function DetailPage(){
           <div className="class-info">
             <BsPencilSquare style={{width: '3vw'}}/>
             <div className="class-name">
-              <span>객체지향프로그래밍_03</span>
+              <span>{lecture_name}</span>
             </div>
           </div>
 
@@ -61,17 +67,17 @@ function DetailPage(){
                   <div style={{margin: '1vh', color: 'white', fontWeight: 'bold'}}>팀원 목록</div>
                 </button>
                 <div className="team-container">
-                  <button className="team-name" onClick={moveToStudentQList}>
-                    <div>홍길동</div>
+                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member1)}>
+                    {team_member1}
                   </button>
-                  <button className="team-name" onClick={moveToStudentQList}>
-                    박성훈
+                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member2)}>
+                    {team_member2}
                   </button>
-                  <button className="team-name" onClick={moveToStudentQList}>
-                    김철수
+                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member3)}>
+                    {team_member3}
                   </button>
-                  <button className="team-name" onClick={moveToStudentQList}>
-                    최유민
+                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member4)}>
+                    {team_member4}
                   </button>
                 </div>
               </div>

@@ -2,9 +2,10 @@ import './MainPage2.css';
 import React from 'react';
 import { FaRegClock } from "react-icons/fa";
 import { AiFillCalendar } from "react-icons/ai";
+import './ClassComponent.js';
 import { Link } from 'react-router-dom'; // React Router의 Link 컴포넌트 import
 
-function TaskInfo() {
+function TaskInfo(props) {
     return (
         <div>
           <div className="main-box">
@@ -21,7 +22,7 @@ function TaskInfo() {
               </div>
 
               <div className="main-task-name">
-                <span style={{ color: "#F12222", fontWeight: "bold", marginTop: '1vh' }}>객체지향 프로그래밍</span>
+                <span style={{ color: "#F12222", fontWeight: "bold", marginTop: '1vh' }}>{props.lecture_name}</span>
               </div>
               <Link to="/detail" className="to-detailpage-button" style={{ backgroundColor: "black", marginTop: '2vh' }}>과제 보러가기</Link>
             </div>

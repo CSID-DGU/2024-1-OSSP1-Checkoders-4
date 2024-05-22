@@ -1,27 +1,20 @@
 import './Foundation.css';
 import './MainPage2.css';
 import './CalendarStyle.css';
-import { AiOutlineHome, AiFillCalendar } from "react-icons/ai";
-import {FaRegClock} from "react-icons/fa";
+import { AiOutlineHome } from "react-icons/ai";
 import React, {useState} from 'react';
 import logo from '../동국대로고.png';
 import TaskCalendar from './TaskCalendar.js';
 import TaskInfo from './TaskInfo.js';
 import ClassCreate from './ClassCreate.js';
 import ClassSearch from './ClassSearch.js';
+import ClassComponent from './ClassComponent.js';
 import { Link } from 'react-router-dom'; // React Router의 Link 컴포넌트 import
 
 
-function MainPage2() {
-  // const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  // const openModal = () => {
-  //   setModalIsOpen(true); // 모달 열기
-  // };
-
-  // const closeModal = () => {
-  //   setModalIsOpen(false); // 모달을 닫기 위해 모달 상태를 false로 변경합니다.
-  // };
+function MainPage2(props) {
+  const [nickname, setNickname] = useState("홍길동");
+  const [lecture_name, setLectureName] = useState("객체지향 프로그래밍");
 
   return (
     <div className="Foundation">
@@ -53,161 +46,26 @@ function MainPage2() {
 
         <div className="main-bottom-box">
             <div className="main-container">
+
                <div className="main-container-title">
                   현재 진행중인 클래스
                   {/* <PopUp /> */}
                </div> 
                <div className="main-container-box">
-                  <div className="main-box">
-                     <div className="main-header">
-                        <span style={{ marginLeft: '2vw', fontSize: '2.2vh'}}>객체지향프로그래밍_03</span>
-                        <span style={{marginLeft: '2vw', color: '#9A9A9A'}}>윤성림</span>
-                     </div>
-                     <div className="main-content">
-                        <div className="main-schedule">
-                          <AiFillCalendar className="icon-margin"/>
-                          <span>월요일</span>
-                          <FaRegClock className="icon-margin" style={{marginLeft: '2vw'}}/>
-                          <span>01:00 PM - 03:00 PM</span>
-                        </div>
+                  <ClassComponent lecture_name={lecture_name}/>
 
-                        <div className="main-schedule" style={{marginTop: '0.5vw'}}>
-                          <AiFillCalendar className="icon-margin"/>
-                          <span>월요일</span>
-                          <FaRegClock className="icon-margin" style={{marginLeft: '2vw'}}/>
-                          <span>01:00 PM - 03:00 PM</span>
-                        </div>
+                  <ClassComponent lecture_name={lecture_name}/>
 
-                        <div className="rate-container">
-                            <div className="attendence-rate">
-                                <span>출석률</span>
-                                <span style={{marginLeft: '4vw', color: 'blue'}}>100%</span>
-                            </div>
+                  <ClassComponent lecture_name={lecture_name}/>
 
-                            <div className="attendence-rate">
-                                <span>과제 제출</span>
-                                <span className="rate-percent" style={{color: 'green'}}>100%</span>
-                            </div>
-                        </div>
-
-                        <Link to="/detail" className="to-detailpage-button">자세히 보기</Link>
-                     </div>
-                  </div>
-
-                  <div className="main-box">
-                     <div className="main-header">
-                        <span style={{ marginLeft: '2vw', fontSize: '2.2vh'}}>객체지향프로그래밍_03</span>
-                        <span style={{marginLeft: '2vw', color: '#9A9A9A'}}>윤성림</span>
-                     </div>
-                     <div className="main-content">
-                        <div className="main-schedule">
-                          <AiFillCalendar className="icon-margin"/>
-                          <span>월요일</span>
-                          <FaRegClock className="icon-margin" style={{marginLeft: '2vw'}}/>
-                          <span>01:00 PM - 03:00 PM</span>
-                        </div>
-
-                        <div className="main-schedule" style={{marginTop: '0.5vw'}}>
-                          <AiFillCalendar className="icon-margin"/>
-                          <span>월요일</span>
-                          <FaRegClock className="icon-margin" style={{marginLeft: '2vw'}}/>
-                          <span>01:00 PM - 03:00 PM</span>
-                        </div>
-
-                        <div className="rate-container">
-                            <div className="attendence-rate">
-                                <span>출석률</span>
-                                <span style={{marginLeft: '4vw', color: 'blue'}}>100%</span>
-                            </div>
-
-                            <div className="attendence-rate">
-                                <span>과제 제출</span>
-                                <span className="rate-percent" style={{color: 'green'}}>100%</span>
-                            </div>
-                        </div>
-
-                        <Link to="/detail" className="to-detailpage-button">자세히 보기</Link>
-                     </div>
-                  </div>
-
-                  <div className="main-box">
-                     <div className="main-header">
-                        <span style={{ marginLeft: '2vw', fontSize: '2.2vh'}}>객체지향프로그래밍_03</span>
-                        <span style={{marginLeft: '2vw', color: '#9A9A9A'}}>윤성림</span>
-                     </div>
-                     <div className="main-content">
-                        <div className="main-schedule">
-                          <AiFillCalendar className="icon-margin"/>
-                          <span>월요일</span>
-                          <FaRegClock className="icon-margin" style={{marginLeft: '2vw'}}/>
-                          <span>01:00 PM - 03:00 PM</span>
-                        </div>
-
-                        <div className="main-schedule" style={{marginTop: '0.5vw'}}>
-                          <AiFillCalendar className="icon-margin"/>
-                          <span>월요일</span>
-                          <FaRegClock className="icon-margin" style={{marginLeft: '2vw'}}/>
-                          <span>01:00 PM - 03:00 PM</span>
-                        </div>
-
-                        <div className="rate-container">
-                            <div className="attendence-rate">
-                                <span>출석률</span>
-                                <span style={{marginLeft: '4vw', color: 'blue'}}>100%</span>
-                            </div>
-
-                            <div className="attendence-rate">
-                                <span>과제 제출</span>
-                                <span className="rate-percent" style={{color: 'green'}}>100%</span>
-                            </div>
-                        </div>
-
-                        <Link to="/detail" className="to-detailpage-button">자세히 보기</Link>
-                     </div>
-                  </div>
-
-                  <div className="main-box">
-                     <div className="main-header">
-                        <span style={{ marginLeft: '2vw', fontSize: '2.2vh'}}>객체지향프로그래밍_03</span>
-                        <span style={{marginLeft: '2vw', color: '#9A9A9A'}}>윤성림</span>
-                     </div>
-                     <div className="main-content">
-                        <div className="main-schedule">
-                          <AiFillCalendar className="icon-margin"/>
-                          <span>월요일</span>
-                          <FaRegClock className="icon-margin" style={{marginLeft: '2vw'}}/>
-                          <span>01:00 PM - 03:00 PM</span>
-                        </div>
-
-                        <div className="main-schedule" style={{marginTop: '0.5vw'}}>
-                          <AiFillCalendar className="icon-margin"/>
-                          <span>월요일</span>
-                          <FaRegClock className="icon-margin" style={{marginLeft: '2vw'}}/>
-                          <span>01:00 PM - 03:00 PM</span>
-                        </div>
-
-                        <div className="rate-container">
-                            <div className="attendence-rate">
-                                <span>출석률</span>
-                                <span style={{marginLeft: '4vw', color: 'blue'}}>100%</span>
-                            </div>
-
-                            <div className="attendence-rate">
-                                <span>과제 제출</span>
-                                <span className="rate-percent" style={{color: 'green'}}>100%</span>
-                            </div>
-                        </div>
-
-                        <Link to="/detail" className="to-detailpage-button">자세히 보기</Link>
-                     </div>
-                  </div>
-
+                  <ClassComponent lecture_name={lecture_name}/>
                </div>
+
             </div>
             <div className="name-calendar-container">
                 <div className="name-container">
                     <div className="name-logo-container">
-                      이름: 홍길동
+                      이름: {nickname}
                       <img src={logo} alt="동국대로고" style={{ width: '6vw', height: 'auto'}} />
                     </div>
                 </div>
@@ -216,7 +74,7 @@ function MainPage2() {
                    <TaskCalendar className="react-calendar"/>
                 </div>
                 <div className= "main-task-info">
-                   <TaskInfo />
+                   <TaskInfo lecture_name={lecture_name}/>
                 </div>
             </div>
         </div>

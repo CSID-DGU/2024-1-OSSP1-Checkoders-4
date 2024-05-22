@@ -1,9 +1,15 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import '../MainPage/Foundation.css';
 import './StudentQListPage.css';
 import { FaUserCircle } from "react-icons/fa";
+import '../DetailPage/DetailPage.js';
+import QListComponent from './QListComponent.js';
 
 function StudentQListPage() {
+  const location = useLocation();
+  const team_member = location.state?.team_member || '팀원 이름 없음';
+
   return (
     <div className="Foundation">
       <div className='topCover'>
@@ -29,7 +35,7 @@ function StudentQListPage() {
           <div className="stud-info">
             <FaUserCircle style={{width: '3vw'}}/>
             <div className="stud-name">
-              <span>홍길동</span>
+              <span>{team_member}</span>
             </div>
           </div>
 
@@ -40,32 +46,11 @@ function StudentQListPage() {
               </div>
 
               <div className="q-container-box">
-                <div className="q-field">
-                  <div className="q-field-title">
-                    밑변과 높이 필드를 가지는...
-                  </div>
-                  <div className="q-field-content">
-                    밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.
-                  </div>
-                </div>
 
-                <div className="q-field">
-                  <div className="q-field-title">
-                    밑변과 높이 필드를 가지는...
-                  </div>
-                  <div className="q-field-content">
-                    밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.
-                  </div>
-                </div>
+                <QListComponent />
+                <QListComponent />
+                <QListComponent />
 
-                <div className="q-field">
-                  <div className="q-field-title">
-                    밑변과 높이 필드를 가지는...
-                  </div>
-                  <div className="q-field-content">
-                    밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.
-                  </div>
-                </div>
               </div>
 
             </div>
