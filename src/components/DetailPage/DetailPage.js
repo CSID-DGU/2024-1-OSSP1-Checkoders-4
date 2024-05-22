@@ -31,7 +31,9 @@ function DetailPage(){
   function moveToSetTeam(){
     navigate('/SetTeam');
   }
-
+  function moveToSubmitAssign(){
+    navigate('/SubmitAssign');
+  } // 이동 추가 + onClick={moveToSubmitAssign}
     return (
     <div className="Foundation">
       <div className='topCover'>
@@ -98,13 +100,13 @@ function DetailPage(){
                 <div className="task" >
                   <div className="task-font">
                     밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 넓이와..
-                      <button className="button-style">View Details</button>
+                      <button className="button-style" onClick={moveToSubmitAssign}>View Details</button>
                   </div>
                 </div>
                 <div className="task" >
                   <div className="task-font">
                     밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 넓이와..
-                    <button className="button-style">View Details</button>
+                    <button className="button-style" onClick={moveToSubmitAssign}>View Details</button>
                   </div>
                 </div>
                 <div className="task" >
@@ -128,13 +130,13 @@ function DetailPage(){
               <div className="task" >
                   <div className="task-font">
                     밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 넓이와..
-                    <button className="button-style">View Details</button>
+                    <button className="button-style" onClick={moveToSubmitAssign}>View Details</button>
                   </div>
                 </div>
                 <div className="task" >
                   <div className="task-font">
                     밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 넓이와..
-                    <button className="button-style">View Details</button>
+                    <button className="button-style" onClick={moveToSubmitAssign}>View Details</button>
                   </div>
                 </div>
                 <div className="task" >
