@@ -10,6 +10,7 @@ function Login() {
   // oauth 요청 URL
   // const kakaoURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
+  
   const handleLogin = () => {
     window.location.href = kakaoURL
   }
