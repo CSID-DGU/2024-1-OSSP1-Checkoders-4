@@ -12,6 +12,8 @@ import ClassSearch from './ClassSearch.js';
 import ClassComponent from './ClassComponent.js';
 import { Link } from 'react-router-dom'; // React Router의 Link 컴포넌트 import
 import axios from 'axios';
+import DummyClass from './DummyClass.json';
+
 
 function MainPage2() {
   const location = useLocation();
@@ -71,7 +73,9 @@ function MainPage2() {
 
   // ClassComponent를 count 수만큼 렌더링
   const renderClassComponents = () => {
-    return [...Array(count)].map((_, i) => <ClassComponent key={i} />);
+    return DummyClass.Data.slice(0, count).map((item, index) => (
+      <ClassComponent key={index} lectureData={item} />
+  ));
   };
 
   return (
