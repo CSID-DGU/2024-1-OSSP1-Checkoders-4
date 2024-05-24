@@ -1,27 +1,33 @@
-import '../Foundation/Foundation.css'
+import '../Foundation/Foundation.css';
 import './SetTeam.css';
 import { useState, useEffect } from 'react';
 import StudentTable from './StudentTable/StudentTable';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import sData from './StudentTable/student_data.json';
+
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SetTeam() {
   let [lecture_name, changeLecture] = useState('객체지향 프로그래밍_03');
   let [tableName, changeTable] = useState('실습 팀');
+  let [team_num, changeTeamNum] = useState('');
+  let [table_data, changeTableData] = useState([]);
 
   const fetchData = () => {
     // GET 요청 보내기
-    Promise.all([
-      axios.get(`${API_BASE_URL}/lecture_name`),
-    ])
-      .then(([response1]) => {
+    axios.get(`${API_BASE_URL}/팀배정api`, {
+      params: {
+        team_num: team_num
+      }
+    })
+      .then((response) => {
         // 요청 성공 시 실행되는 코드
-        changeLecture(response1.data);
+        changeTableData(response.data);
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        changeLecture('객체지향 프로그래밍_03');
+        changeTableData(sData.sData);
       });
   }
 
@@ -106,7 +112,7 @@ function SetTeam() {
                     </div>
                   </div>
                   <div className='showTable'>
-                    <StudentTable />
+                    <StudentTable data={table_data} />
                   </div>
                 </div>
               </div>

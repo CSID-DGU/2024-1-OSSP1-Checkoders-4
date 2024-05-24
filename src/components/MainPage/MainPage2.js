@@ -2,7 +2,7 @@ import './Foundation.css';
 import './MainPage2.css';
 import './CalendarStyle.css';
 import { AiOutlineHome } from "react-icons/ai";
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import logo from '../동국대로고.png';
 import TaskCalendar from './TaskCalendar.js';
@@ -66,21 +66,21 @@ function MainPage2() {
           <AiOutlineHome className="home-icon" />
           메인페이지
           <ClassCreate />
-          <ClassSearch incrementCount={incrementCount}/>
+          <ClassSearch incrementCount={incrementCount} />
         </div>
 
         <div className="main-bottom-box">
           <div className="main-container">
 
-          <div className="main-container-title">
-                  현재 진행중인 클래스
-                  {/* <PopUp /> */}
-               </div> 
-               <div className="main-container-box">
-                  {/*count값에 맞게 for문 돌리고 데이터에서 받아온 lecture_name, lecture_madeby 가져와서 
+            <div className="main-container-title">
+              현재 진행중인 클래스
+              {/* <PopUp /> */}
+            </div>
+            <div className="main-container-box">
+              {/*count값에 맞게 for문 돌리고 데이터에서 받아온 lecture_name, lecture_madeby 가져와서 
                   ClassComponent에서 쓰도록 하기*/}
-                  {renderClassComponents()}
-               </div>
+              {renderClassComponents()}
+            </div>
 
           </div>
           <div className="name-calendar-container">

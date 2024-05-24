@@ -6,15 +6,38 @@ import SetAssign from '../SetAssign/SetAssign';
 import SetTeam from '../SetTeam/SetTeam'
 import StudentProblem from '../StudentProblem/StudentProblem'
 import CodeReview from '../CodeReview/CodeReview';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
+
 
 function Main() {
   const navigate = useNavigate();
   // const code = new URL(window.location.href).searchParams.get('code');
-  
+  let [InherentID, changeIID] = useState('123');
+  let [nickname, changeNickname] = useState('456');
+  let [tmp, cTmp] = useState('tmp');
 
+  const fetchData = () => {
+    // GET 요청 보내기
+    Promise.all([
+      axios.get(`${API_BASE_URL}/login`),
+      axios.get(`${API_BASE_URL}/api/hello`),
+    ])
+      .then(([response1, response2]) => {
+        // 요청 성공 시 실행되는 코드
+        changeIID(response1.data.id_token);
+        changeNickname(response1.data.nickname);
+        cTmp(response2.data);
+      })
+      .catch(error => {
+      });
+  }
 
-
+  useEffect(() => {
+    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
+    fetchData();
+  }, []);
 
   function moveToFoundation() {
     navigate('/Foundation');
@@ -31,17 +54,20 @@ function Main() {
   function moveToStudentProblem() {
     navigate('/StudentProblem');
   }
-  function moveToCodeReview(){
+  function moveToCodeReview() {
     navigate('/CodeReview')
   }
   return (
     <div className="Main">
       <div id='first_row'>
         축하합니다! 로그인 성공
-        
+
       </div>
       <div id='second_row'>
-        메인 페이지 구현 필요
+        메인 페이지 구현 필요<br />
+        {InherentID}<br />
+        {nickname}<br />
+        {tmp}
       </div>
       <div id='third_row'>
         <div className='moveButtons'>
@@ -51,7 +77,7 @@ function Main() {
           <button id='SetTeam' onClick={moveToSetTeam}>팀배정 페이지</button>
           <button id='StudentProblem' onClick={moveToStudentProblem}>학생별 문제 출제 페이지</button>
           <button id='CodeReview' onClick={moveToCodeReview}>코드 리뷰 페이지</button>
-          
+
         </div>
       </div>
 

@@ -17,19 +17,18 @@ function SubmitAssign() {
   const fetchData = () => {
     // GET 요청 보내기
     Promise.all([
-      axios.get(`${API_BASE_URL}/lecture_name`),
-      axios.get(`${API_BASE_URL}/hw_name`),
-      axios.get(`${API_BASE_URL}/hw_problem`),
-      axios.get(`${API_BASE_URL}/hw_test1`),
-      axios.get(`${API_BASE_URL}/hw_test_answer1`),
+      axios.get(`${API_BASE_URL}/class/{classid}/{문제번호}`),{
+        params:{
+          hw_name: hw_name
+        }
+      }
     ])
-      .then(([response1, response2, response3, response4, response5]) => {
+      .then((response) => {
         // 요청 성공 시 실행되는 코드
-        changeLecture(response1.data);
-        change_hw_name(response2.data);
-        change_hw_problem(response3.data);
-        change_hw_test1(response4.data);
-        change_hw_test_answer1(response5.data);
+        //change_hw_name(response.data.hw_name);
+        change_hw_problem(response.data.hw_problem);
+        change_hw_test1(response.data.hw_test1);
+        change_hw_test_answer1(response.data.hw_answer1);
 
       })
       .catch(error => {
@@ -58,7 +57,8 @@ function SubmitAssign() {
   const handleSubmit = () => {
     // 서버로 데이터를 전송하기 위해 axios를 사용하여 POST 요청 보내기
     Promise.all([
-      axios.post(`${API_BASE_URL}/submit_source`, { data: submit_source }),
+      axios.post(`${API_BASE_URL}//class/{classid}/{문제번호}
+      `, { data: submit_source, submitter }),
       // 출제자 처리
       // axios.post(`${API_BASE_URL}/submitter`, { data: submitter })
     ])
