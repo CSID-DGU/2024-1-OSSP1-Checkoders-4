@@ -86,18 +86,18 @@ function SetAssign() {
 
   const handleSubmit = (event) => {
     Promise.all([
-      axios.post(`${API_BASE_URL}/q_name`, {data: q_name}),
-      axios.post(`${API_BASE_URL}/q_problem`, {data: q_problem}),
-      axios.post(`${API_BASE_URL}/q_test1`, {data: q_test1}),
-      axios.post(`${API_BASE_URL}/q_test2`, {data: q_test2}),
-      axios.post(`${API_BASE_URL}/q_test3`, {data: q_test3}),
-      axios.post(`${API_BASE_URL}/q_test4`, {data: q_test4}),
-      axios.post(`${API_BASE_URL}/q_test5`, {data: q_test5}),
-      axios.post(`${API_BASE_URL}/q_test_answer1`, {data: q_test_answer1}),
-      axios.post(`${API_BASE_URL}/q_test_answer2`, {data: q_test_answer2}),
-      axios.post(`${API_BASE_URL}/q_test_answer3`, {data: q_test_answer3}),
-      axios.post(`${API_BASE_URL}/q_test_answer4`, {data: q_test_answer4}),
-      axios.post(`${API_BASE_URL}/q_test_answer5`, {data: q_test_answer5}),
+      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_name}),
+      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_problem}),
+      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test1}),
+      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test2}),
+      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test3}),
+      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test4}),
+      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test5}),
+      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test_answer1}),
+      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test_answer2}),
+      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test_answer3}),
+      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test_answer4}),
+      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test_answer5}),
     ])
       .then((response) => {
         // 요청 성공 시 실행되는 코드

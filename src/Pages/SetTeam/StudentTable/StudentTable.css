@@ -1,35 +1,46 @@
 .student-table-container {
-  padding-left: 1vw;
-  padding-right: 1vw;
   display: flex;
-  height: 40vh;
-  grid-template-columns: repeat(2, 1fr); /* 두 개의 열로 나눔 */
-  gap: 20px; /* 열 간격 설정 */
-  overflow-y: scroll;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
 }
 
 .student-table-row {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between; /* 요소를 두 열로 분산 배치 */
+  justify-content: center;
+  gap: 20px;
 }
 
 .student-table-column {
-  flex-basis: calc(50% - 10px); /* 한 열의 너비를 반으로 설정하고 열 간격 고려 */
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
 }
 
-/* 테이블 스타일 */
+.student-table-column h3 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
 }
 
-th, td {
-  border: 1px solid #000000;
-  padding: 8px;
-  text-align: center;
+thead th {
+  background-color: #f2f2f2;
+  text-align: left;
 }
 
-th {
-  background-color: #a6e077;
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
 }

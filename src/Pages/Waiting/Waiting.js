@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import data from "./data.json";
+import data from "./data.json"; // 여기
 import data2 from "./data2.json"
 
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
