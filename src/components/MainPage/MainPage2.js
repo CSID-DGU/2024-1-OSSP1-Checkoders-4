@@ -92,7 +92,7 @@ function MainPage2() {
             </div>
 
             <div className="main-task-calendar">
-              <TaskCalendar className="react-calendar" />
+              <TaskCalendar  />
             </div>
             <div className="main-task-info">
               <TaskInfo lecture_name={lecture_name} />
