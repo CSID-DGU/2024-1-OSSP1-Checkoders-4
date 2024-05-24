@@ -3,17 +3,17 @@ import './Login.css';
 import kakaologo from './Images/kakao_logo.png';
 
 function Login() {
-  const REST_API_KEY = '7e00d3c02083b9c1b801d4984fcbddda' //REST API KEY
-  // const REDIRECT_URI = 'http://localhost:3000/Main' //Redirect URI
-  // const REDIRECT_URI = 'http://localhost:3000/Waiting' // 실험 코드
-  const REDIRECT_URI = 'http://localhost:3000/Mainspare' // 실험 코드
+//   const REST_API_KEY = '7e00d3c02083b9c1b801d4984fcbddda' //REST API KEY
+//   const REDIRECT_URI = 'http://localhost:3000/Mainspare' // 실험 코드
 
-  // oauth 요청 URL
-  // const kakaoURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
+  // const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
   
+  const KAKAO_LOGIN_URL = "https://accounts.kakao.com/login/?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fresponse_type%3Dcode%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%253A8080%252Flogin%26through_account%3Dtrue%26client_id%3D2b457724a50592a78abf3dcfc87166fd&talk_login=#login";
+
+
   const handleLogin = () => {
-    window.location.href = kakaoURL
+    // window.location.href = kakaoURL
+    window.location.href = KAKAO_LOGIN_URL
   }
 
   return (
