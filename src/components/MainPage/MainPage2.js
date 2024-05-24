@@ -58,8 +58,8 @@ function MainPage2() {
           </button>
         </div>
       </div>
-      <div className='bottomBox' style={{flexDirection: 'column'}}>
-        
+      <div className='bottomBox' style={{ flexDirection: 'column' }}>
+
         <div className='Main-name'>
           <AiOutlineHome className="home-icon" />
           메인페이지
@@ -68,9 +68,9 @@ function MainPage2() {
         </div>
 
         <div className="main-bottom-box">
-            <div className="main-container">
+          <div className="main-container">
 
-               <div className="main-container-title">
+          <div className="main-container-title">
                   현재 진행중인 클래스
                   {/* <PopUp /> */}
                </div> 
@@ -80,22 +80,22 @@ function MainPage2() {
                   {renderClassComponents()}
                </div>
 
+          </div>
+          <div className="name-calendar-container">
+            <div className="name-container">
+              <div className="name-logo-container">
+                이름: {nickname}
+                <img src={logo} alt="동국대로고" style={{ width: '6vw', height: 'auto' }} />
+              </div>
             </div>
-            <div className="name-calendar-container">
-                <div className="name-container">
-                    <div className="name-logo-container">
-                      이름: {nickname}
-                      <img src={logo} alt="동국대로고" style={{ width: '6vw', height: 'auto'}} />
-                    </div>
-                </div>
 
-                <div className= "main-task-calendar">
-                   <TaskCalendar className="react-calendar"/>
-                </div>
-                <div className= "main-task-info">
-                   <TaskInfo lecture_name={lecture_name}/>
-                </div>
+            <div className="main-task-calendar">
+              <TaskCalendar className="react-calendar" />
             </div>
+            <div className="main-task-info">
+              <TaskInfo lecture_name={lecture_name} />
+            </div>
+          </div>
         </div>
 
       </div>

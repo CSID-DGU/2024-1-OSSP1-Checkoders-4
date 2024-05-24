@@ -16,6 +16,7 @@ import CodeReview from "./Pages/CodeReview/CodeReview"
 import StudentTable from "./Pages/SetTeam/StudentTable/StudentTable";
 //
 import Waiting from './Pages/Waiting/Waiting';
+import Practice from './Pages/Practice/Practice';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path = '/StudentTable' element = {<StudentTable />} ></Route>
           //
           <Route path = '/Waiting' element = {<Waiting />} ></Route>
+          <Route path = '/Practice' element = {<Practice/>}></Route>
         </Routes>
       </div>
     </BrowserRouter>
