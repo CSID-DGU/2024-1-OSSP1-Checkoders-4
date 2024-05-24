@@ -6,9 +6,8 @@ import {FaRegClock} from "react-icons/fa";
 import DummyClass from './DummyClass.json';
 
 
-function ClassComponent() {
-    const [lecture_name, setLecturename] = useState("객체지향프로그래밍");
-    const [lecture_madeby, setLectureMadeBy] = useState("윤성림");
+function ClassComponent({ lectureData }) {
+    const { lecture_name, lecture_madeby } = lectureData;
     const [lecture_date1, setLectureDate1] = useState("월요일");
     const [lecture_date2, setLectureDate2] = useState("수요일");
 
@@ -22,8 +21,8 @@ function ClassComponent() {
     return( 
                 <div className="main-box">
                     <div className="main-header">
-                        <span style={{ marginLeft: '2vw', fontSize: '2.2vh'}}>{DummyClass.Data[0].lecture_name}</span>
-                        <span style={{marginLeft: '2vw', color: '#9A9A9A'}}>{DummyClass.Data[0].lecture_madeby}</span>
+                        <span style={{ marginLeft: '2vw', fontSize: '2.2vh'}}>{lecture_name}</span>
+                        <span style={{marginLeft: '2vw', color: '#9A9A9A'}}>{lecture_madeby}</span>
                     </div>
                     <div className="main-content">
                         <div className="main-schedule">
