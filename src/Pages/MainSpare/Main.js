@@ -18,26 +18,39 @@ function Main() {
   let [nickname, changeNickname] = useState('456');
   let [tmp, cTmp] = useState('tmp');
 
-  const fetchData = () => {
-    // GET 요청 보내기
-    Promise.all([
-      axios.get(`${API_BASE_URL}/login`),
-      axios.get(`${API_BASE_URL}/api/hello`),
-    ])
-      .then(([response1, response2]) => {
-        // 요청 성공 시 실행되는 코드
-        changeIID(response1.data.id_token);
-        changeNickname(response1.data.nickname);
-        cTmp(response2.data);
-      })
-      .catch(error => {
-      });
-  }
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const userId = new URLSearchParams(window.location.search).get('userId');
 
   useEffect(() => {
-    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
-    fetchData();
-  }, []);
+    console.log('userId from URL:', userId); // 추가된 로그
+
+    if (userId) {
+      console.log(`Fetching user information with userId: ${userId}`);
+      axios.get(`http://localhost:8080/user?userId=${userId}`)
+        .then(response => {
+          console.log('User data fetched:', response.data); // 응답 데이터 확인
+          setUser(response.data);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error('There was an error fetching the user data!', error);
+          setLoading(false);
+        });
+    } else {
+      console.log('No userId found in URL');
+      setLoading(false);
+    }
+  }, [userId]);
+
+  if (loading) {
+    return <div>Loading user information...</div>;
+  }
+
+  if (!user) {
+    return <div>No user information found.</div>;
+  }
+
 
   function moveToFoundation() {
     navigate('/Foundation');
@@ -65,8 +78,8 @@ function Main() {
       </div>
       <div id='second_row'>
         메인 페이지 구현 필요<br />
-        {InherentID}<br />
-        {nickname}<br />
+        <p>이름 : {user.nickname}</p>
+        <p>id : {user.id_token}</p>
         {tmp}
       </div>
       <div id='third_row'>
@@ -77,7 +90,6 @@ function Main() {
           <button id='SetTeam' onClick={moveToSetTeam}>팀배정 페이지</button>
           <button id='StudentProblem' onClick={moveToStudentProblem}>학생별 문제 출제 페이지</button>
           <button id='CodeReview' onClick={moveToCodeReview}>코드 리뷰 페이지</button>
-
         </div>
       </div>
 

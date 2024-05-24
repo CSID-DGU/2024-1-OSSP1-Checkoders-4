@@ -10,6 +10,8 @@ import TaskInfo from './TaskInfo.js';
 import ClassCreate from './ClassCreate.js';
 import ClassSearch from './ClassSearch.js';
 import ClassComponent from './ClassComponent.js';
+import { Link } from 'react-router-dom'; // React Router의 Link 컴포넌트 import
+import axios from 'axios';
 import DummyClass from './DummyClass.json';
 
 
@@ -18,16 +20,51 @@ function MainPage2() {
   const navigate = useNavigate();
   const [nickname, setNickname] = useState("홍길동");
   const [lecture_name, setLectureName] = useState("객체지향 프로그래밍");
+
+  // 로그인 관련
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const userId = new URLSearchParams(window.location.search).get('userId');
+  // 로그인 관련 끝
+
   const [count, setCount] = useState(() => {
     // 로컬 스토리지에서 count 값을 불러오거나 기본값으로 0 설정
     const savedCount = localStorage.getItem('count');
     return savedCount ? parseInt(savedCount, 10) : 0;
   }); // count 상태 추가
 
-  // count가 변경될 때마다 Local Storage에 저장
+  console.log('userId from URL:', userId); // 추가된 로그
+
+  if (userId) {
+    console.log(`Fetching user information with userId: ${userId}`);
+    axios.get(`http://localhost:8080/user?userId=${userId}`)
+      .then(response => {
+        console.log('User data fetched:', response.data); // 응답 데이터 확인
+        setUser(response.data);
+        setLoading(false);
+        setNickname(user.nickname);
+      })
+      .catch(error => {
+        console.error('There was an error fetching the user data!', error);
+        setLoading(false);
+      });
+  } else {
+    console.log('No userId found in URL');
+    setLoading(false);
+  }
+  // 로그인 관련
   useEffect(() => {
     localStorage.setItem('count', count);
-  }, [count]);
+  }, [count], [userId]);
+
+  if (loading) {
+    return <div>Loading user information...</div>;
+  }
+
+  if (!user) {
+    return <div>No user information found.</div>;
+  }
+  // 로그인 관련 끝
 
   // count를 업데이트하는 함수
   const incrementCount = () => {
