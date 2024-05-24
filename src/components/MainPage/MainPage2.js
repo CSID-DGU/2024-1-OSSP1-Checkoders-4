@@ -2,7 +2,7 @@ import './Foundation.css';
 import './MainPage2.css';
 import './CalendarStyle.css';
 import { AiOutlineHome } from "react-icons/ai";
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import logo from '../동국대로고.png';
 import TaskCalendar from './TaskCalendar.js';
@@ -13,11 +13,31 @@ import ClassComponent from './ClassComponent.js';
 import { Link } from 'react-router-dom'; // React Router의 Link 컴포넌트 import
 
 
-function MainPage2(props) {
+function MainPage2() {
   const location = useLocation();
   const navigate = useNavigate();
   const [nickname, setNickname] = useState("홍길동");
   const [lecture_name, setLectureName] = useState("객체지향 프로그래밍");
+  const [count, setCount] = useState(() => {
+    // 로컬 스토리지에서 count 값을 불러오거나 기본값으로 0 설정
+    const savedCount = localStorage.getItem('count');
+    return savedCount ? parseInt(savedCount, 10) : 0;
+  }); // count 상태 추가
+
+  // count가 변경될 때마다 Local Storage에 저장
+  useEffect(() => {
+    localStorage.setItem('count', count);
+  }, [count]);
+
+  // count를 업데이트하는 함수
+  const incrementCount = () => {
+    setCount(count + 1);
+  };
+
+  // ClassComponent를 count 수만큼 렌더링
+  const renderClassComponents = () => {
+    return [...Array(count)].map((_, i) => <ClassComponent key={i} />);
+  };
 
   return (
     <div className="Foundation">
@@ -44,7 +64,7 @@ function MainPage2(props) {
           <AiOutlineHome className="home-icon" />
           메인페이지
           <ClassCreate />
-          <ClassSearch />
+          <ClassSearch incrementCount={incrementCount}/>
         </div>
 
         <div className="main-bottom-box">
@@ -55,13 +75,9 @@ function MainPage2(props) {
                   {/* <PopUp /> */}
                </div> 
                <div className="main-container-box">
-                  <ClassComponent lecture_name={lecture_name}/>
-
-                  <ClassComponent lecture_name={lecture_name}/>
-
-                  <ClassComponent lecture_name={lecture_name}/>
-
-                  <ClassComponent lecture_name={lecture_name}/>
+                  {/*count값에 맞게 for문 돌리고 데이터에서 받아온 lecture_name, lecture_madeby 가져와서 
+                  ClassComponent에서 쓰도록 하기*/}
+                  {renderClassComponents()}
                </div>
 
             </div>

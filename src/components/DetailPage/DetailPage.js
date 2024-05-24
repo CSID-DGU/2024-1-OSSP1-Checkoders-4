@@ -17,6 +17,7 @@ function DetailPage(){
   const [team_member3, setTeamMember3] = useState("홍길동");
   const [team_member4, setTeamMember4] = useState("김철수");
   const [hw_name, setHwName] = useState("다음 조건에 맞는 코드를 작성하고 분석하시오. blablablablablablablabla");
+  const [q_name, setQName] = useState("[학생들이 출제한 문제 제목]. blablablablablablablablablabla");
 
   const handleSiteName = () => {
     navigate('/Main');
@@ -100,14 +101,14 @@ function DetailPage(){
               <div className="task-container">
                 <div className="task" >
                   <div className="task-font">
-                    밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 넓이와..
-                      <button className="button-style">View Details</button>
+                      {hw_name}
+                      <button className="button-style" onClick={moveToSubmitAssign}>View Details</button>
                   </div>
                 </div>
                 <div className="task" >
                   <div className="task-font">
-                    밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 넓이와..
-                    <button className="button-style">View Details</button>
+                    {hw_name}
+                    <button className="button-style" onClick={moveToSubmitAssign}>View Details</button>
                   </div>
                 </div>
                 <div className="task" >
@@ -130,25 +131,25 @@ function DetailPage(){
               <div className="task-container" style={{ backgroundColor: '#FFF9E9'}}>
               <div className="task" >
                   <div className="task-font">
-                    밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 넓이와..
+                    {q_name}
                     <button className="button-style" onClick={moveToSubmitAssign}>View Details</button>
                   </div>
                 </div>
                 <div className="task" >
                   <div className="task-font">
-                    밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 넓이와..
+                    {q_name}
                     <button className="button-style" onClick={moveToSubmitAssign}>View Details</button>
                   </div>
                 </div>
                 <div className="task" >
                   <div className="task-font">
-                    다음 조건을 만족시키는 삼각형 클래스를 작성하고, 두 삼각형의 넓이와 그에 해당..
+                    {q_name}
                     <button className="button-style" style={{color: 'red'}}>Done</button>
                   </div>
                 </div>
                 <div className="task" >
                   <div className="task-font">
-                  다음 조건을 만족시키는 삼각형 클래스를 작성하고, 두 삼각형의 넓이와 그에 해당..
+                  {q_name}
                   <button className="button-style" style={{color: 'red'}}>Done</button>
                   </div>
                 </div>

@@ -1,0 +1,22 @@
+{
+    "Data" : 
+    [
+        {
+            "lecture_name":"객지프",
+            "lecture_madeby":"한인"
+        },
+        {
+            "lecture_name":"시소프",
+            "lecture_madeby":"정준호"
+        },
+        {
+            "lecture_name":"자료구조",
+            "lecture_madeby":"김시명"
+        },
+        {
+            "lecture_name":"심프",
+            "lecture_madeby":"윤성림"
+        }
+    ]
+
+}

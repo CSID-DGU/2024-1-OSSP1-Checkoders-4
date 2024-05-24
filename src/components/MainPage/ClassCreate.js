@@ -7,8 +7,9 @@ import axios from 'axios';
 function ClassCreate() {
   const [isOpen, setIsOpen] = useState(false);
   const [lecture_name, setLecture_name] = useState("");
-  const [lectureId, setLectureId] = useState("");
-  const [lectureMadeBy, setLectureMadeBy] = useState("");
+  const [lecture_id, setLectureId] = useState("");
+  const [lecture_madeby, setLectureMadeBy] = useState("");
+  const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
   const openModal = () => {
     setIsOpen(true); // 모달 열기
@@ -35,8 +36,7 @@ function ClassCreate() {
 
   const fetchClassId = async () => {
     try {
-      // 예시 URL과 요청, 실제 URL 및 요청 방법에 따라 조정이 필요할 수 있습니다.
-      const response = await axios.get('https://localhost:8080//class');
+      const response = await axios.get(`${API_BASE_URL}/class`);
       setLectureId(response.data.lecture_id);
       console.log(response.data); // 서버 응답 로깅
       // 여기서 받아온 데이터를 상태에 저장하거나 다른 로직을 실행할 수 있습니다.
@@ -45,14 +45,14 @@ function ClassCreate() {
     }
   };
 
-  const sendLectureData = async (id, madeBy) => {
+  const sendLectureData = async (lecture_name, lecture_madeby) => {
     try {
       const postData = {
-        lecture_id: id,
-        lecture_madeby: madeBy,
-        //fetchClassID 함수로 ID 받고 나서 클래스를 생성하면 사용자의 ID를 서버에게 보내줘야 함.
+        lecture_name: lecture_name,
+        lecture_madeby: lecture_madeby,
+        //fetchClassID 함수로 ID 받고 나서 클래스를 생성하면 사용자의 ID, 강의명을 서버에게 보내줘야 함.
       };
-      const response = await axios.post('http://localhost:8080//class/update', postData);
+      const response = await axios.post(`${API_BASE_URL}/class`, postData);
       console.log('서버 응답:', response.data);
     } catch (error) {
       console.error('데이터를 서버에 보내는데 실패했습니다:', error);
@@ -66,7 +66,8 @@ function ClassCreate() {
         <AiFillPlusCircle style = {{width: '6vw', height: '6vh', color: '#FFAE35'}}/>
       </button>
 
-      <Modal isOpen={isOpen} onRequestClose = {closeModal} style={customStyles}>
+      <Modal ariaHideApp={false}
+      isOpen={isOpen} onRequestClose = {closeModal} style={customStyles}>
         <div style={{height: '5vh', borderBottom: '1.5px solid black'}}>
           <h2>클래스 등록</h2>
         </div>
@@ -92,7 +93,7 @@ function ClassCreate() {
 
         <div>
           <h4 style = {{marginTop: '3vh'}}>코드 확인</h4>
-          <p style = {{marginTop: '2vh'}}>{lectureId || 'ID가 없습니다'}</p>
+          <p style = {{marginTop: '2vh'}}>{lecture_id || 'Class ID가 없습니다.'}</p>
         </div>
 
         <button onClick={closeModal} style={{width: '24vw', height: '6vh', backgroundColor: '#FFB23F', 

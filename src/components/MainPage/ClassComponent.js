@@ -3,6 +3,8 @@ import React, {useState} from 'react';
 import {useNavigate, useLocation} from 'react-router-dom';
 import { AiFillCalendar } from "react-icons/ai";
 import {FaRegClock} from "react-icons/fa";
+import DummyClass from './DummyClass.json';
+
 
 function ClassComponent() {
     const [lecture_name, setLecturename] = useState("객체지향프로그래밍");
@@ -20,8 +22,8 @@ function ClassComponent() {
     return( 
                 <div className="main-box">
                     <div className="main-header">
-                        <span style={{ marginLeft: '2vw', fontSize: '2.2vh'}}>{lecture_name}</span>
-                        <span style={{marginLeft: '2vw', color: '#9A9A9A'}}>{lecture_madeby}</span>
+                        <span style={{ marginLeft: '2vw', fontSize: '2.2vh'}}>{DummyClass.Data[0].lecture_name}</span>
+                        <span style={{marginLeft: '2vw', color: '#9A9A9A'}}>{DummyClass.Data[0].lecture_madeby}</span>
                     </div>
                     <div className="main-content">
                         <div className="main-schedule">
