@@ -23,11 +23,10 @@ function DetailPage() {
     navigate('/Main');
   }
 
+
   function handleTeamMemberClick(memberName, lectureName) {
-    navigate('/studentqlist', {
-      state:
-        { team_member: memberName, lecture_name: lectureName }});
-}
+    navigate('/studentqlist', { state: { team_member: memberName, lecture_name: lectureName } });
+  }
 
 function moveToSetAssign(lectureName) {
   navigate('/SetAssign', { state: { lecture_name: lectureName } });
@@ -95,6 +94,35 @@ return (
                 </button>
               </div>
             </div>
+          <div className="bottom-box">
+            <div className="bottom-box-sidebar">
+              <button className="side-bar"
+                onClick={() => moveToSetAssign(lecture_name)}>
+                <div style={{ margin: '1vh', color: 'white', fontWeight: 'bold' }}>문제출제</div>
+              </button>
+              <button className="side-bar"
+                onClick={() => moveToSetTeam(lecture_name)}>
+                <div style={{ margin: '1vh', color: 'white', fontWeight: 'bold' }}>팀 배정</div>
+              </button>
+              <div>
+                <button className="side-bar" style={{ boxShadow: '0 4 0' }}>
+                  <div style={{ margin: '1vh', color: 'white', fontWeight: 'bold' }}>팀원 목록</div>
+                </button>
+                <div className="team-container">
+                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member1, lecture_name)}>
+                    {team_member1}
+                  </button>
+                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member2, lecture_name)}>
+                    {team_member2}
+                  </button>
+                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member3, lecture_name)}>
+                    {team_member3}
+                  </button>
+                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member4, lecture_name)}>
+                    {team_member4}
+                  </button>
+                </div>
+              </div>
 
           </div>
 
