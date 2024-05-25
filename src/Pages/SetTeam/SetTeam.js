@@ -6,8 +6,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import stuData from './StudentTable/student_data.json';
 
-const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
-
 function SetTeam() {
   const location = useLocation();
   const lecture_name = location.state?.lecture_name || '강의명 없음';

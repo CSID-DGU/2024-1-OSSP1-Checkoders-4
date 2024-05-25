@@ -9,6 +9,7 @@ import QListComponent from './QListComponent.js';
 function StudentQListPage() {
   const location = useLocation();
   const team_member = location.state?.team_member || '팀원 이름 없음';
+  const lecture_name = location.state?.lecture_name || '강의명 없음';
 
   return (
     <div className="Foundation">
