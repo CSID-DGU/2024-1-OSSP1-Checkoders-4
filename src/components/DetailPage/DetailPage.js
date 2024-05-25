@@ -23,8 +23,8 @@ function DetailPage() {
     navigate('/Main');
   }
 
-  function handleTeamMemberClick(memberName) {
-    navigate('/studentqlist', { state: { team_member: memberName } });
+  function handleTeamMemberClick(memberName, lectureName) {
+    navigate('/studentqlist', { state: { team_member: memberName, lecture_name: lectureName } });
   }
 
   function moveToSetAssign(lectureName) {
@@ -79,16 +79,16 @@ function DetailPage() {
                   <div style={{ margin: '1vh', color: 'white', fontWeight: 'bold' }}>팀원 목록</div>
                 </button>
                 <div className="team-container">
-                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member1)}>
+                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member1, lecture_name)}>
                     {team_member1}
                   </button>
-                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member2)}>
+                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member2, lecture_name)}>
                     {team_member2}
                   </button>
-                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member3)}>
+                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member3, lecture_name)}>
                     {team_member3}
                   </button>
-                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member4)}>
+                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member4, lecture_name)}>
                     {team_member4}
                   </button>
                 </div>

@@ -9,6 +9,7 @@ function ClassCreate() {
   const [lecture_name, setLecture_name] = useState("");
   const [lecture_id, setLectureId] = useState("");
   const [lecture_madeby, setLectureMadeBy] = useState("");
+  const [optionType, setOptionType] = useState('lecture'); // 추가한 상태
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
   const openModal = () => {
@@ -26,7 +27,7 @@ function ClassCreate() {
 
     content:{
       width: "25vw",
-      height: "50vh",
+      height: "60vh",
       margin: "auto",
       borderRadius: "4px",
       boxShadow: " 0 2px 4px rgba(0, 0, 0, 0.2)",
@@ -84,8 +85,21 @@ function ClassCreate() {
             setLecture_name(e.target.value);
           }}
           style = {{height: '4vh'}}/>
-
         </div>
+
+        <div>
+          <div style={{marginTop: '3vh'}}>
+            <label>
+              <input type="radio" value="lecture" checked={optionType === 'lecture'}
+                onChange={() => setOptionType('lecture')}/> lecture
+            </label>
+            <label style={{marginLeft: '2vw'}}>
+              <input type="radio" value="study" checked={optionType === 'study'}
+                onChange={() => setOptionType('study')}/> study
+            </label>
+          </div>
+        </div>
+
         <button onClick={async () => {await fetchClassId();}} style={{width: '13.5vw', height: '5vh', backgroundColor: 'black', 
           display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '1vh', borderRadius: '4px'}}>
           <h4 style={{color: 'white', fontWeight: 'bold'}}>클래스 등록</h4> 
