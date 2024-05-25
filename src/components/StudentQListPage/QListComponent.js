@@ -17,6 +17,7 @@ function QListComponent() {
     return (
     <div className="q-field">
         <button className="q-field-title"
+        style = {{backgroundColor: "white", border: "1.5px solid white"}}
         onClick={() => moveToCodeReview(lecture_name)}>
             {q_name}
         </button>
