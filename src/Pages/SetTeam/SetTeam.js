@@ -2,21 +2,27 @@ import '../Foundation/Foundation.css';
 import './SetTeam.css';
 import { useState, useEffect } from 'react';
 import StudentTable from './StudentTable/StudentTable';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import sData from './StudentTable/student_data.json';
+import stuData from './StudentTable/student_data.json';
 
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SetTeam() {
-  let [lecture_name, changeLecture] = useState('객체지향 프로그래밍_03');
+  const location = useLocation();
+  const lecture_name = location.state?.lecture_name || '강의명 없음';
+  
   let [tableName, changeTable] = useState('실습 팀');
   let [team_num, changeTeamNum] = useState('');
   let [table_data, changeTableData] = useState([]);
 
+  let [student_per_group, changeSPG] = useState('');
+  let [new_group_name, changeNGN] = useState('');
+  
+
   const fetchData = () => {
     // GET 요청 보내기
-    axios.get(`${API_BASE_URL}/팀배정api`, {
+    axios.get(`/팀배정api`, {
       params: {
         team_num: team_num
       }
@@ -27,13 +33,32 @@ function SetTeam() {
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        changeTableData(sData.sData);
+        //changeTableData(null);, 배정된 팀이 없는 경우
+        changeTableData(stuData.sData);
       });
   }
 
   const navigate = useNavigate();
   const handleSiteName = () => {
     navigate('/Main');
+  }
+
+  const handleTeamSubmit = (event) => {
+    axios.post(`/class/{classid}/add`, {
+      data:
+        student_per_group,
+      new_group_name
+    })
+      .then((response) => {
+        // 요청 성공 시 실행되는 코드
+        fetchData();
+        console.log("전달 성공");
+      })
+      .catch(error => {
+        fetchData();
+        // 요청 실패 시 실행되는 코드
+        console.log("전달 실패");
+      });
   }
 
   useEffect(() => {
@@ -80,7 +105,10 @@ function SetTeam() {
                       목록 이름:
                     </div>
                     <div className='getName'>
-                      <textarea className='nameBox' placeholder="목록 이름을 입력하세요."></textarea>
+                      <textarea className='nameBox'
+                        value={new_group_name}
+                        onChange={(e) => changeNGN(e.target.value)}
+                        placeholder="목록 이름을 입력하세요."></textarea>
                     </div>
                   </div>
                   <div className='teamNumber'>
@@ -88,12 +116,15 @@ function SetTeam() {
                       팀원 수:
                     </div>
                     <div className='getNumber'>
-                      <textarea className='numberBox' placeholder="팀원 수를 입력하세요.">
+                      <textarea className='numberBox'
+                        value={student_per_group}
+                        onChange={(e) => changeSPG(e.target.value)}
+                        placeholder="팀원 수를 입력하세요.">
                       </textarea>
                     </div>
                   </div>
                   <div className='finishButton'>
-                    <button className='makeTeam'>
+                    <button className='makeTeam' onClick={handleTeamSubmit}>
                       팀 배정
                     </button>
                   </div>
@@ -107,12 +138,11 @@ function SetTeam() {
                   <div className='teamTable'>
                     <div className='tableCover'>
                       <div className='tableName'>
-                        {tableName}
                       </div>
                     </div>
                   </div>
                   <div className='showTable'>
-                    <StudentTable data={table_data} />
+                    <StudentTable data={table_data} tableName={tableName} />
                   </div>
                 </div>
               </div>

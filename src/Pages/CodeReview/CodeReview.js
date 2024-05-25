@@ -2,13 +2,15 @@ import '../Foundation/Foundation.css'
 import './CodeReview.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import chat_data from './chat.json'
-const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
+import codereview_data from './codereview.json'
 
 function CodeReview() {
-  let [lecture_name, changeLecture] = useState('객체지향 프로그래밍_03');
+  const location = useLocation();
+  const lecture_name = location.state?.lecture_name || '강의명 없음';
+
   let [hw_name, change_hw_name] = useState('실습 과제2');
   let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
   let [hw_test1, change_hw_test1] = useState(''); // 입력 예제1
@@ -51,19 +53,19 @@ function CodeReview() {
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        changeLecture('객체지향 프로그래밍_03(요청실패)');
         change_hw_name('실습 과제2(요청실패)');
-        change_hw_problem('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.(요청실패)');
-        change_hw_test1('2 3 4 5');
-        change_hw_test2('10 10 8 12');
-        change_hw_test3('8 8 7 9');
-        change_hw_test4('1 2 3 4');
-        change_hw_test5('3 7 5 9');
-        change_hw_test_answer1('2');
-        change_hw_test_answer2('1');
-        change_hw_test_answer3('1');
-        change_hw_test_answer4('2');
-        change_hw_test_answer5('2');
+        change_hw_name(codereview_data.hw[0].hw_name);
+        change_hw_problem(codereview_data.hw[0].hw_problem);
+        change_hw_test1(codereview_data.hw[0].hw_test1);
+        change_hw_test2(codereview_data.hw[0].hw_test2);
+        change_hw_test3(codereview_data.hw[0].hw_test3);
+        change_hw_test4(codereview_data.hw[0].hw_test4);
+        change_hw_test5(codereview_data.hw[0].hw_test5);
+        change_hw_test_answer1(codereview_data.hw[0].hw_test_answer1);
+        change_hw_test_answer2(codereview_data.hw[0].hw_test_answer2);
+        change_hw_test_answer3(codereview_data.hw[0].hw_test_answer3);
+        change_hw_test_answer4(codereview_data.hw[0].hw_test_answer4);
+        change_hw_test_answer5(codereview_data.hw[0].hw_test_answer5);
         change_source(
           `import java.util.Scanner;
 

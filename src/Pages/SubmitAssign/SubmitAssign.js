@@ -2,23 +2,26 @@ import '../Foundation/Foundation.css'
 import './SubmitAssign.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SubmitAssign() {
-  let [lecture_name, changeLecture] = useState('객체지향 프로그래밍_03');
+  const location = useLocation();
+  const lecture_name = location.state?.lecture_name || '강의명 없음';
+  
   let [hw_name, change_hw_name] = useState('실습 과제2');
   let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
   let [hw_test1, change_hw_test1] = useState('');
   let [hw_test_answer1, change_hw_test_answer1] = useState('');
   let [submit_source, change_submit_source] = useState('');
   let [submitter, change_submitter] = useState('');
-  
+
+
   const fetchData = () => {
     // GET 요청 보내기
     Promise.all([
-      axios.get(`${API_BASE_URL}/class/{classid}/{문제번호}`),{
-        params:{
+      axios.get(`/class/{classid}/{문제번호}`), {
+        params: {
           hw_name: hw_name
         }
       }
@@ -33,7 +36,6 @@ function SubmitAssign() {
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        changeLecture('객체지향 프로그래밍_03(요청실패)');
         change_hw_name('실습 과제2(요청실패)');
         change_hw_problem('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.(요청실패)');
         change_hw_test1('2 3 4 5(요청실패)');
@@ -55,10 +57,11 @@ function SubmitAssign() {
   // 제출 관련
   const navigate = useNavigate();
   const handleSubmit = () => {
+    change_submitter('제출자 이름');  // 제출자 바꿔야함
     // 서버로 데이터를 전송하기 위해 axios를 사용하여 POST 요청 보내기
     Promise.all([
-      axios.post(`${API_BASE_URL}//class/{classid}/{문제번호}
-      `, { data: submit_source, submitter }),
+      axios.post(`/class/{classid}/{문제번호}`,
+        { data: submit_source, submitter }),
       // 출제자 처리
       // axios.post(`${API_BASE_URL}/submitter`, { data: submitter })
     ])

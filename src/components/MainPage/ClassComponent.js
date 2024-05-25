@@ -15,7 +15,7 @@ function ClassComponent({ lectureData }) {
     const navigate = useNavigate();
 
     function moveToDetail(lectureName) {
-        navigate('/detail', { state: { lecture_name: lectureName, userData: user } });
+        navigate('/detail', { state: { lecture_name: lectureName} });
     }
 
     return (
