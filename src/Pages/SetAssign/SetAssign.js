@@ -2,7 +2,7 @@ import axios from 'axios';
 import '../Foundation/Foundation.css'
 import './SetAssign.css';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SetAssign() {
@@ -22,16 +22,18 @@ function SetAssign() {
   let [q_test_answer3, change_q_test_answer3] = useState(''); // 출력 예제3
   let [q_test_answer4, change_q_test_answer4] = useState(''); // 출력 예제4
   let [q_test_answer5, change_q_test_answer5] = useState(''); // 출력 예제5
+  let [q_madeby, change_q_madeby] = useState(''); // 출제자
 
-  //`${API_BASE_URL}/class/{classid}/add/lecture_name`
+  const location = useLocation();
+  const {userData} = location.state || {};
+
+  // 없애야 할 수 있음
   const fetchData = () => {
     // GET 요청 보내기
-    Promise.all([
-      axios.get(`${API_BASE_URL}/lecture_name`)
-    ])
-      .then(([response1]) => {
+      axios.get(`/lecture_name`)
+      .then((response) => {
         // 요청 성공 시 실행되는 코드
-        changeLecture(response1.data);
+        changeLecture(response.data);
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
@@ -40,26 +42,22 @@ function SetAssign() {
   }
 
   useEffect(() => {
+    change_q_madeby(userData.nickname); // 페이지 로딩될 때, 유저 정보를 madeby에 저장
     // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
     fetchData();
   }, []);
-
   // 제출 관련
   const handleChange_q_name = (event) => {
     change_q_name(event.target.value);
   }
-
   const handleChange_q_problem = (event) => {
     change_q_problem(event.target.value);
   }
-
   const handleChange_q_test = (event) => {
     const test_value = event.target.value;
     change_q_test(test_value); // textarea 값 업데이트
-  
     // 개행 문자를 기준으로 문자열을 분할하여 배열로 저장
     const q_test_Array = test_value.split('\n');
-  
     change_q_test1(q_test_Array[0] || '');
     change_q_test2(q_test_Array[1] || '');
     change_q_test3(q_test_Array[2] || '');
@@ -70,35 +68,26 @@ function SetAssign() {
   const handleChange_q_test_anwser = (event) => {
     const test_answer_value = event.target.value;
     change_q_test_answer(test_answer_value); // textarea 값 업데이트
-  
     // 개행 문자를 기준으로 문자열을 분할하여 배열로 저장
     const q_test_answer_Array = test_answer_value.split('\n');
-  
     change_q_test_answer1(q_test_answer_Array[0] || '');
     change_q_test_answer2(q_test_answer_Array[1] || '');
     change_q_test_answer3(q_test_answer_Array[2] || '');
     change_q_test_answer4(q_test_answer_Array[3] || '');
     change_q_test_answer5(q_test_answer_Array[4] || '');
   }
-  
 
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    Promise.all([
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_name}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_problem}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test1}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test2}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test3}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test4}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test5}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test_answer1}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test_answer2}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test_answer3}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test_answer4}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test_answer5}),
-    ])
+  const handleSubmit = (event) => { // 문제 정보 전달
+      axios.post(`/class/{classid}/add`, {
+        data: 
+        q_name, q_problem, 
+        q_test1, q_test_answer1, 
+        q_test2, q_test_answer2, 
+        q_madeby,
+        q_test3, q_test4, q_test5, 
+        q_test_answer3, q_test_answer4, q_test_answer5})
       .then((response) => {
         // 요청 성공 시 실행되는 코드
         navigate('/detail');

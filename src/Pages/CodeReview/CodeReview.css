@@ -225,6 +225,22 @@
   padding-top: 1vh;
 }
 
+ul {
+  list-style: none;
+  padding: 0;
+  padding-left: 1vw;
+  margin: 0;
+}
+
+.one_comment p{
+  margin: 0;
+}
+
+.one_comment p:nth-child(2){
+  padding-left: 1vw;
+  padding-bottom: 1vh;
+}
+
 .writerName {
   font-size: 1.5vh;
   padding-bottom: 0.3vh;

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import chat_data from './chat.json'
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function CodeReview() {
@@ -23,43 +24,30 @@ function CodeReview() {
   let [source, change_source] = useState('printf("Hello World!");');
   let [gpt_feedback, change_gpt_feedback] = useState('GPT가 작성한 피드백 내용');
   let [userName, changeUserName] = useState('이영희');
+  let [cData, change_cData] = useState([]);
+
 
   const fetchData = () => {
     // GET 요청 보내기
-    Promise.all([
-      axios.get(`${API_BASE_URL}/lecture_name`),
-      axios.get(`${API_BASE_URL}/hw_name`),
-      axios.get(`${API_BASE_URL}/hw_problem`),
-      axios.get(`${API_BASE_URL}/hw_test1`),
-      axios.get(`${API_BASE_URL}/hw_test2`),
-      axios.get(`${API_BASE_URL}/hw_test3`),
-      axios.get(`${API_BASE_URL}/hw_test4`),
-      axios.get(`${API_BASE_URL}/hw_test5`),
-      axios.get(`${API_BASE_URL}/hw_test_answer1`),
-      axios.get(`${API_BASE_URL}/hw_test_answer2`),
-      axios.get(`${API_BASE_URL}/hw_test_answer3`),
-      axios.get(`${API_BASE_URL}/hw_test_answer4`),
-      axios.get(`${API_BASE_URL}/hw_test_answer5`),
-      axios.get(`${API_BASE_URL}/source`),
-      axios.get(`${API_BASE_URL}/gpt_feedback`)
-    ])
-      .then(([response1, response2, response3, response4, response5, response6, response7, response8, response9, response10, response11, response12, response13, response14, response15]) => {
+    axios.get(`/코드리뷰주소`)
+      .then((response) => {
         // 요청 성공 시 실행되는 코드
-        changeLecture(response1.data);
-        change_hw_name(response2.data);
-        change_hw_problem(response3.data);
-        change_hw_test1(response4.data);
-        change_hw_test2(response5.data);
-        change_hw_test3(response6.data);
-        change_hw_test4(response7.data);
-        change_hw_test5(response8.data);
-        change_hw_test_answer1(response9.data);
-        change_hw_test_answer2(response10.data);
-        change_hw_test_answer3(response11.data);
-        change_hw_test_answer4(response12.data);
-        change_hw_test_answer5(response13.data);
-        change_source(response14.data);
-        change_gpt_feedback(response15.data);
+        // changeLecture(response.data.lecture_name);
+        change_hw_name(response.data.hw_name);
+        change_hw_problem(response.data.problem);
+        change_hw_test1(response.data.test1);
+        change_hw_test2(response.data.test2);
+        change_hw_test3(response.data.test3);
+        change_hw_test4(response.data.test4);
+        change_hw_test5(response.data.test5);
+        change_hw_test_answer1(response.data.test_answer1);
+        change_hw_test_answer2(response.data.test_answer2);
+        change_hw_test_answer3(response.data.test_answer3);
+        change_hw_test_answer4(response.data.test_answer4);
+        change_hw_test_answer5(response.data.test_answer5);
+        change_source(response.data.source);
+        change_gpt_feedback(response.data.gpt_feedback);
+        change_cData(response.chat);
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
@@ -93,11 +81,9 @@ public class Practice {
         change_gpt_feedback(
           `1. 주석 추가: 코드를 이해하기 쉽도록 주석을 추가하는 것이 좋습니다. 특히 클래스와 메서드의 역할, 변수의 용도 등을 설명하는 주석은 유용합니다.
           2. 입력 오류 처리: 사용자가 잘못된 입력을 할 경우 프로그램이 오류 없이 계속 실행되지만 예외 처리를 추가하여 이를 방지할 수 있습니다.
-          3. 변수명: 변수명은 코드를 이해하는 데 도움이 되도록 명확하고 의미 있는 이름으로 지어야 합니다.예를 들어, iBase, iHeight는 base, height로 변경하여 가독성을 높일 수 있습니다.
-          4. 매직 넘버 사용: 숫자 1, 2, 0은 코드에서 직접적으로 사용되어 있습니다.이 숫자들은 코드를 읽는 사람에게 의미를 전달하지 않습니다.이러한 숫자를 상수로 정의하고 사용하는 것이 가독성을 향상시킬 수 있습니다.
-          5. 리팩토링: 비교하는 부분을 메서드로 추출하여 코드의 재사용성을 높일 수 있습니다.(요청실패)`)
+          (요청실패)`)
         changeUserName('이영희(요청실패)');
-
+        change_cData(cData);
       });
   }
 
@@ -195,18 +181,14 @@ public class Practice {
                   <div className='feedContent'>
                     <div className='comments'>
                       <div className='one_comment'>
-                        <div className='writerName'>
-                          홍길동
-                        </div>
-                        <div className='writerComment'>
-                          홍길동이 작성한 댓글
-                        </div>
-                        <div className='writerName'>
-                          김철수
-                        </div>
-                        <div className='writerComment'>
-                          김철수가 작성한 댓글
-                        </div>
+                        <ul>
+                          {chat_data.map((item, index) => (
+                            <li key={index}>
+                              <p>{item.name}</p>
+                              <p>{item.comment}</p>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className='addComment'>

@@ -10,10 +10,9 @@ import TaskInfo from './TaskInfo.js';
 import ClassCreate from './ClassCreate.js';
 import ClassSearch from './ClassSearch.js';
 import ClassComponent from './ClassComponent.js';
-import { Link } from 'react-router-dom'; // React Router의 Link 컴포넌트 import
+import { Link } from 'react-router-dom'; // React Router의 Link 컴포넌트 
 import axios from 'axios';
 import DummyClass from './DummyClass.json';
-
 
 function MainPage2() {
   const location = useLocation();
@@ -32,7 +31,6 @@ function MainPage2() {
     const savedCount = localStorage.getItem('count');
     return savedCount ? parseInt(savedCount, 10) : 0;
   }); // count 상태 추가
-
   console.log('userId from URL:', userId); // 추가된 로그
 
   if (userId) {
@@ -52,19 +50,10 @@ function MainPage2() {
     console.log('No userId found in URL');
     setLoading(false);
   }
-  // 로그인 관련
+
   useEffect(() => {
     localStorage.setItem('count', count);
   }, [count], [userId]);
-
-  if (loading) {
-    return <div>Loading user information...</div>;
-  }
-
-  if (!user) {
-    return <div>No user information found.</div>;
-  }
-  // 로그인 관련 끝
 
   // count를 업데이트하는 함수
   const incrementCount = () => {
