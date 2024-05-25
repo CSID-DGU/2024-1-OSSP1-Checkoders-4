@@ -28,7 +28,6 @@ function CodeReview() {
   let [userName, changeUserName] = useState('이영희');
   let [cData, change_cData] = useState([]);
 
-
   const fetchData = () => {
     // GET 요청 보내기
     axios.get(`/코드리뷰주소`)
@@ -53,7 +52,6 @@ function CodeReview() {
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        change_hw_name('실습 과제2(요청실패)');
         change_hw_name(codereview_data.hw[0].hw_name);
         change_hw_problem(codereview_data.hw[0].hw_problem);
         change_hw_test1(codereview_data.hw[0].hw_test1);

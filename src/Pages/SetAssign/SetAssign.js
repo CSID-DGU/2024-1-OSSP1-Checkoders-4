@@ -3,7 +3,6 @@ import '../Foundation/Foundation.css'
 import './SetAssign.css';
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SetAssign() {
   const location = useLocation();
