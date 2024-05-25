@@ -2,13 +2,15 @@ import axios from 'axios';
 import '../Foundation/Foundation.css'
 import './SetAssign.css';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SetAssign() {
-  let [lecture_name, changeLecture] = useState
-    ('객체지향 프로그래밍_03');
+  const location = useLocation();
+  const lecture_name = location.state?.lecture_name || '강의명 없음';
+  
   let [q_name, change_q_name] = useState('');  // 문제명
+  let [q_deadline, change_q_deadline] = useState('');
   let [q_problem, change_q_problem] = useState(''); // 문제 내용
   let [q_test, change_q_test] = useState(''); // 입력 예제 전부
   let [q_test_answer, change_q_test_answer] = useState(''); // 출력 예제 전부
@@ -22,83 +24,73 @@ function SetAssign() {
   let [q_test_answer3, change_q_test_answer3] = useState(''); // 출력 예제3
   let [q_test_answer4, change_q_test_answer4] = useState(''); // 출력 예제4
   let [q_test_answer5, change_q_test_answer5] = useState(''); // 출력 예제5
+  let [q_madeby, change_q_madeby] = useState(''); // 출제자
 
-  //`${API_BASE_URL}/class/{classid}/add/lecture_name`
+  const { userData } = location.state || {};
+
+
+  // 없애야 할 수 있음
   const fetchData = () => {
     // GET 요청 보내기
-    Promise.all([
-      axios.get(`${API_BASE_URL}/lecture_name`)
-    ])
-      .then(([response1]) => {
+    axios.get(`/lecture_name`)
+      .then((response) => {
         // 요청 성공 시 실행되는 코드
-        changeLecture(response1.data);
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        changeLecture('객체지향 프로그래밍_03(요청실패)');
       });
   }
 
   useEffect(() => {
+    //change_q_madeby(userData.nickname); // 페이지 로딩될 때, 유저 정보를 madeby에 저장
     // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
     fetchData();
   }, []);
-
   // 제출 관련
   const handleChange_q_name = (event) => {
     change_q_name(event.target.value);
   }
-
   const handleChange_q_problem = (event) => {
     change_q_problem(event.target.value);
   }
-
   const handleChange_q_test = (event) => {
     const test_value = event.target.value;
     change_q_test(test_value); // textarea 값 업데이트
-  
     // 개행 문자를 기준으로 문자열을 분할하여 배열로 저장
     const q_test_Array = test_value.split('\n');
-  
     change_q_test1(q_test_Array[0] || '');
     change_q_test2(q_test_Array[1] || '');
     change_q_test3(q_test_Array[2] || '');
     change_q_test4(q_test_Array[3] || '');
     change_q_test5(q_test_Array[4] || '');
   };
-  
   const handleChange_q_test_anwser = (event) => {
     const test_answer_value = event.target.value;
     change_q_test_answer(test_answer_value); // textarea 값 업데이트
-  
     // 개행 문자를 기준으로 문자열을 분할하여 배열로 저장
     const q_test_answer_Array = test_answer_value.split('\n');
-  
     change_q_test_answer1(q_test_answer_Array[0] || '');
     change_q_test_answer2(q_test_answer_Array[1] || '');
     change_q_test_answer3(q_test_answer_Array[2] || '');
     change_q_test_answer4(q_test_answer_Array[3] || '');
     change_q_test_answer5(q_test_answer_Array[4] || '');
   }
-  
+  const handleChange_q_deadline = (event) => {
+    change_q_deadline(event.target.value);
+  }
 
   const navigate = useNavigate();
-
-  const handleSubmit = (event) => {
-    Promise.all([
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_name}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_problem}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test1}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test2}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test3}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test4}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test5}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test_answer1}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test_answer2}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test_answer3}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test_answer4}),
-      axios.post(`${API_BASE_URL}/class/{classid}/add`, {data: q_test_answer5}),
-    ])
+  const handleSubmit = (event) => { // 문제 정보 전달
+    axios.post(`/class/{classid}/add`, {
+      data:
+        q_name, q_problem,
+      q_test1, q_test_answer1,
+      q_test2, q_test_answer2,
+      q_madeby,
+      q_test3, q_test4, q_test5,
+      q_test_answer3, q_test_answer4, q_test_answer5,
+      q_deadline
+    })
       .then((response) => {
         // 요청 성공 시 실행되는 코드
         navigate('/detail');
@@ -158,16 +150,22 @@ function SetAssign() {
                   문제내용
                 </div>
                 <div className='problemExplanationContent'>
-                  <textarea name="content2" value={q_problem} onChange={handleChange_q_problem} className='problemExplanationTextArea' placeholder='문제 내용을 입력하세요.'></textarea>
+                  <textarea name="content2"
+                    value={q_problem}
+                    onChange={handleChange_q_problem} className='problemExplanationTextArea' placeholder='문제 내용을 입력하세요.'></textarea>
                 </div>
               </div>
+
               <div className='problemInputs'>
                 <div className='getInputData'>
                   <div className='inputIndicate'>
                     입력 데이터:
                   </div>
                   <div className='inputDataBox'>
-                    <textarea name="content3" value={q_test} onChange={handleChange_q_test} className='inputBox' placeholder='ex) 
+                    <textarea name="content3"
+                      value={q_test}
+                      onChange={handleChange_q_test} className='inputBox'
+                      placeholder='ex) 
                     2 3 4 5
                     10 8 7 13
                     20 10 15 12
@@ -181,7 +179,10 @@ function SetAssign() {
                     예상 답안:
                   </div>
                   <div className='inputDataBox'>
-                    <textarea name="content4" value={q_test_answer} onChange={handleChange_q_test_anwser} className='inputBox' placeholder='ex)
+                    <textarea name="content4"
+                      value={q_test_answer}
+                      onChange={handleChange_q_test_anwser} className='inputBox'
+                      placeholder='ex)
                       1
                       2
                       1
@@ -190,6 +191,19 @@ function SetAssign() {
                     </textarea>
                   </div>
                 </div>
+                <div className='getDeadline'>
+                  <div className='inputIndicate'>
+                    제출 기한:
+                  </div>
+                  <div className='inputDataBox'>
+                    <textarea name="content5"
+                      value={q_deadline}
+                      onChange={handleChange_q_deadline} className='inputBox'
+                      placeholder='ex) 240630'>
+                    </textarea>
+                  </div>
+                </div>
+
               </div>
               <div className='problemClosing'>
                 <div className='buttons'>

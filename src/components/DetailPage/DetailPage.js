@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './DetailPage.css'; // DetailPage의 스타일 파일 import
 import Foundation from '../MainPage/Foundation.js';
 import '../StudentQListPage/StudentQListPage.js';
 import { BsPencilSquare } from "react-icons/bs";
 import DoughnutChart from './DoughnutChart';
-import {useNavigate, useLocation} from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import MainPage2 from '../MainPage/MainPage2.js';
 
-function DetailPage(){
+function DetailPage() {
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -23,20 +23,20 @@ function DetailPage(){
     navigate('/Main');
   }
 
-  function handleTeamMemberClick(memberName){
+  function handleTeamMemberClick(memberName) {
     navigate('/studentqlist', { state: { team_member: memberName } });
   }
 
-  function moveToSetAssign(){
-    navigate('/SetAssign');
+  function moveToSetAssign(lectureName) {
+    navigate('/SetAssign', { state: { lecture_name: lectureName } });
   }
-  function moveToSetTeam(){
-    navigate('/SetTeam');
+  function moveToSetTeam(lectureName) {
+    navigate('/SetTeam', { state: { lecture_name: lectureName } });
   }
-  function moveToSubmitAssign(){
-    navigate('/SubmitAssign');
+  function moveToSubmitAssign(lectureName) {
+    navigate('/SubmitAssign', { state: { lecture_name: lectureName } });
   } // 이동 추가 + onClick={moveToSubmitAssign}
-    return (
+  return (
     <div className="Foundation">
       <div className='topCover'>
         <div className='siteName'>
@@ -46,7 +46,7 @@ function DetailPage(){
           </button>
         </div>
         <div className='midBlank'>
-  
+
         </div>
         <div className='logOut'>
           <button className='logOut_button'>
@@ -58,7 +58,7 @@ function DetailPage(){
       <div className='bottomBox'>
         <div>
           <div className="class-info">
-            <BsPencilSquare style={{width: '3vw'}}/>
+            <BsPencilSquare style={{ width: '3vw' }} />
             <div className="class-name">
               <span>{lecture_name}</span>
             </div>
@@ -66,15 +66,17 @@ function DetailPage(){
 
           <div className="bottom-box">
             <div className="bottom-box-sidebar">
-              <button className="side-bar" onClick={moveToSetAssign}>
-                <div style={{margin: '1vh', color: 'white', fontWeight: 'bold'}}>문제출제</div>
+              <button className="side-bar"
+                onClick={() => moveToSetAssign(lecture_name)}>
+                <div style={{ margin: '1vh', color: 'white', fontWeight: 'bold' }}>문제출제</div>
               </button>
-              <button className="side-bar" onClick={moveToSetTeam}>
-                <div style={{margin: '1vh', color: 'white', fontWeight: 'bold'}}>팀 배정</div>
+              <button className="side-bar"
+                onClick={() => moveToSetTeam(lecture_name)}>
+                <div style={{ margin: '1vh', color: 'white', fontWeight: 'bold' }}>팀 배정</div>
               </button>
               <div>
-                <button className="side-bar" style={{boxShadow: '0 4 0'}}>
-                  <div style={{margin: '1vh', color: 'white', fontWeight: 'bold'}}>팀원 목록</div>
+                <button className="side-bar" style={{ boxShadow: '0 4 0' }}>
+                  <div style={{ margin: '1vh', color: 'white', fontWeight: 'bold' }}>팀원 목록</div>
                 </button>
                 <div className="team-container">
                   <button className="team-name" onClick={() => handleTeamMemberClick(team_member1)}>
@@ -91,7 +93,7 @@ function DetailPage(){
                   </button>
                 </div>
               </div>
-              
+
             </div>
 
             <div className="task-q-container">
@@ -101,69 +103,77 @@ function DetailPage(){
               <div className="task-container">
                 <div className="task" >
                   <div className="task-font">
-                      {hw_name}
-                      <button className="button-style" onClick={moveToSubmitAssign}>View Details</button>
+                    {hw_name}
+                    <button className="button-style"
+                      onClick={() => moveToSubmitAssign(lecture_name)}>
+                      View Details</button>
                   </div>
                 </div>
                 <div className="task" >
                   <div className="task-font">
                     {hw_name}
-                    <button className="button-style" onClick={moveToSubmitAssign}>View Details</button>
+                    <button className="button-style"
+                      onClick={() => moveToSubmitAssign(lecture_name)}>
+                      View Details</button>
                   </div>
                 </div>
                 <div className="task" >
                   <div className="task-font">
                     {hw_name}
-                    <button className="button-style" style={{color: 'red'}}>Done</button>
+                    <button className="button-style" style={{ color: 'red' }}>Done</button>
                   </div>
                 </div>
                 <div className="task" >
                   <div className="task-font">
                     {hw_name}
-                    <button className="button-style" style={{color: 'red'}}>Done</button>
+                    <button className="button-style" style={{ color: 'red' }}>Done</button>
                   </div>
                 </div>
               </div>
 
-              <div className="task-container-title" style={{backgroundColor: '#FFAE35'}}>
+              <div className="task-container-title" style={{ backgroundColor: '#FFAE35' }}>
                 학생들이 출제한 문제
               </div>
-              <div className="task-container" style={{ backgroundColor: '#FFF9E9'}}>
-              <div className="task" >
+              <div className="task-container" style={{ backgroundColor: '#FFF9E9' }}>
+                <div className="task" >
                   <div className="task-font">
                     {q_name}
-                    <button className="button-style" onClick={moveToSubmitAssign}>View Details</button>
+                    <button className="button-style"
+                      onClick={() => moveToSubmitAssign(lecture_name)}>
+                      View Details</button>
                   </div>
                 </div>
                 <div className="task" >
                   <div className="task-font">
                     {q_name}
-                    <button className="button-style" onClick={moveToSubmitAssign}>View Details</button>
+                    <button className="button-style"
+                      onClick={() => moveToSubmitAssign(lecture_name)}>
+                      View Details</button>
                   </div>
                 </div>
                 <div className="task" >
                   <div className="task-font">
                     {q_name}
-                    <button className="button-style" style={{color: 'red'}}>Done</button>
+                    <button className="button-style" style={{ color: 'red' }}>Done</button>
                   </div>
                 </div>
                 <div className="task" >
                   <div className="task-font">
-                  {q_name}
-                  <button className="button-style" style={{color: 'red'}}>Done</button>
+                    {q_name}
+                    <button className="button-style" style={{ color: 'red' }}>Done</button>
                   </div>
                 </div>
               </div>
             </div>
 
             <div>
-              <div className= "chart-container-title">
+              <div className="chart-container-title">
                 과제 현황
               </div>
-              <div className= "chart-container">
+              <div className="chart-container">
                 <DoughnutChart />
               </div>
-                
+
             </div>
 
 
@@ -173,8 +183,8 @@ function DetailPage(){
         </div>
       </div>
     </div>
-    );
-  }
+  );
+}
 
 
 export default DetailPage;
