@@ -35,36 +35,35 @@ function MainPage2() {
 
   console.log('userId from URL:', userId); // 추가된 로그
 
-  if (userId) {
-    console.log(`Fetching user information with userId: ${userId}`);
-    axios.get(`http://localhost:8080/user?userId=${userId}`)
-      .then(response => {
-        console.log('User data fetched:', response.data); // 응답 데이터 확인
-        setUser(response.data);
-        setLoading(false);
-        setNickname(user.nickname);
-      })
-      .catch(error => {
-        console.error('There was an error fetching the user data!', error);
-        setLoading(false);
-      });
-  } else {
-    console.log('No userId found in URL');
-    setLoading(false);
-  }
-  // 로그인 관련
+  // if (userId) {
+  //   console.log(`Fetching user information with userId: ${userId}`);
+  //   axios.get(`http://localhost:8080/user?userId=${userId}`)
+  //     .then(response => {
+  //       console.log('User data fetched:', response.data); // 응답 데이터 확인
+  //       setUser(response.data);
+  //       setLoading(false);
+  //       setNickname(user.nickname);
+  //     })
+  //     .catch(error => {
+  //       console.error('There was an error fetching the user data!', error);
+  //       setLoading(false);
+  //     });
+  // } else {
+  //   console.log('No userId found in URL');
+  //   setLoading(false);
+  // }
+
   useEffect(() => {
     localStorage.setItem('count', count);
   }, [count], [userId]);
 
-  if (loading) {
-    return <div>Loading user information...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading user information...</div>;
+  // }
 
-  if (!user) {
-    return <div>No user information found.</div>;
-  }
-  // 로그인 관련 끝
+  // if (!user) {
+  //   return <div>No user information found.</div>;
+  // }
 
   // count를 업데이트하는 함수
   const incrementCount = () => {
