@@ -46,11 +46,12 @@ function ClassCreate() {
     }
   };
 
-  const sendLectureData = async (lecture_name, lecture_madeby) => {
+  const sendLectureData = async (lecture_name, lecture_madeb, optionType) => {
     try {
       const postData = {
         lecture_name: lecture_name,
         lecture_madeby: lecture_madeby,
+        option_type: optionType,
         //fetchClassID 함수로 ID 받고 나서 클래스를 생성하면 사용자의 ID, 강의명을 서버에게 보내줘야 함.
       };
       const response = await axios.post(`${API_BASE_URL}/class`, postData);
@@ -100,7 +101,9 @@ function ClassCreate() {
           </div>
         </div>
 
-        <button onClick={async () => {await fetchClassId();}} style={{width: '13.5vw', height: '5vh', backgroundColor: 'black', 
+        <button onClick={async () => {await fetchClassId();
+          await sendLectureData(lecture_name, lecture_madeby, optionType);
+        }} style={{width: '13.5vw', height: '5vh', backgroundColor: 'black', 
           display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '1vh', borderRadius: '4px'}}>
           <h4 style={{color: 'white', fontWeight: 'bold'}}>클래스 등록</h4> 
         </button>

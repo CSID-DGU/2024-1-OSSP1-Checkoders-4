@@ -61,6 +61,21 @@ function MainPage2() {
     localStorage.setItem('count', count);
   }, [count]);
 
+  useEffect(() => {
+    const storedNickname = localStorage.getItem('nickname');
+    if (storedNickname) {
+      setNickname(storedNickname);
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (user) {
+      setNickname(user.nickname);
+      localStorage.setItem('nickname', user.nickname);
+    }
+  }, [user]);
+  
+
   const incrementCount = () => {
     setCount(count + 1);
   };
