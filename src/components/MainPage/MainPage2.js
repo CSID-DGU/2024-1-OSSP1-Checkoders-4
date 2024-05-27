@@ -17,6 +17,7 @@ function MainPage2() {
   const location = useLocation();
   const navigate = useNavigate();
   const [nickname, setNickname] = useState("홍길동");
+  const [user_id, setUser_id] = useState('0123456789');
   const [lecture_name, setLectureName] = useState("객체지향 프로그래밍");
 
   // 로그인 관련
@@ -51,11 +52,12 @@ function MainPage2() {
     }
   }, [userId]);
 
-  useEffect(() => {
-    if (user) {
-      setNickname(user.nickname);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     setNickname(user.nickname);
+  //     setUser_id(user.id_token);
+  //   }
+  // }, [user]);
 
   useEffect(() => {
     localStorage.setItem('count', count);
@@ -63,15 +65,19 @@ function MainPage2() {
 
   useEffect(() => {
     const storedNickname = localStorage.getItem('nickname');
-    if (storedNickname) {
+    const storedIDToken = localStorage.getItem('id_token');
+    if (storedNickname && storedIDToken) {
       setNickname(storedNickname);
+      setUser_id(storedIDToken);
     }
   }, []);
   
   useEffect(() => {
     if (user) {
       setNickname(user.nickname);
+      setUser_id(user.id_token);
       localStorage.setItem('nickname', user.nickname);
+      localStorage.setItem('id_token', user.id_token);
     }
   }, [user]);
   
@@ -82,7 +88,7 @@ function MainPage2() {
 
   const renderClassComponents = () => {
     return DummyClass.Data.slice(0, count).map((item, index) => (
-      <ClassComponent key={index} lectureData={item} />
+      <ClassComponent key={index} lectureData={item}/>
     ));
   };
 
