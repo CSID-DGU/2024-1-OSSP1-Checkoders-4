@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './DetailPage.css'; // DetailPage의 스타일 파일 import
 import Foundation from '../MainPage/Foundation.js';
 import '../StudentQListPage/StudentQListPage.js';
 import { BsPencilSquare } from "react-icons/bs";
 import DoughnutChart from './DoughnutChart';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import MainPage2 from '../MainPage/MainPage2.js';
+import homeworkData from './DummyHW.json';
+import qData from './DummyQ.json';
+
 
 function DetailPage() {
 
@@ -16,8 +20,38 @@ function DetailPage() {
   const [team_member2, setTeamMember2] = useState("최유민");
   const [team_member3, setTeamMember3] = useState("홍길동");
   const [team_member4, setTeamMember4] = useState("김철수");
-  const [hw_name, setHwName] = useState("다음 조건에 맞는 코드를 작성하고 분석하시오. blablablablablablablabla");
-  const [q_name, setQName] = useState("[학생들이 출제한 문제 제목]. blablablablablablablablablabla");
+  const [homeworks, setHomeworks] = useState(homeworkData.Data);
+  const [questions, setQuestions] = useState(qData.Data);
+  const [loading, setLoading] = useState(true);
+
+  
+  useEffect(() => {
+    axios.get('http://localhost:8080/homeworks')
+      .then(response => {
+        setHomeworks(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Failed to fetch homeworks:', error);
+        setLoading(false);
+      });
+
+    axios.get('http://localhost:8080/questions')
+      .then(response => {
+        setQuestions(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Failed to fetch questions:', error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+
 
   const handleSiteName = () => {
     navigate('/Main');
@@ -100,69 +134,35 @@ function DetailPage() {
               <div className="task-container-title">
                 과제
               </div>
+
               <div className="task-container">
-                <div className="task" >
-                  <div className="task-font">
-                    {hw_name}
-                    <button className="button-style"
-                      onClick={() => moveToSubmitAssign(lecture_name)}>
-                      View Details</button>
+                {homeworks.map((hw, index) => (
+                  <div className="task" key={index}>
+                    <div className="task-font">
+                    {hw.hw_name.length > 30 ? `${hw.hw_name.substring(0, 30)}...` : hw.hw_name}
+                      <button className="button-style"
+                        onClick={() => moveToSubmitAssign(lecture_name)}>
+                        View Details</button>
+                    </div>
                   </div>
-                </div>
-                <div className="task" >
-                  <div className="task-font">
-                    {hw_name}
-                    <button className="button-style"
-                      onClick={() => moveToSubmitAssign(lecture_name)}>
-                      View Details</button>
-                  </div>
-                </div>
-                <div className="task" >
-                  <div className="task-font">
-                    {hw_name}
-                    <button className="button-style" style={{ color: 'red' }}>Done</button>
-                  </div>
-                </div>
-                <div className="task" >
-                  <div className="task-font">
-                    {hw_name}
-                    <button className="button-style" style={{ color: 'red' }}>Done</button>
-                  </div>
-                </div>
+                ))}
               </div>
+
 
               <div className="task-container-title" style={{ backgroundColor: '#FFAE35' }}>
                 학생들이 출제한 문제
               </div>
               <div className="task-container" style={{ backgroundColor: '#FFF9E9' }}>
-                <div className="task" >
-                  <div className="task-font">
-                    {q_name}
-                    <button className="button-style"
-                      onClick={() => moveToSubmitAssign(lecture_name)}>
-                      View Details</button>
+                {questions.map((question, index) => (
+                  <div className="task" key={index}>
+                    <div className="task-font">
+                      {question.q_name.length > 30 ? `${question.q_name.substring(0, 30)}...` : question.q_name}
+                      <button className="button-style" onClick={() => moveToSubmitAssign(lecture_name)}>
+                        View Details
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div className="task" >
-                  <div className="task-font">
-                    {q_name}
-                    <button className="button-style"
-                      onClick={() => moveToSubmitAssign(lecture_name)}>
-                      View Details</button>
-                  </div>
-                </div>
-                <div className="task" >
-                  <div className="task-font">
-                    {q_name}
-                    <button className="button-style" style={{ color: 'red' }}>Done</button>
-                  </div>
-                </div>
-                <div className="task" >
-                  <div className="task-font">
-                    {q_name}
-                    <button className="button-style" style={{ color: 'red' }}>Done</button>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 

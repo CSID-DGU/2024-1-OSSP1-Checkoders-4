@@ -83,6 +83,8 @@
     display: grid; /* 그리드 레이아웃 사용 */
     border-radius: 4px;
     grid-template-columns: repeat(2, 1fr); /* 각 열의 너비를 동일하게 설정 */
+    max-height: 300px; /* Adjust the height as necessary */
+    overflow-y: auto;
 }
 
 .task{
@@ -97,7 +99,10 @@
 
 .task-font{
     font-size: 2vh;
-    margin-top: 1vh;
+    margin-top: 1.2vh;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: space-between; /* Space between title and button */
 }
 
 .button-style{
