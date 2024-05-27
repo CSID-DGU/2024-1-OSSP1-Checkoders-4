@@ -38,7 +38,6 @@
 
 .tabCover {
   background-color: #f0bf83;
-  height: 8%;
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
   width: 100%;
@@ -46,6 +45,7 @@
 }
 
 .assignInfo {
+  height: 96%;
   background-color: #F9EBD0;
   flex-grow: 1;
   display: flex;
@@ -145,10 +145,11 @@
 .getInputData, .getExpectedAnswer, .getDeadline {
   display: flex;
   flex: 1;
+  flex-direction: column;
 }
 
 .inputIndicate {
-  width: 6vw;
+  width: 10vw;
 }
 
 .inputDataBox {
@@ -158,4 +159,48 @@
 .inputBox {
   width: 90%;
   height: 5vh;
+}
+
+/* 입력 데이터와 예상 답안 섹션의 스타일링 */
+
+/* 공통 스타일 */
+.inputIndicate {
+  font-weight: bold;
+}
+
+/* .inputDataBox {
+  display: flex;
+  flex-direction: column;
+} */
+
+.inputBox {
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+/* 입력 데이터 */
+.getInputData .inputIndicate {
+  color: #007bff;
+}
+
+.getInputData .inputBox {
+  border-color: #007bff;
+}
+
+/* 예상 답안 */
+.getExpectedAnswer .inputIndicate {
+  color: #28a745;
+}
+
+.getExpectedAnswer .inputBox {
+  border-color: #28a745;
+}
+
+/* 제출 기한 */
+.getDeadline .inputIndicate {
+  color: #ff6347;
+}
+
+.getDeadline .inputBox {
+  border-color: #ff6347;
 }
