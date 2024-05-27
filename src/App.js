@@ -11,11 +11,9 @@ import Foundation from "./Pages/Foundation/Foundation";
 import SubmitAssign from "./Pages/SubmitAssign/SubmitAssign";
 import SetAssign from "./Pages/SetAssign/SetAssign";
 import SetTeam from "./Pages/SetTeam/SetTeam"
-import StudentProblem from "./Pages/StudentProblem/StudentProblem"
 import CodeReview from "./Pages/CodeReview/CodeReview"
 import StudentTable from "./Pages/SetTeam/StudentTable/StudentTable";
 //
-import Waiting from './Pages/Waiting/Waiting';
 import Practice from './Pages/Practice/Practice';
 
 function App() {
@@ -33,11 +31,9 @@ function App() {
           <Route path = '/SubmitAssign' element = {<SubmitAssign />} ></Route>
           <Route path = '/SetAssign' element = {<SetAssign />} ></Route>
           <Route path = '/SetTeam' element = {<SetTeam />} ></Route>
-          <Route path = '/StudentProblem' element = {<StudentProblem />} ></Route>
           <Route path = '/CodeReview' element = {<CodeReview />} ></Route>
           <Route path = '/StudentTable' element = {<StudentTable />} ></Route>
           //
-          <Route path = '/Waiting' element = {<Waiting />} ></Route>
           <Route path = '/Practice' element = {<Practice/>}></Route>
         </Routes>
       </div>

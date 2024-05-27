@@ -51,14 +51,7 @@ function MainPage2() {
       setLoading(false);
     }
   }, [userId]);
-
-  // useEffect(() => {
-  //   if (user) {
-  //     setNickname(user.nickname);
-  //     setUser_id(user.id_token);
-  //   }
-  // }, [user]);
-
+  
   useEffect(() => {
     localStorage.setItem('count', count);
   }, [count]);

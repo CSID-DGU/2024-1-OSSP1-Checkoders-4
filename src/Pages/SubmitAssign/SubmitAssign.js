@@ -3,10 +3,12 @@ import './SubmitAssign.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
+import p_data from './problem_data.json'
 
 function SubmitAssign() {
   const location = useLocation();
   const lecture_name = location.state?.lecture_name || '강의명 없음';
+  const nickname = localStorage.getItem('nickname');
   
   let [hw_name, change_hw_name] = useState('실습 과제2');
   let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
@@ -15,19 +17,14 @@ function SubmitAssign() {
   let [submit_source, change_submit_source] = useState('');
   let [submitter, change_submitter] = useState('');
 
-
   const fetchData = () => {
     // GET 요청 보내기
     Promise.all([
-      axios.get(`/class/{classid}/{문제번호}`), {
-        params: {
-          hw_name: hw_name
-        }
-      }
+      axios.get(`/제출페이지주소`)
     ])
       .then((response) => {
         // 요청 성공 시 실행되는 코드
-        //change_hw_name(response.data.hw_name);
+        change_hw_name(response.data.hw_name);
         change_hw_problem(response.data.hw_problem);
         change_hw_test1(response.data.hw_test1);
         change_hw_test_answer1(response.data.hw_answer1);
@@ -35,14 +32,15 @@ function SubmitAssign() {
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        change_hw_name('실습 과제2(요청실패)');
-        change_hw_problem('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.(요청실패)');
-        change_hw_test1('2 3 4 5(요청실패)');
-        change_hw_test_answer1('2(요청실패)');
+        change_hw_name(p_data.hw[0].hw_name);
+        change_hw_problem(p_data.hw[0].hw_problem);
+        change_hw_test1(p_data.hw[0].hw_test1);
+        change_hw_test_answer1(p_data.hw[0].hw_test_answer1);
       });
   }
 
   useEffect(() => {
+    change_submitter(nickname);
     // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
     fetchData();
   }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행
@@ -60,9 +58,7 @@ function SubmitAssign() {
     // 서버로 데이터를 전송하기 위해 axios를 사용하여 POST 요청 보내기
     Promise.all([
       axios.post(`/class/{classid}/{문제번호}`,
-        { data: submit_source, submitter }),
-      // 출제자 처리
-      // axios.post(`${API_BASE_URL}/submitter`, { data: submitter })
+        { data: submit_source, submitter })
     ])
       .then(response => {
         // 특정 페이지로 이동

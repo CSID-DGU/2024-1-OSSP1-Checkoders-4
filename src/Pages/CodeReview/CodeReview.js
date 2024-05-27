@@ -10,7 +10,8 @@ import codereview_data from './codereview.json'
 function CodeReview() {
   const location = useLocation();
   const lecture_name = location.state?.lecture_name || '강의명 없음';
-
+  const nickname = localStorage.getItem('nickname');
+  
   let [hw_name, change_hw_name] = useState('실습 과제2');
   let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
   let [hw_test1, change_hw_test1] = useState(''); // 입력 예제1
@@ -25,15 +26,16 @@ function CodeReview() {
   let [hw_test_answer5, change_hw_test_answer5] = useState(''); // 출력 예제5
   let [source, change_source] = useState('printf("Hello World!");');
   let [gpt_feedback, change_gpt_feedback] = useState('GPT가 작성한 피드백 내용');
-  let [userName, changeUserName] = useState('이영희');
+  let [userName, changeUserName] = useState('');
   let [cData, change_cData] = useState([]);
+  let [comment, change_comment] = useState('');
 
   const fetchData = () => {
+    changeUserName(nickname);
     // GET 요청 보내기
     axios.get(`/코드리뷰주소`)
       .then((response) => {
         // 요청 성공 시 실행되는 코드
-        // changeLecture(response.data.lecture_name);
         change_hw_name(response.data.hw_name);
         change_hw_problem(response.data.problem);
         change_hw_test1(response.data.test1);
@@ -64,25 +66,8 @@ function CodeReview() {
         change_hw_test_answer3(codereview_data.hw[0].hw_test_answer3);
         change_hw_test_answer4(codereview_data.hw[0].hw_test_answer4);
         change_hw_test_answer5(codereview_data.hw[0].hw_test_answer5);
-        change_source(
-          `import java.util.Scanner;
-
-public class Practice {
-  public static void main() {
-    Scanner oInDev = new Scanner(System.in); // 스캐너 선언
-    int iOut;
-
-    System.out.println("값을 입력하세요");
-    iOut = oInDev.nextInt();
-    iOut = iOut * iOut + 1;
-    System.out.println("계산 값: " + iOut);
-  }
-}`);
-        change_gpt_feedback(
-          `1. 주석 추가: 코드를 이해하기 쉽도록 주석을 추가하는 것이 좋습니다. 특히 클래스와 메서드의 역할, 변수의 용도 등을 설명하는 주석은 유용합니다.
-          2. 입력 오류 처리: 사용자가 잘못된 입력을 할 경우 프로그램이 오류 없이 계속 실행되지만 예외 처리를 추가하여 이를 방지할 수 있습니다.
-          (요청실패)`)
-        changeUserName('이영희(요청실패)');
+        change_source(codereview_data.code[0].source);
+        change_gpt_feedback(codereview_data.gpt[0].gpt_feedback)
         change_cData(cData);
       });
   }
@@ -96,6 +81,34 @@ public class Practice {
   const handleSiteName = () => {
     navigate('/Main');
   }
+
+  const handleChange_comment = (event) => {
+    change_comment(event.target.value);
+  };
+
+  const postComment = () => {
+    axios.post('/댓글등록주소', {
+      user_name: userName,
+      comment: comment
+    })
+    .then((response) => {
+      // 성공적으로 댓글이 등록되었을 때 실행할 코드
+      console.log("댓글이 성공적으로 등록되었습니다.");
+      change_cData(response.chat);
+    })
+    .catch((error) => {
+      // 댓글을 등록하는 과정에서 에러가 발생했을 때 실행할 코드
+      console.error("댓글을 등록하는 중 에러가 발생했습니다:", error);
+    });
+  };
+  
+
+  const handleSubmitComment = () => {
+    postComment();
+    // 댓글 등록 후 입력 창 초기화
+    change_comment('');
+  };
+  
 
   return (
     <div className="Foundation">
@@ -196,10 +209,10 @@ public class Practice {
                         {userName}
                       </div>
                       <div className='inputTextBox'>
-                        <textarea className='textBox' placeholder='댓글을 남겨보세요'></textarea>
+                        <textarea className='textBox' placeholder='댓글을 남겨보세요'value ={comment} onChange = {handleChange_comment}></textarea>
                       </div>
                       <div className='buttonArea'>
-                        <button className='postButton'>
+                        <button className='postButton' onClick={handleSubmitComment}>
                           등록
                         </button>
                       </div>

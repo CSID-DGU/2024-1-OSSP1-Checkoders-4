@@ -41,8 +41,8 @@ function SetTeam() {
     navigate('/Main');
   }
 
-  const handleTeamSubmit = (event) => {
-    axios.post(`/class/{classid}/add`, {
+  const handleTeamSubmit = (event) => { // 배정 버튼 누르면, 팀 이름과 인원 수 전송
+    axios.post(`/팀 배정 주소`, {
       data:
         student_per_group,
       new_group_name
@@ -133,12 +133,6 @@ function SetTeam() {
                   배정 현황
                 </div>
                 <div className='showTeamState'>
-                  <div className='teamTable'>
-                    <div className='tableCover'>
-                      <div className='tableName'>
-                      </div>
-                    </div>
-                  </div>
                   <div className='showTable'>
                     <StudentTable data={table_data} tableName={tableName} />
                   </div>

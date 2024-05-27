@@ -1,15 +1,2 @@
-진행 상황
-1. localhost:8080 포트를 기준으로 데이터 요청 처리 완료
-2. api 명세서와 동일하게 일부 변수 변환
-- api
-hw_name (v)
-hw_problem (x)
-hw_test1 ~ 5 (x)
-hw_test_answer1 ~ 5 (x)
-source(v)
-gpt_feedback (x)
-+ 댓글러, 댓글내용
-
-해야할 일
-1. 과목명을 어떻게 처리할지 해결해야함
-2. 댓글 시스템 구현
+(v)페이지 내용 받아오는 get처리
+(v)버튼 눌렀을 때 댓글 내용이랑 댓글 작성자 보내는 post처리

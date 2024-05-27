@@ -13,7 +13,7 @@
 }
 
 .siteName{
-  width: 18vw;
+  width: 30vw;
   height: 100%;
   padding-left: 3vw;
   padding-right: 3vw;
@@ -30,7 +30,7 @@
 }
 
 .logOut{
-  width: 15vw;
+  width: 20vw;
   display: flex;
 }
 

@@ -4,7 +4,6 @@ import Foundation from '../Foundation/Foundation';
 import SubmitAssign from '../SubmitAssign/SubmitAssign';
 import SetAssign from '../SetAssign/SetAssign';
 import SetTeam from '../SetTeam/SetTeam'
-import StudentProblem from '../StudentProblem/StudentProblem'
 import CodeReview from '../CodeReview/CodeReview';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -43,15 +42,6 @@ function Main() {
     }
   }, [userId]);
 
-  if (loading) {
-    return <div>Loading user information...</div>;
-  }
-
-  if (!user) {
-    return <div>No user information found.</div>;
-  }
-
-
   function moveToFoundation() {
     navigate('/Foundation');
   }
@@ -63,9 +53,6 @@ function Main() {
   }
   function moveToSetTeam() {
     navigate('/SetTeam');
-  }
-  function moveToStudentProblem() {
-    navigate('/StudentProblem');
   }
   function moveToCodeReview() {
     navigate('/CodeReview')
@@ -88,7 +75,6 @@ function Main() {
           <button id='SubmitAssign' onClick={moveToSubmitAssign}>제출 페이지</button>
           <button id='SetAssign' onClick={moveToSetAssign}>출제 페이지</button>
           <button id='SetTeam' onClick={moveToSetTeam}>팀배정 페이지</button>
-          <button id='StudentProblem' onClick={moveToStudentProblem}>학생별 문제 출제 페이지</button>
           <button id='CodeReview' onClick={moveToCodeReview}>코드 리뷰 페이지</button>
         </div>
       </div>
@@ -98,7 +84,6 @@ function Main() {
         <Route path="/SubmitAssign" element={<SubmitAssign />}></Route>
         <Route path="/SetAssign" element={<SetAssign />}></Route>
         <Route path="/SetTeam" element={<SetTeam />}></Route>
-        <Route path="/StudentProblem" element={<StudentProblem />}></Route>
         <Route path="/CodeReview" element={<CodeReview />}></Route>
       </Routes>
     </div>
