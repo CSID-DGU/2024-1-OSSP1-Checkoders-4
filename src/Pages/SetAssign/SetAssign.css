@@ -149,7 +149,7 @@
 }
 
 .inputIndicate {
-  width: 10vw;
+  width: 15vw;
 }
 
 .inputDataBox {
@@ -167,11 +167,6 @@
 .inputIndicate {
   font-weight: bold;
 }
-
-/* .inputDataBox {
-  display: flex;
-  flex-direction: column;
-} */
 
 .inputBox {
   font-size: 16px;
