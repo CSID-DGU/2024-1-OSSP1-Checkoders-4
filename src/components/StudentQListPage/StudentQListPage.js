@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import '../MainPage/Foundation.css';
 import './StudentQListPage.css';
 import { FaUserCircle } from "react-icons/fa";
 import '../DetailPage/DetailPage.js';
 import QListComponent from './QListComponent.js';
+import DummyQList from './DummyQList.json';
+
 
 function StudentQListPage() {
   const location = useLocation();
   const team_member = location.state?.team_member || '팀원 이름 없음';
   const lecture_name = location.state?.lecture_name || '강의명 없음';
+
+  const [qList, setQList] = useState([]);
+
+  useEffect(() => {
+    setQList(DummyQList.Data); // JSON 데이터를 상태로 설정
+  }, []);
 
   return (
     <div className="Foundation">
@@ -47,10 +55,9 @@ function StudentQListPage() {
               </div>
 
               <div className="q-container-box">
-
-                <QListComponent />
-                <QListComponent />
-                <QListComponent />
+                    {qList.map(q => (
+                      <QListComponent key={q.q_name} q_name={q.q_name} q_problem={q.q_problem} />
+                    ))}
 
               </div>
 

@@ -9,6 +9,7 @@ import axios from 'axios';
 import MainPage2 from '../MainPage/MainPage2.js';
 import homeworkData from './DummyHW.json';
 import qData from './DummyQ.json';
+import teamData from './DummyTeam.json';
 
 
 function DetailPage() {
@@ -16,14 +17,19 @@ function DetailPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const lecture_name = location.state?.lecture_name || '강의명 없음';
-  const [team_member1, setTeamMember1] = useState("박성훈");
-  const [team_member2, setTeamMember2] = useState("최유민");
-  const [team_member3, setTeamMember3] = useState("홍길동");
-  const [team_member4, setTeamMember4] = useState("김철수");
+  const [teamMembers, setTeamMembers] = useState([]);
   const [homeworks, setHomeworks] = useState(homeworkData.Data);
   const [questions, setQuestions] = useState(qData.Data);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);  // 권한 확인을 위한 상태
 
+  useEffect(() => {
+    setTeamMembers(teamData.Data); // DummyTeam.json에서 팀원 데이터 로드
+    const currentNickname = localStorage.getItem('nickname'); // 로컬 스토리지에서 nickname 가져오기
+    const lectureMadeBy = location.state?.lecture_madeby; // 강의 생성자 정보 가져오기
+
+    setIsAdmin(currentNickname === lectureMadeBy); // 권한 확인
+  }, []);
   
   useEffect(() => {
     axios.get('http://localhost:8080/homeworks')
@@ -104,27 +110,22 @@ function DetailPage() {
                 onClick={() => moveToSetAssign(lecture_name)}>
                 <div style={{ margin: '1vh', color: 'white', fontWeight: 'bold' }}>문제출제</div>
               </button>
-              <button className="side-bar"
-                onClick={() => moveToSetTeam(lecture_name)}>
-                <div style={{ margin: '1vh', color: 'white', fontWeight: 'bold' }}>팀 배정</div>
-              </button>
+              {isAdmin && (
+                <button className="side-bar"
+                  onClick={() => moveToSetTeam(lecture_name)}>
+                  <div style={{ margin: '1vh', color: 'white', fontWeight: 'bold' }}>팀 배정</div>
+                </button>
+              )}
               <div>
                 <button className="side-bar" style={{ boxShadow: '0 4 0' }}>
                   <div style={{ margin: '1vh', color: 'white', fontWeight: 'bold' }}>팀원 목록</div>
                 </button>
                 <div className="team-container">
-                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member1, lecture_name)}>
-                    {team_member1}
-                  </button>
-                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member2, lecture_name)}>
-                    {team_member2}
-                  </button>
-                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member3, lecture_name)}>
-                    {team_member3}
-                  </button>
-                  <button className="team-name" onClick={() => handleTeamMemberClick(team_member4, lecture_name)}>
-                    {team_member4}
-                  </button>
+                  {teamMembers.map(member => (
+                    <button className="team-name" key={member.id} onClick={() => handleTeamMemberClick(member.nickname, lecture_name)}>
+                      {member.nickname}
+                    </button>
+                  ))}
                 </div>
               </div>
 

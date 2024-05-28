@@ -2,9 +2,7 @@ import './StudentQListPage.css';
 import React, {useState} from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-function QListComponent() {
-    const [q_name, setQName] = useState("밑변과 높이 제목");
-    const [q_problem, setQProblem] = useState("[문제 내용] 밑변과 높이 필드를 가지는~~~~");
+function QListComponent({ q_name, q_problem }) {
     const location = useLocation();
     const navigate = useNavigate();
     const lecture_name = location.state?.lecture_name || '강의명 없음';
