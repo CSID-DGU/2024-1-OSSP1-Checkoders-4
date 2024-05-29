@@ -10,7 +10,8 @@ function ClassCreate() {
   const [lecture_id, setLectureId] = useState("");
   const [lecture_madeby, setLectureMadeBy] = useState("");
   const [optionType, setOptionType] = useState(0); // 0은 lecture, 1은 study
-  const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
+  
+  const token = localStorage.getItem('id_token');
 
   const openModal = () => {
     setIsOpen(true); // 모달 열기
@@ -37,7 +38,7 @@ function ClassCreate() {
 
   const fetchClassId = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/class`);
+      const response = await axios.get(`/class`);
       setLectureId(response.data.lecture_id);
       console.log(response.data); // 서버 응답 로깅
       // 여기서 받아온 데이터를 상태에 저장하거나 다른 로직을 실행할 수 있습니다.
@@ -49,12 +50,12 @@ function ClassCreate() {
   const sendLectureData = async () => {
     try {
       const postData = {
-        lecture_name: lecture_name,
+        lectureName: lecture_name,
         lecture_madeby: lecture_madeby,
         option_type: optionType,
         //fetchClassID 함수로 ID 받고 나서 클래스를 생성하면 사용자의 ID, 강의명을 서버에게 보내줘야 함.
       };
-      const response = await axios.post(`${API_BASE_URL}/class`, postData);
+      const response = await axios.post(`${token}/createlecture`, postData);
       console.log('서버 응답:', response.data);
     } catch (error) {
       console.error('데이터를 서버에 보내는데 실패했습니다:', error);
