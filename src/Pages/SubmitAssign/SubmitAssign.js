@@ -56,10 +56,11 @@ function SubmitAssign() {
   const handleSubmit = () => {
     change_submitter('제출자 이름');  // 제출자 바꿔야함
     // 서버로 데이터를 전송하기 위해 axios를 사용하여 POST 요청 보내기
-    Promise.all([
       axios.post(`/class/{classid}/{문제번호}`,
-        { data: submit_source, submitter })
-    ])
+        new URLSearchParams({ 
+          submit_source: submit_source,
+          submitter: submitter 
+        }))
       .then(response => {
         // 특정 페이지로 이동
         navigate('/detail');

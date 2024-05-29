@@ -18,6 +18,7 @@ function MainPage2() {
   const navigate = useNavigate();
   const [nickname, setNickname] = useState("홍길동");
   const [user_id, setUser_id] = useState('0123456789');
+  const [accessToken, setAccessToken] = useState('');
   const [lecture_name, setLectureName] = useState("객체지향 프로그래밍");
 
   // 로그인 관련
@@ -55,25 +56,38 @@ function MainPage2() {
   useEffect(() => {
     localStorage.setItem('count', count);
   }, [count]);
-
-  useEffect(() => {
-    const storedNickname = localStorage.getItem('nickname');
-    const storedIDToken = localStorage.getItem('id_token');
-    if (storedNickname && storedIDToken) {
-      setNickname(storedNickname);
-      setUser_id(storedIDToken);
-    }
-  }, []);
   
   useEffect(() => {
     if (user) {
       setNickname(user.nickname);
       setUser_id(user.id_token);
+      setAccessToken(user.accessToken);
       localStorage.setItem('nickname', user.nickname);
       localStorage.setItem('id_token', user.id_token);
+      localStorage.setItem('accessToken', user.accessToken);
     }
   }, [user]);
   
+  useEffect(() => {
+    const storedNickname = localStorage.getItem('nickname');
+    const storedIDToken = localStorage.getItem('id_token');
+    const storedAccessToken = localStorage.getItem('accessToken');
+    if (storedNickname && storedIDToken) {
+      setNickname(storedNickname);
+      setUser_id(storedIDToken);
+      console.log('storing success');
+    }
+    else{
+      console.log('storing fail');
+    }
+    if(storedAccessToken){
+      console.log('accessToken success');
+      setAccessToken(storedAccessToken);
+    }
+    else{
+      console.log('accessToken fail');
+    }
+  }, []);
 
   const incrementCount = () => {
     setCount(count + 1);
