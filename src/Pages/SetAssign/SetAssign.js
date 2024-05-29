@@ -10,7 +10,7 @@ function SetAssign() {
   const location = useLocation();
   const lecture_name = location.state?.lecture_name || '강의명 없음';
   const nickname = localStorage.getItem('nickname');
-
+  
   let [q_name, change_q_name] = useState('');  // 문제명
   let [q_deadline, change_q_deadline] = useState(new Date());
   let [q_problem, change_q_problem] = useState(''); // 문제 내용
@@ -75,17 +75,23 @@ function SetAssign() {
 
   const navigate = useNavigate();
   const handleSubmit = (event) => { // 문제 정보 전달
-    axios.post(`/class/{classid}/add`, {
-      data: {
-        q_name, q_problem,
-        q_test1, q_test_answer1,
-        q_test2, q_test_answer2,
-        q_madeby,
-        q_test3, q_test4, q_test5,
-        q_test_answer3, q_test_answer4, q_test_answer5,
-        q_deadline
-      }
-    })
+    axios.post(`http://localhost:8080/class/{classid}/add`,
+      new URLSearchParams({
+        q_name: q_name,
+        q_problem: q_problem,
+        q_test1: q_test1,
+        q_test_answer1: q_test_answer1,
+        q_test2: q_test2,
+        q_test_answer2: q_test_answer2,
+        q_madeby: q_madeby,
+        q_test3: q_test3,
+        q_test4: q_test4,
+        q_test5: q_test5,
+        q_test_answer3: q_test_answer3,
+        q_test_answer4: q_test_answer4,
+        q_test_answer5: q_test_answer5,
+        q_deadline: q_deadline
+      }))
       .then((response) => {
         // 요청 성공 시 실행되는 코드
         navigate('/detail');
@@ -102,6 +108,34 @@ function SetAssign() {
     navigate('/Main');
   }
 
+  const kakaoLogout = () => {
+    const accessToken = localStorage.getItem('accessToken');
+    //const accessToken = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
+
+    axios({
+      method: 'POST',
+      url: 'https://kapi.kakao.com/v1/user/logout',
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": `Bearer ${accessToken}`
+      },
+    })
+      // axios.post(`https://kapi.kakao.com/v1/user/logout`,
+      //   {
+      //     "Content-Type": "application/x-www-form-urlencoded",
+      //     "Authorization": `Bearer ${accessToken}`
+      //   })
+      .then((response) => {
+        console.log("logout 성공");
+        console.log(response.id);
+        navigate('/');
+      })
+      .catch(error => {
+        console.log("logout 실패");
+        //navigate('/');
+      });
+  }
+
   return (
     <div className="Foundation">
       <div className='topCover'>
@@ -114,7 +148,7 @@ function SetAssign() {
         <div className='midBlank'>
         </div>
         <div className='logOut'>
-          <button className='logOut_button'>
+          <button className='logOut_button' onClick={kakaoLogout}>
             Logout🔓
             {/* 온클릭하면 로그아웃 후 로그인 페이지 */}
           </button>
@@ -258,7 +292,7 @@ function SetAssign() {
                     제출 기한:
                   </div>
                   <div className='inputDataBox'>
-                    <DatePicker 
+                    <DatePicker
                       selected={q_deadline}
                       onChange={handleChange_q_deadline}
                       dateFormat="     yyyy / MM / dd"
