@@ -11,7 +11,7 @@ function SetAssign() {
   const lecture_name = location.state?.lecture_name || '강의명 없음';
   const nickname = localStorage.getItem('nickname');
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
-  const lectureID = 1234;
+  const lectureID = 1234; // 추후 수정 필요
   const token = localStorage.getItem('id_token');
 
   let [q_name, change_q_name] = useState('');  // 문제명

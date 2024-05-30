@@ -10,7 +10,9 @@ function SubmitAssign() {
   const lecture_name = location.state?.lecture_name || '강의명 없음';
   const nickname = localStorage.getItem('nickname');
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
-  
+  const lecutreID = 1234; // 추후 수정 필요
+
+
   let [hw_name, change_hw_name] = useState('실습 과제2');
   let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
   let [hw_test1, change_hw_test1] = useState('');
@@ -20,16 +22,14 @@ function SubmitAssign() {
 
   const fetchData = () => {
     // GET 요청 보내기
-    Promise.all([
-      axios.get(`${API_BASE_URL}/제출페이지주소`)
-    ])
+    axios.get(`${API_BASE_URL}/${lecutreID}/getlectureassignment`)
       .then((response) => {
         // 요청 성공 시 실행되는 코드
         change_hw_name(response.data.hw_name);
         change_hw_problem(response.data.hw_problem);
         change_hw_test1(response.data.hw_test1);
         change_hw_test_answer1(response.data.hw_answer1);
-
+        console.log('데이터 받아오기 성공');
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
@@ -37,6 +37,7 @@ function SubmitAssign() {
         change_hw_problem(p_data.hw[0].hw_problem);
         change_hw_test1(p_data.hw[0].hw_test1);
         change_hw_test_answer1(p_data.hw[0].hw_test_answer1);
+        console.log('데이터 받아오기 실패');
       });
   }
 
@@ -57,11 +58,11 @@ function SubmitAssign() {
   const handleSubmit = () => {
     change_submitter('제출자 이름');  // 제출자 바꿔야함
     // 서버로 데이터를 전송하기 위해 axios를 사용하여 POST 요청 보내기
-      axios.post(`${API_BASE_URL}/class/{classid}/{문제번호}`,
-        new URLSearchParams({ 
-          submit_source: submit_source,
-          submitter: submitter 
-        }))
+    axios.post(`${API_BASE_URL}/submit`,
+      new URLSearchParams({
+        submit_source: submit_source,
+        submitter: submitter
+      }))
       .then(response => {
         // 특정 페이지로 이동
         navigate('/detail');
