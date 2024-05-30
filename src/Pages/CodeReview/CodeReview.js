@@ -11,6 +11,7 @@ function CodeReview() {
   const location = useLocation();
   const lecture_name = location.state?.lecture_name || '강의명 없음';
   const nickname = localStorage.getItem('nickname');
+  const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
   
   let [hw_name, change_hw_name] = useState('실습 과제2');
   let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
@@ -33,7 +34,7 @@ function CodeReview() {
   const fetchData = () => {
     changeUserName(nickname);
     // GET 요청 보내기
-    axios.get(`/코드리뷰주소`)
+    axios.get(`${API_BASE_URL}/코드리뷰주소`)
       .then((response) => {
         // 요청 성공 시 실행되는 코드
         change_hw_name(response.data.hw_name);
@@ -87,7 +88,7 @@ function CodeReview() {
   };
 
   const postComment = () => {
-    axios.post('/댓글등록주소', {
+    axios.post(`${API_BASE_URL}/댓글등록주소`, {
       user_name: userName,
       comment: comment
     })

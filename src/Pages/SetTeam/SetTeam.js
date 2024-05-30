@@ -9,6 +9,7 @@ import stuData from './StudentTable/student_data.json';
 function SetTeam() {
   const location = useLocation();
   const lecture_name = location.state?.lecture_name || '강의명 없음';
+  const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
   
   let [tableName, changeTable] = useState('실습 팀');
   let [team_num, changeTeamNum] = useState('');
@@ -19,7 +20,7 @@ function SetTeam() {
   
   const fetchData = () => {
     // GET 요청 보내기
-    axios.get(`/팀배정api`, {
+    axios.get(`${API_BASE_URL}/팀배정api`, {
       params: {
         team_num: team_num
       }
@@ -41,7 +42,7 @@ function SetTeam() {
   }
 
   const handleTeamSubmit = (event) => { // 배정 버튼 누르면, 팀 이름과 인원 수 전송
-    axios.post(`/팀 배정 주소`, {
+    axios.post(`${API_BASE_URL}/팀 배정 주소`, {
       data:
         student_per_group,
       new_group_name

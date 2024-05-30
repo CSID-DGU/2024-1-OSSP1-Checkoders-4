@@ -13,7 +13,6 @@ import teamData from './DummyTeam.json';
 
 
 function DetailPage() {
-
   const location = useLocation();
   const navigate = useNavigate();
   const lecture_name = location.state?.lecture_name || '강의명 없음';
@@ -22,6 +21,7 @@ function DetailPage() {
   const [questions, setQuestions] = useState(qData.Data);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);  // 권한 확인을 위한 상태
+  const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
   useEffect(() => {
     setTeamMembers(teamData.Data); // DummyTeam.json에서 팀원 데이터 로드
@@ -32,7 +32,7 @@ function DetailPage() {
   }, []);
   
   useEffect(() => {
-    axios.get('http://localhost:8080/homeworks')
+    axios.get(`${API_BASE_URL}/homeworks`)
       .then(response => {
         setHomeworks(response.data);
         setLoading(false);
@@ -42,7 +42,7 @@ function DetailPage() {
         setLoading(false);
       });
 
-    axios.get('http://localhost:8080/questions')
+    axios.get(`${API_BASE_URL}/questions`)
       .then(response => {
         setQuestions(response.data);
         setLoading(false);

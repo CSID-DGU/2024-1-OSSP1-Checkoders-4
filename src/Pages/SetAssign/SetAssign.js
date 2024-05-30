@@ -10,7 +10,10 @@ function SetAssign() {
   const location = useLocation();
   const lecture_name = location.state?.lecture_name || '강의명 없음';
   const nickname = localStorage.getItem('nickname');
-  
+  const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
+  const lectureID = 1234;
+  const token = localStorage.getItem('id_token');
+
   let [q_name, change_q_name] = useState('');  // 문제명
   let [q_deadline, change_q_deadline] = useState(new Date());
   let [q_problem, change_q_problem] = useState(''); // 문제 내용
@@ -24,11 +27,26 @@ function SetAssign() {
   let [q_test_answer3, change_q_test_answer3] = useState(''); // 출력 예제3
   let [q_test_answer4, change_q_test_answer4] = useState(''); // 출력 예제4
   let [q_test_answer5, change_q_test_answer5] = useState(''); // 출력 예제5
-  let [q_madeby, change_q_madeby] = useState(''); // 출제자
+
+  const assignmentRequestDTO = {
+    title: q_name,
+    description: q_problem,
+    deadline: q_deadline,
+    hwTest1: q_test1,
+    hwTestAnswer1: q_test_answer1,
+    hwTest2: q_test2,
+    hwTestAnswer2: q_test_answer2,
+    hwTest3: q_test3,
+    hwTestAnswer3: q_test_answer3,
+    hwTest4: q_test4,
+    hwTestAnswer4: q_test_answer4,
+    hwTest5: q_test5,
+    hwTestAnswer5: q_test_answer5
+  }
+
+
 
   useEffect(() => {
-    change_q_madeby(nickname);
-    // change_q_madeby(userData.nickname); // 페이지 로딩될 때, 유저 정보를 madeby에 저장
     // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
     // fetchData();
   }, []);
@@ -74,24 +92,12 @@ function SetAssign() {
   }
 
   const navigate = useNavigate();
+
   const handleSubmit = (event) => { // 문제 정보 전달
-    axios.post(`http://localhost:8080/class/{classid}/add`,
-      new URLSearchParams({
-        q_name: q_name,
-        q_problem: q_problem,
-        q_test1: q_test1,
-        q_test_answer1: q_test_answer1,
-        q_test2: q_test2,
-        q_test_answer2: q_test_answer2,
-        q_madeby: q_madeby,
-        q_test3: q_test3,
-        q_test4: q_test4,
-        q_test5: q_test5,
-        q_test_answer3: q_test_answer3,
-        q_test_answer4: q_test_answer4,
-        q_test_answer5: q_test_answer5,
-        q_deadline: q_deadline
-      }))
+    axios.post(`${API_BASE_URL}/${token}/${lectureID}/createAssignment`,
+      {
+        assignmentRequestDTO: assignmentRequestDTO
+      })
       .then((response) => {
         // 요청 성공 시 실행되는 코드
         navigate('/detail');
@@ -99,7 +105,7 @@ function SetAssign() {
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        navigate('/detail');
+        //navigate('/detail');
         console.log("제출 실패");
       });
   };

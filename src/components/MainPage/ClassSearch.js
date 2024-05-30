@@ -8,6 +8,7 @@ function ClassSearch({ incrementCount }) {
   const [isOpen, setIsOpen] = useState(false);
   const [lecture_id, setLecture_id] = useState("");
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
+  const token = localStorage.getItem('id_token');
 
   const sendClassId = async () => { //클래스 검색하기 누르면 서버로 클래스 ID와 사용자 ID 전송
     try {
@@ -18,6 +19,20 @@ function ClassSearch({ incrementCount }) {
       console.error('클래스 ID를 전달하는 데 실패했습니다:', error);
     }
   };
+
+  // const sendClassId = async () => { //클래스 검색하기 누르면 서버로 클래스 ID와 사용자 ID 전송
+  //   try {
+  //     const response = await axios.post(`${API_BASE_URL}/${token}/participate`, 
+  //     URLSearchParams(
+  //       {
+  //         lectureName: lectureName
+  //       }));
+  //     console.log(response.data); // 서버 응답 로깅
+  //     // 여기서 받아온 데이터를 상태에 저장하거나 다른 로직을 실행할 수 있습니다.
+  //   } catch (error) {
+  //     console.error('클래스 ID를 전달하는 데 실패했습니다:', error);
+  //   }
+  // };
 
   const openModal = () => {
     setIsOpen(true); // 모달 열기

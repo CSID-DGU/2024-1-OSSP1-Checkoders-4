@@ -26,7 +26,7 @@ function ClassCreate() {
     if (lecture_name) {
       setLectureName(lecture_name);
     }
-    axios.post(`http://localhost:8080/${token}/createlecture`, 
+    axios.post(`${API_BASE_URL}/${token}/createlecture`, 
     new URLSearchParams({
       lectureName: lectureName,
       course: course
