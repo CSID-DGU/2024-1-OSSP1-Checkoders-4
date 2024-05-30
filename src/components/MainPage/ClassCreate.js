@@ -74,22 +74,6 @@ function ClassCreate() {
     }
   };
 
-  // const sendLectureData = async () => {
-  //   try {
-  //     const postData = {
-  //       lecture_name: lecture_name,
-  //       lecture_madeby: lecture_madeby,
-  //       option_type: optionType,
-  //       //fetchClassID 함수로 ID 받고 나서 클래스를 생성하면 사용자의 ID, 강의명을 서버에게 보내줘야 함.
-  //     };
-  //     const response = await axios.post(`${API_BASE_URL}/class`, postData);
-  //     console.log('서버 응답:', response.data);
-  //   } catch (error) {
-  //     console.error('데이터를 서버에 보내는데 실패했습니다:', error);
-  //   }
-  // };
-  
-
   return (
     <div>
       <button onClick={openModal} style={{ border: 'none', backgroundColor: 'white' }}>
