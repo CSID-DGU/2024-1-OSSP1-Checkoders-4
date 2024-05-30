@@ -78,6 +78,7 @@ function SetTeam() {
       .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함
         console.log("logout 성공");
         console.log(response.id);
+        localStorage.clear();
         navigate('/');
       })
       .catch(error => {

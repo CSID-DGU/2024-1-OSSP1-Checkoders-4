@@ -134,6 +134,7 @@ function SetAssign() {
       .then((response) => {
         console.log("logout 성공");
         console.log(response.id);
+        localStorage.clear();
         navigate('/');
       })
       .catch(error => {
