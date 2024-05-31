@@ -115,21 +115,21 @@ function SetAssign() {
   }
 
   const kakaoLogout = () => {
-    const accessToken = localStorage.getItem('accessToken');
-    //const accessToken = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
+    const accessToken_main = localStorage.getItem('accessToken_main');
+    //const accessToken_main = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
 
     axios({
       method: 'POST',
       url: 'https://kapi.kakao.com/v1/user/logout',
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": `Bearer ${accessToken}`
+        "Authorization": `Bearer ${accessToken_main}`
       },
     })
       // axios.post(`https://kapi.kakao.com/v1/user/logout`,
       //   {
       //     "Content-Type": "application/x-www-form-urlencoded",
-      //     "Authorization": `Bearer ${accessToken}`
+      //     "Authorization": `Bearer ${accessToken_main}`
       //   })
       .then((response) => {
         console.log("logout 성공");

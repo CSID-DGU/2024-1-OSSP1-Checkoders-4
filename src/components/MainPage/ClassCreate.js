@@ -87,7 +87,7 @@ function ClassCreate() {
         </div>
 
         <div>
-          <h4 style={{ marginBottom: '1vh' }}>강의 입력</h4>
+          <h4 style={{ marginBottom: '1vh' }}>강의명 입력</h4>
         </div>
 
         <div>
@@ -122,12 +122,6 @@ function ClassCreate() {
         }}>
           <h4 style={{ color: 'white', fontWeight: 'bold' }}>클래스 등록</h4>
         </button>
-
-        <div>
-          <h4 style={{ marginTop: '3vh' }}>코드 확인</h4>
-          <p style={{ marginTop: '2vh' }}>{lecture_id || 'Class ID가 없습니다.'}</p>
-        </div>
-
         <button onClick={closeModal} style={{
           width: '24vw', height: '6vh', backgroundColor: '#FFB23F',
           display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '1vh', border: 'none', borderRadius: '4px'

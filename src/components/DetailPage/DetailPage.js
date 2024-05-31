@@ -25,7 +25,7 @@ function DetailPage() {
 
   useEffect(() => {
     setTeamMembers(teamData.Data); // DummyTeam.json에서 팀원 데이터 로드
-    const currentNickname = localStorage.getItem('nickname'); // 로컬 스토리지에서 nickname 가져오기
+    const currentNickname = localStorage.getItem('name_main'); // 로컬 스토리지에서 nickname 가져오기
     const lectureMadeBy = location.state?.lecture_madeby; // 강의 생성자 정보 가져오기
 
     setIsAdmin(currentNickname === lectureMadeBy); // 권한 확인
@@ -57,8 +57,6 @@ function DetailPage() {
     return <div>Loading...</div>;
   }
 
-
-
   const handleSiteName = () => {
     navigate('/Main');
   }
@@ -70,22 +68,24 @@ function DetailPage() {
   function moveToSetAssign(lectureName) {
     navigate('/SetAssign', { state: { lecture_name: lectureName } });
   }
+
   function moveToSetTeam(lectureName) {
     navigate('/SetTeam', { state: { lecture_name: lectureName } });
   }
+
   function moveToSubmitAssign(lectureName) {
     navigate('/SubmitAssign', { state: { lecture_name: lectureName } });
   } // 이동 추가 + onClick={moveToSubmitAssign}
 
   const kakaoLogout = () => { // 카카오 로그아웃을 위한 함수, post 요청을 통해 accessToken을 보내 토큰을 만료시켜 로그아웃함
-    const accessToken = localStorage.getItem('accessToken');
-    //const accessToken = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
+    const accessToken_main = localStorage.getItem('accessToken_main');
+    //const accessToken_main = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
     axios({
       method: 'POST',
       url: 'https://kapi.kakao.com/v1/user/logout',
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": `Bearer ${accessToken}`
+        "Authorization": `Bearer ${accessToken_main}`
       },
     })
       .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함

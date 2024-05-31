@@ -29,6 +29,7 @@ function ClassSearch({ incrementCount }) {
   //       }));
   //     console.log(response.data); // 서버 응답 로깅
   //     // 여기서 받아온 데이터를 상태에 저장하거나 다른 로직을 실행할 수 있습니다.
+  //     // 만든 사람, course 여부
   //   } catch (error) {
   //     console.error('클래스 ID를 전달하는 데 실패했습니다:', error);
   //   }
@@ -70,7 +71,7 @@ function ClassSearch({ incrementCount }) {
         </div>
 
         <div>
-          <h4>강의 코드 입력</h4>
+          <h4>강의명 입력</h4>
         </div>
 
         <div>
