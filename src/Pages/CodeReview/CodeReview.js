@@ -110,14 +110,14 @@ function CodeReview() {
   };
   
   const kakaoLogout = () => { // 카카오 로그아웃을 위한 함수, post 요청을 통해 accessToken을 보내 토큰을 만료시켜 로그아웃함
-    const accessToken = localStorage.getItem('accessToken');
-    //const accessToken = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
+    const accessToken_main = localStorage.getItem('accessToken_main');
+    //const accessToken_main = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
     axios({
       method: 'POST',
       url: 'https://kapi.kakao.com/v1/user/logout',
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": `Bearer ${accessToken}`
+        "Authorization": `Bearer ${accessToken_main}`
       },
     })
       .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함

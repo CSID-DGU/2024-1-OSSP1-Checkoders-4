@@ -87,7 +87,7 @@ function ClassCreate() {
         </div>
 
         <div>
-          <h4 style={{ marginBottom: '1vh' }}>강의 입력</h4>
+          <h4 style={{ marginBottom: '1vh' }}>강의명 입력</h4>
         </div>
 
         <div>
