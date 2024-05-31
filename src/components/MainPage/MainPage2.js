@@ -16,10 +16,13 @@ import DummyClass from './DummyClass.json';
 function MainPage2() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [lectures, setLectures] = useState([]);
   const [nickname, setNickname] = useState("홍길동");
   const [user_id, setUser_id] = useState('0123456789');
   const [accessToken, setAccessToken] = useState('');
   const [lecture_name, setLectureName] = useState("객체지향 프로그래밍");
+  const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
+  const token = localStorage.getItem('id_token'); 
 
   // 로그인 관련
   const [user, setUser] = useState(null);
@@ -34,10 +37,25 @@ function MainPage2() {
 
   console.log('userId from URL:', userId);
 
+  // 함수 fetchClassData 정의
+  const fetchClassData = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/${token}/lectures`);
+      setLectures(response.data);
+    } catch (error) {
+      console.error('강의 데이터 받아오기 실패:', error);
+    }
+  };
+
+  // 강의 데이터 불러오기
+  useEffect(() => {
+    fetchClassData();
+  }, [token]); // token 변경 시 강의 데이터 새로고침
+
   useEffect(() => {
     if (userId) {
       console.log(`Fetching user information with userId: ${userId}`);
-      axios.get(`http://localhost:8080/user?userId=${userId}`)
+      axios.get(`${API_BASE_URL}/user?userId=${userId}`)
         .then(response => {
           console.log('User data fetched:', response.data); // 응답 데이터 확인
           setUser(response.data);
@@ -89,9 +107,17 @@ function MainPage2() {
     }
   }, []);
 
-  const incrementCount = () => {
-    setCount(count + 1);
-  };
+  // const sendClassName = async () => {
+  //   try {
+  //     await axios.post(`${API_BASE_URL}/${token}/participate`, new URLSearchParams({ lectureName: lecture_id }));
+  //     // 성공적으로 강의가 추가된 후, 강의 목록을 새로 고침
+  //     const updatedLectures = await axios.get(`${API_BASE_URL}/${token}/lectures`);
+  //     setLectures(updatedLectures.data);  // 강의 목록을 업데이트
+  //   } catch (error) {
+  //     console.error('클래스 ID를 전달하는 데 실패했습니다:', error);
+  //   }
+  // };
+  
 
   const renderClassComponents = () => {
     return DummyClass.Data.slice(0, count).map((item, index) => (
@@ -148,7 +174,7 @@ function MainPage2() {
           <AiOutlineHome className="home-icon" />
           메인페이지
           <ClassCreate />
-          <ClassSearch incrementCount={incrementCount} />
+          <ClassSearch onClassAdded={() => fetchClassData()} />
         </div>
         <div className="main-bottom-box">
           <div className="main-container">

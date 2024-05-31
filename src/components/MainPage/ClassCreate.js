@@ -55,7 +55,7 @@ function ClassCreate() {
 
     content: {
       width: "25vw",
-      height: "60vh",
+      height: "40vh",
       margin: "auto",
       borderRadius: "4px",
       boxShadow: " 0 2px 4px rgba(0, 0, 0, 0.2)",
@@ -63,16 +63,16 @@ function ClassCreate() {
     },
   };
 
-  const fetchClassId = async () => {
-    try {
-      const response = await axios.get(`/class`);
-      setLectureId(response.data.lecture_id);
-      console.log(response.data); // 서버 응답 로깅
-      // 여기서 받아온 데이터를 상태에 저장하거나 다른 로직을 실행할 수 있습니다.
-    } catch (error) {
-      console.error('클래스 ID를 가져오는데 실패했습니다:', error);
-    }
-  };
+  // const fetchClassId = async () => {
+  //   try {
+  //     const response = await axios.get(`/class`);
+  //     setLectureId(response.data.lecture_id);
+  //     console.log(response.data); // 서버 응답 로깅
+  //     // 여기서 받아온 데이터를 상태에 저장하거나 다른 로직을 실행할 수 있습니다.
+  //   } catch (error) {
+  //     console.error('클래스 ID를 가져오는데 실패했습니다:', error);
+  //   }
+  // };
 
   return (
     <div>
@@ -114,26 +114,15 @@ function ClassCreate() {
         </div>
 
         <button onClick={async () => {
-          await fetchClassId();
           await sendLectureData();
         }} style={{
-          width: '13.5vw', height: '5vh', backgroundColor: 'black',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '1vh', borderRadius: '4px'
+          width: '24vw', height: '5vh', backgroundColor: '#FFB23F',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '3vh', 
+          marginBottom: '1vh', border: 'none',borderRadius: '4px'
         }}>
           <h4 style={{ color: 'white', fontWeight: 'bold' }}>클래스 등록</h4>
         </button>
 
-        <div>
-          <h4 style={{ marginTop: '3vh' }}>코드 확인</h4>
-          <p style={{ marginTop: '2vh' }}>{lecture_id || 'Class ID가 없습니다.'}</p>
-        </div>
-
-        <button onClick={closeModal} style={{
-          width: '24vw', height: '6vh', backgroundColor: '#FFB23F',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '1vh', border: 'none', borderRadius: '4px'
-        }}>
-          <h4 style={{ color: 'white', fontWeight: 'bold' }}>확인</h4>
-        </button>
       </Modal>
     </div>
   );
