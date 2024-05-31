@@ -35,9 +35,6 @@ function MainPage2() {
     return savedCount ? parseInt(savedCount, 10) : 0;
   });
 
-  // console.log('usertoken from URL:', usertoken);
-  // console.log('accessToken1 from URL:', access_token);
-
   useEffect(() => {
     if (usertoken) {
       console.log(`Fetching user information with usertoken: ${usertoken}`);
