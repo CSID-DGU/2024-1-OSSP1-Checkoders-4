@@ -57,39 +57,19 @@ function MainPage2() {
       setLoading(false);
     }
 
-    axios({
-      method: 'GET',
-      url: `${API_BASE_URL}/${userToken_main}/mainpage`,
-    })
-      .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함
-        console.log("데이터 가져오기 성공");
-        console.log(response.data.name);  // 사용자 이름
-        setName_main(response.data.name);
-        localStorage.setItem('name_main', name_main);
-        // console.log(response.data.lecutres); 과목에 대한 정보를 주는듯
-      })
-      .catch(error => {
-        console.log("이름 가져오기 실패");
-      });
-
-    // 페이지가 로밍될 때, 어세스토큰과 유저토큰 저장
     if (usertoken) {
       setUserToken_main(usertoken);
       localStorage.setItem('userToken_main', usertoken);
       console.log("storing UT success");
     }
+
+    getName();  // 이름을 저장하는 함수
     if (access_token) {
       setAccessToken_main(access_token);
       localStorage.setItem('accessToken_main', access_token);
       console.log("storing AT success");
     }
-  }, [usertoken, access_token]);
 
-  useEffect(() => {
-    localStorage.setItem('count', count);
-  }, [count]);
-
-  useEffect(() => {
     const storedName = localStorage.getItem('name_main');
     const storedUserToken = localStorage.getItem('userToken_main');
     const storedAccessToken = localStorage.getItem('accessToken_main');
@@ -114,7 +94,28 @@ function MainPage2() {
     else {
       console.log('gathering AT fail');
     }
-  }, []);
+  }, [usertoken, access_token]);
+
+  const getName = () => {
+    axios({
+      method: 'GET',
+      url: `${API_BASE_URL}/${userToken_main}/mainpage`,
+    })
+      .then((response) => {
+        console.log("데이터 가져오기 성공");
+        console.log(response.data.name);  // 사용자 이름
+        setName_main(response.data.name);
+        localStorage.setItem('name_main', response.data.name);
+        // console.log(response.data.lecutres); 과목에 대한 정보를 주는듯
+      })
+      .catch(error => {
+        console.log("이름 가져오기 실패");
+      });
+  };
+
+  useEffect(() => {
+    localStorage.setItem('count', count);
+  }, [count]);
 
   const incrementCount = () => {
     setCount(count + 1);
@@ -142,26 +143,27 @@ function MainPage2() {
   }
 
   const kakaoLogout = () => { // 카카오 로그아웃을 위한 함수, post 요청을 통해 accessToken을 보내 토큰을 만료시켜 로그아웃함
-    // const accessToken_main = localStorage.getItem('accessToken_main');
-    // //const accessToken_main = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
-    // axios({
-    //   method: 'POST',
-    //   url: 'https://kapi.kakao.com/v1/user/logout',
-    //   headers: {
-    //     "Content-Type": "application/x-www-form-urlencoded",
-    //     "Authorization": `Bearer ${accessToken_main}`
-    //   },
-    // })
-    //   .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함
-    //     console.log("logout 성공");
-    //     console.log(response.id);
-    //     localStorage.clear();
-    //     navigate('/');
-    //   })
-    //   .catch(error => {
-    //     console.log("logout 실패");
-    //     //navigate('/');
-    //   });
+    const accessToken_main = localStorage.getItem('accessToken_main');
+    //const accessToken_main = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
+    axios({
+      method: 'POST',
+      url: 'https://kapi.kakao.com/v1/user/logout',
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": `Bearer ${accessToken_main}`
+      },
+    })
+      .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함
+        console.log("logout 성공");
+        // console.log(response);
+        // console.log(response.data.id);
+        // localStorage.clear();
+        navigate('/');
+      })
+      .catch(error => {
+        console.log("logout 실패");
+        //navigate('/');
+      });
     navigate('/');
   }
 

@@ -16,7 +16,7 @@ function SetTeam() {
   let [table_data, changeTableData] = useState([]);
 
   let [student_per_group, changeSPG] = useState('');
-  let [new_group_name, changeNGN] = useState('');
+  // let [new_group_name, changeNGN] = useState('');
   
   const fetchData = () => {
     // GET 요청 보내기
@@ -44,8 +44,7 @@ function SetTeam() {
   const handleTeamSubmit = (event) => { // 배정 버튼 누르면, 팀 이름과 인원 수 전송
     axios.post(`${API_BASE_URL}/팀 배정 주소`, {
       data:
-        student_per_group,
-      new_group_name
+        student_per_group
     })
       .then((response) => {
         // 요청 성공 시 실행되는 코드
@@ -122,17 +121,6 @@ function SetTeam() {
                   팀 배정
                 </div>
                 <div className='inputTeamInfo'>
-                  <div className='teamName'>
-                    <div className='indicateName'>
-                      목록 이름:
-                    </div>
-                    <div className='getName'>
-                      <textarea className='nameBox'
-                        value={new_group_name}
-                        onChange={(e) => changeNGN(e.target.value)}
-                        placeholder="목록 이름을 입력하세요."></textarea>
-                    </div>
-                  </div>
                   <div className='teamNumber'>
                     <div className='indicateNumber'>
                       팀원 수:
