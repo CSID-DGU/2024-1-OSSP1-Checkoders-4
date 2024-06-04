@@ -14,14 +14,17 @@ function ClassSearch({ onClassAdded }) {
   const sendClassName = async () => { //클래스 검색하기 누르면 서버로 클래스 ID와 사용자 ID 전송
     try {
       const response = await axios.post(`${API_BASE_URL}/${token}/participate`, 
-      new URLSearchParams({
-        lectureName: lectureName
-      }));
+      {
+        lectureName: lectureName,
+      });
       if (response.status === 200) {
+        console.log('Lecture created successfully');
         onClassAdded();  // 강의가 성공적으로 추가되면, 강의 목록 새로고침 이벤트 트리거
+      }else {
+        console.error('Failed to create lecture:', response.data);
       }
     } catch (error) {
-      console.error('클래스 ID를 전달하는 데 실패했습니다:', error);
+      console.error('클래스 이름 전달 실패', error);
     }
   };
 
@@ -91,7 +94,6 @@ function ClassSearch({ onClassAdded }) {
         </div>
 
         <div>
-          <h4>강의명 입력</h4>
           <h4>강의명 입력</h4>
         </div>
 

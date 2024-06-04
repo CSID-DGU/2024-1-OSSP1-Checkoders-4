@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AiFillCalendar } from "react-icons/ai";
 import { FaRegClock } from "react-icons/fa";
-import DummyClass from './DummyClass.json';
 
 
 function ClassComponent({ lectureData }) {

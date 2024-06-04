@@ -39,6 +39,20 @@ function MainPage2() {
     return savedCount ? parseInt(savedCount, 10) : 0;
   });
 
+  const fetchClassData = async () => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/${userToken_main}/getlectures`);
+      setLectures(response.data);
+    } catch (error) {
+      console.error('강의 데이터 받아오기 실패:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchClassData();
+  }, [userToken_main]); // userToken_main이 변경될 때마다 데이터를 다시 불러옴
+  
+
   useEffect(() => {
     if (usertoken) {
       console.log(`Fetching user information with usertoken: ${usertoken}`);
@@ -93,6 +107,17 @@ function MainPage2() {
   }, [count]);
 
   useEffect(() => {
+    if (name_main) {
+      localStorage.setItem('name_main', name_main);
+      console.log('Name stored successfully');
+    }
+    else{
+      console.log('name storing 실패');
+    }
+  }, [name_main]); // name_main 상태가 변경될 때마다 실행
+  
+
+  useEffect(() => {
     const storedName = localStorage.getItem('name_main');
     const storedUserToken = localStorage.getItem('userToken_main');
     const storedAccessToken = localStorage.getItem('accessToken_main');
@@ -126,14 +151,14 @@ function MainPage2() {
   //     const updatedLectures = await axios.get(`${API_BASE_URL}/${token}/lectures`);
   //     setLectures(updatedLectures.data);  // 강의 목록을 업데이트
   //   } catch (error) {
-  //     console.error('클래스 ID를 전달하는 데 실패했습니다:', error);
+  //     console.error('클래스 ID를 전달하는 데 실패했습니다!!', error);
   //   }
   // };
   
 
   const renderClassComponents = () => {
-    return DummyClass.Data.slice(0, count).map((item, index) => (
-      <ClassComponent key={index} lectureData={item} />
+    return lectures.map((lecture, index) => (
+      <ClassComponent key={index} lectureData={lecture} />
     ));
   };
 
@@ -186,7 +211,8 @@ function MainPage2() {
           <AiOutlineHome className="home-icon" />
           메인페이지
           <ClassCreate />
-          <ClassSearch onClassAdded={() => fetchClassData()} />
+          <ClassSearch userToken={userToken_main} onClassAdded={fetchClassData} />
+
         </div>
         <div className="main-bottom-box">
           <div className="main-container">
