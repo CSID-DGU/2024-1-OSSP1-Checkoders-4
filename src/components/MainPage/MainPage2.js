@@ -18,9 +18,6 @@ function MainPage2() {
   const location = useLocation();
   const navigate = useNavigate();
   const [lectures, setLectures] = useState([]);
-  const [nickname, setNickname] = useState("홍길동");
-  const [user_id, setUser_id] = useState('0123456789');
-  const [accessToken, setAccessToken] = useState('');
   const [name_main, setName_main] = useState("홍길동");
   const [userToken_main, setUserToken_main] = useState('0123456789');
   const [accessToken_main, setAccessToken_main] = useState('');
@@ -30,6 +27,7 @@ function MainPage2() {
   // 로그인 관련
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const username = new URLSearchParams(window.location.search).get('name');
   const usertoken = new URLSearchParams(window.location.search).get('usertoken');
   const access_token = new URLSearchParams(window.location.search).get('access_token');
   // 로그인 관련 끝
@@ -57,10 +55,11 @@ function MainPage2() {
     if (usertoken) {
       console.log(`Fetching user information with usertoken: ${usertoken}`);
       axios.get(`http://localhost:8080/user?usertoken=${usertoken}`)
-    // if (userId) {
-    //   console.log(`Fetching user information with userId: ${userId}`);
-    //   axios.get(`${API_BASE_URL}/user?userId=${userId}`)
+        // if (userId) {
+        //   console.log(`Fetching user information with userId: ${userId}`);
+        //   axios.get(`${API_BASE_URL}/user?userId=${userId}`)
         .then(response => {
+          console.log(response);
           console.log('User data fetched:', response.data); // 응답 데이터 확인
           setUser(response.data);
           setLoading(false);
@@ -74,75 +73,43 @@ function MainPage2() {
       setLoading(false);
     }
 
-      axios({
-        method: 'GET',
-        url: `${API_BASE_URL}/${userToken_main}/mainpage`,
-      })
-        .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함
-          console.log("데이터 가져오기 성공");
-          console.log(response.data.name);  // 사용자 이름
-          setName_main(response.data.name);
-          localStorage.setItem('name_main', name_main);
-          // console.log(response.data.lecutres); 과목에 대한 정보를 주는듯
-        })
-        .catch(error => {
-          console.log("logout 실패");
-        });
+    if (username && usertoken && access_token) {
+      setName_main(username);
+      localStorage.setItem('name_main', username);
+      console.log("storing UN success", username);
 
-    // 페이지가 로밍될 때, 어세스토큰과 유저토큰 저장
-    if (usertoken) {
       setUserToken_main(usertoken);
       localStorage.setItem('userToken_main', usertoken);
-      console.log("storing UT success");
-    }
-    if (access_token) {
+      console.log("storing UT success", usertoken);
+
       setAccessToken_main(access_token);
       localStorage.setItem('accessToken_main', access_token);
-      console.log("storing AT success");
+      console.log("storing AT success", access_token);
     }
-  }, [usertoken, access_token]);
+
+    const storedName = localStorage.getItem('name_main');
+    const storedUserToken = localStorage.getItem('userToken_main');
+    const storedAccessToken = localStorage.getItem('accessToken_main');
+    
+    if (storedName&&storedUserToken&&storedAccessToken) {
+      setName_main(storedName);
+      console.log('gathering Name success');
+
+      setUserToken_main(storedUserToken);
+      console.log('gathering UT success');
+
+      setAccessToken_main(storedAccessToken);
+      console.log('gathering AT success');
+    }
+  }, [username, usertoken, access_token]);
 
   useEffect(() => {
     localStorage.setItem('count', count);
   }, [count]);
 
-  useEffect(() => {
-    if (name_main) {
-      localStorage.setItem('name_main', name_main);
-      console.log('Name stored successfully');
-    }
-    else{
-      console.log('name storing 실패');
-    }
-  }, [name_main]); // name_main 상태가 변경될 때마다 실행
-  
-
-  useEffect(() => {
-    const storedName = localStorage.getItem('name_main');
-    const storedUserToken = localStorage.getItem('userToken_main');
-    const storedAccessToken = localStorage.getItem('accessToken_main');
-    if(storedName){
-      setName_main(storedName);
-      console.log('gathering Name success');
-    }
-    else{
-      console.log('gathering Name fail');
-    }
-    if (storedUserToken) {
-      setUserToken_main(storedUserToken);
-      console.log('gathering UT success');
-    }
-    else {
-      console.log('gathering UT fail');
-    }
-    if (storedAccessToken) {
-      setAccessToken_main(storedAccessToken);
-      console.log('gathering AT success');
-    }
-    else {
-      console.log('gathering AT fail');
-    }
-  }, []);
+  const incrementCount = () => {
+    setCount(count + 1);
+  };
 
   // const sendClassName = async () => {
   //   try {
@@ -154,7 +121,6 @@ function MainPage2() {
   //     console.error('클래스 ID를 전달하는 데 실패했습니다!!', error);
   //   }
   // };
-  
 
   const renderClassComponents = () => {
     return lectures.map((lecture, index) => (
@@ -168,7 +134,6 @@ function MainPage2() {
 
   const kakaoLogout = () => { // 카카오 로그아웃을 위한 함수, post 요청을 통해 accessToken을 보내 토큰을 만료시켜 로그아웃함
     const accessToken_main = localStorage.getItem('accessToken_main');
-    //const accessToken_main = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
     axios({
       method: 'POST',
       url: 'https://kapi.kakao.com/v1/user/logout',
@@ -179,13 +144,13 @@ function MainPage2() {
     })
       .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함
         console.log("logout 성공");
-        console.log(response.id);
-        // localStorage.clear();
+        console.log(response);
+        console.log(response.data.id);
+        localStorage.clear();
         navigate('/');
       })
       .catch(error => {
         console.log("logout 실패");
-        //navigate('/');
       });
   }
 
@@ -211,8 +176,7 @@ function MainPage2() {
           <AiOutlineHome className="home-icon" />
           메인페이지
           <ClassCreate />
-          <ClassSearch userToken={userToken_main} onClassAdded={fetchClassData} />
-
+          <ClassSearch incrementCount={incrementCount} />
         </div>
         <div className="main-bottom-box">
           <div className="main-container">

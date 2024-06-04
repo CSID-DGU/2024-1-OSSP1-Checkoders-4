@@ -12,6 +12,8 @@ function SubmitAssign() {
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
   const lecutreID = 1234; // 추후 수정 필요
 
+  const storedUserToken = localStorage.getItem('userToken_main');
+  const storedName = localStorage.getItem('name_main');
 
   let [hw_name, change_hw_name] = useState('실습 과제2');
   let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
@@ -20,15 +22,36 @@ function SubmitAssign() {
   let [submit_source, change_submit_source] = useState('');
   let [submitter, change_submitter] = useState('');
 
+  let [lectureId, change_LectureId] = useState('0');
+  let [lectureAssignmentId, change_LectureAssignmentId] = useState('0');
+
+  let [popupMessage, change_PopupMessage] = useState('');
+  let [isPopupVisible, change_IsPopupVisible] = useState(false);
+
+  const closePopup = () => {
+    change_IsPopupVisible(false);
+    navigate('/detail'); // '/detail' 페이지로 이동
+  }
+
+
+
   const fetchData = () => {
     // GET 요청 보내기
-    axios.get(`${API_BASE_URL}/${lecutreID}/getlectureassignment`)
+    axios.get(`${API_BASE_URL}/${storedUserToken}/${lectureId}/${lectureAssignmentId}/assignmentpage`)
       .then((response) => {
         // 요청 성공 시 실행되는 코드
-        change_hw_name(response.data.hw_name);
-        change_hw_problem(response.data.hw_problem);
-        change_hw_test1(response.data.hw_test1);
-        change_hw_test_answer1(response.data.hw_answer1);
+        console.log(response);  // 아래는 예상되는 반환값
+        // data: {
+        //   lectureId: 1,
+        //   title: "Lecture Title",
+        //   description: "Lecture Description",
+        //   hwTest1: "Test 1",
+        //   hwTestAnswer1: "Test Answer 1"
+        // }
+        change_hw_name(response.data.title);
+        change_hw_problem(response.data.description);
+        change_hw_test1(response.data.hwTest1);
+        change_hw_test_answer1(response.data.hwTestAnswer1);
         console.log('데이터 받아오기 성공');
       })
       .catch(error => {
@@ -42,7 +65,7 @@ function SubmitAssign() {
   }
 
   useEffect(() => {
-    change_submitter(nickname);
+    change_submitter(storedName);
     // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
     fetchData();
   }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행
@@ -55,23 +78,75 @@ function SubmitAssign() {
 
   // 제출 관련
   const navigate = useNavigate();
+
+  let [sourceCode, change_sourceCode] = useState();
+  let [args, change_args] = useState();
+  let [xOutput, change_xOutput] = useState();
+
   const handleSubmit = () => {
     change_submitter('제출자 이름');  // 제출자 바꿔야함
     // 서버로 데이터를 전송하기 위해 axios를 사용하여 POST 요청 보내기
-    axios.post(`${API_BASE_URL}/submit`,
-      new URLSearchParams({
-        submit_source: submit_source,
-        submitter: submitter
-      }))
-      .then(response => {
-        // 특정 페이지로 이동
-        navigate('/detail');
-        console.log("제출 성공")
+    // axios.post(`${API_BASE_URL}/submit`,
+    //   new URLSearchParams({
+    //     submit_source: submit_source,
+    //     submitter: submitter
+    //   }))
+    //   .then(response => {
+    //     // 특정 페이지로 이동
+    //     navigate('/detail');
+    //     console.log("제출 성공")
+    //   })
+    //   .catch(error => {
+    //     // 전송 실패 시의 처리
+    //     navigate('/detail');
+    //     console.log("제출 실패")
+    //   });
+
+    // axios.post(`${API_BASE_URL}/submit`,
+    //   sourceCode, 
+    //   new URLSearchParams{
+    //   args: args,
+    //   xOutput: xOutput
+    // })
+    // .then(response => {
+    //   // 특정 페이지로 이동
+    //   navigate('/detail');
+    //   console.log("제출 성공")
+    // })
+    // .catch(error => {
+    //   // 전송 실패 시의 처리
+    //   navigate('/detail');
+    //   console.log("제출 실패")
+    // });
+
+    axios({
+      method: 'POST',
+      url: `${API_BASE_URL}/submit`,
+      data: {
+        sourceCode: sourceCode
+      }, // 요청 본문
+      params: new URLSearchParams({
+        args: args,
+        xOutput: xOutput
+      })
+    })
+      .then((response) => {
+        const success = response.data.success;
+        if (success) {
+          change_PopupMessage('제출 성공');  // 팝업창 관련
+        } else {
+          change_PopupMessage('제출 실패'); // 팝업창 관련
+        }
+        change_IsPopupVisible(true);  // 팝업창 관련
+
+        console.log("제출 성공1");
+        console.log(response);
       })
       .catch(error => {
-        // 전송 실패 시의 처리
-        navigate('/detail');
-        console.log("제출 실패")
+        change_PopupMessage('제출 실패'); // 팝업창 관련
+        change_IsPopupVisible(true);  // 팝업창 관련
+
+        console.log("제출 실패1");
       });
   };
 
@@ -81,7 +156,6 @@ function SubmitAssign() {
 
   const kakaoLogout = () => { // 카카오 로그아웃을 위한 함수, post 요청을 통해 accessToken을 보내 토큰을 만료시켜 로그아웃함
     const accessToken_main = localStorage.getItem('accessToken_main');
-    //const accessToken_main = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
     axios({
       method: 'POST',
       url: 'https://kapi.kakao.com/v1/user/logout',
@@ -92,13 +166,13 @@ function SubmitAssign() {
     })
       .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함
         console.log("logout 성공");
-        console.log(response.id);
+        console.log(response);
+        console.log(response.data.id);
         localStorage.clear();
         navigate('/');
       })
       .catch(error => {
         console.log("logout 실패");
-        //navigate('/');
       });
   }
 
@@ -182,6 +256,16 @@ function SubmitAssign() {
         </div>
         <div className='rightBlank'></div>
       </div>
+
+      {isPopupVisible && (
+        <div className='popup'>
+          <div className='popup-inner'>
+            <p>{popupMessage}</p>
+            <button onClick={closePopup}>닫기</button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

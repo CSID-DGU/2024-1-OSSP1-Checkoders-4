@@ -16,7 +16,7 @@ function SetTeam() {
   let [table_data, changeTableData] = useState([]);
 
   let [student_per_group, changeSPG] = useState('');
-  let [new_group_name, changeNGN] = useState('');
+  // let [new_group_name, changeNGN] = useState('');
   
   const fetchData = () => {
     // GET 요청 보내기
@@ -44,8 +44,7 @@ function SetTeam() {
   const handleTeamSubmit = (event) => { // 배정 버튼 누르면, 팀 이름과 인원 수 전송
     axios.post(`${API_BASE_URL}/팀 배정 주소`, {
       data:
-        student_per_group,
-      new_group_name
+        student_per_group
     })
       .then((response) => {
         // 요청 성공 시 실행되는 코드
@@ -66,7 +65,6 @@ function SetTeam() {
 
   const kakaoLogout = () => { // 카카오 로그아웃을 위한 함수, post 요청을 통해 accessToken을 보내 토큰을 만료시켜 로그아웃함
     const accessToken_main = localStorage.getItem('accessToken_main');
-    //const accessToken_main = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
     axios({
       method: 'POST',
       url: 'https://kapi.kakao.com/v1/user/logout',
@@ -77,13 +75,13 @@ function SetTeam() {
     })
       .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함
         console.log("logout 성공");
-        console.log(response.id);
+        console.log(response);
+        console.log(response.data.id);
         localStorage.clear();
         navigate('/');
       })
       .catch(error => {
         console.log("logout 실패");
-        //navigate('/');
       });
   }
 
@@ -121,17 +119,6 @@ function SetTeam() {
                   팀 배정
                 </div>
                 <div className='inputTeamInfo'>
-                  <div className='teamName'>
-                    <div className='indicateName'>
-                      목록 이름:
-                    </div>
-                    <div className='getName'>
-                      <textarea className='nameBox'
-                        value={new_group_name}
-                        onChange={(e) => changeNGN(e.target.value)}
-                        placeholder="목록 이름을 입력하세요."></textarea>
-                    </div>
-                  </div>
                   <div className='teamNumber'>
                     <div className='indicateNumber'>
                       팀원 수:

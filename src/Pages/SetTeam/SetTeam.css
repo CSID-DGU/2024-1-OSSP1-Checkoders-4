@@ -80,22 +80,14 @@
   padding-left: 1vw;
 }
 
-.teamName {
-  display: flex;
-}
-
-.indicateName,
 .indicateNumber {
   font-size: 2vh;
   padding-right: 1vw;
 }
-
-.getName,
 .getNumber {
   padding-right: 2vw;
 }
 
-.nameBox,
 .numberBox {
   width: 15vw;
   height: 4vh;
