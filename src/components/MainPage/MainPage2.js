@@ -32,14 +32,14 @@ function MainPage2() {
   const access_token = new URLSearchParams(window.location.search).get('access_token');
   // 로그인 관련 끝
 
-  const [count, setCount] = useState(() => {
-    const savedCount = localStorage.getItem('count');
-    return savedCount ? parseInt(savedCount, 10) : 0;
-  });
+  // const [count, setCount] = useState(() => {
+  //   const savedCount = localStorage.getItem('count');
+  //   return savedCount ? parseInt(savedCount, 10) : 0;
+  // });
 
   const fetchClassData = async () => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/${userToken_main}/getlectures`);
+      const response = await axios.get(`${API_BASE_URL}/${userToken_main}/getlectures`);
       setLectures(response.data);
     } catch (error) {
       console.error('강의 데이터 받아오기 실패:', error);
@@ -103,13 +103,13 @@ function MainPage2() {
     }
   }, [username, usertoken, access_token]);
 
-  useEffect(() => {
-    localStorage.setItem('count', count);
-  }, [count]);
+  // useEffect(() => {
+  //   localStorage.setItem('count', count);
+  // }, [count]);
 
-  const incrementCount = () => {
-    setCount(count + 1);
-  };
+  // const incrementCount = () => {
+  //   setCount(count + 1);
+  // };
 
   // const sendClassName = async () => {
   //   try {
@@ -176,7 +176,7 @@ function MainPage2() {
           <AiOutlineHome className="home-icon" />
           메인페이지
           <ClassCreate />
-          <ClassSearch incrementCount={incrementCount} />
+          <ClassSearch onClassAdded={() => fetchClassData()} />
         </div>
         <div className="main-bottom-box">
           <div className="main-container">

@@ -11,21 +11,17 @@ function ClassSearch({ onClassAdded }) {
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
   const token = localStorage.getItem('id_token');
 
-  const sendClassName = async () => { //클래스 검색하기 누르면 서버로 클래스 ID와 사용자 ID 전송
-    try {
-      const response = await axios.post(`${API_BASE_URL}/${token}/participate`, 
-      {
-        lectureName: lectureName,
+  const sendClassName = async () => { //클래스 검색하기 누르면 서버로 클래스 이름과 사용자 ID 전송
+      axios.post(`${API_BASE_URL}/${token}/participate`, 
+      new URLSearchParams({
+        lectureName: lectureName
+      }))
+      .then((response) => {
+        console.log("post 성공");
+      })
+      .catch(error => {
+        console.log("post 실패");
       });
-      if (response.status === 200) {
-        console.log('Lecture created successfully');
-        onClassAdded();  // 강의가 성공적으로 추가되면, 강의 목록 새로고침 이벤트 트리거
-      }else {
-        console.error('Failed to create lecture:', response.data);
-      }
-    } catch (error) {
-      console.error('클래스 이름 전달 실패', error);
-    }
   };
 
   // const sendClassId = async () => { //클래스 검색하기 누르면 서버로 클래스 ID와 사용자 ID 전송
