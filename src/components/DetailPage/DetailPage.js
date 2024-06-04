@@ -22,6 +22,9 @@ function DetailPage() {
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);  // 권한 확인을 위한 상태
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
+  
+  let [lectureId, change_lectureId] = useState('1234');             // 추가한 변수 240605/0137
+  const storedUserToken = localStorage.getItem('userToken_main');   // 추가한 변수 240605/0137
 
   useEffect(() => {
     setTeamMembers(teamData.Data); // DummyTeam.json에서 팀원 데이터 로드
@@ -51,7 +54,29 @@ function DetailPage() {
         console.error('Failed to fetch questions:', error);
         setLoading(false);
       });
-  }, []);
+
+    // 추가한 부분 240605/0137
+    console.log(lectureId, storedUserToken);
+
+    axios.get(`${API_BASE_URL}/${storedUserToken}/${lectureId}/lecturepage`)
+    .then(response => {
+      console.log(response);
+      console.log(response.exercise);
+      console.log(response.task);
+      console.log(response.teamMembers);
+
+      console.log('성공');
+    })
+    .catch(error => {
+      console.log('실패');
+    });
+    // 추가한 부분 240605/0137
+
+
+
+    }, []);
+
+  
 
   if (loading) {
     return <div>Loading...</div>;
