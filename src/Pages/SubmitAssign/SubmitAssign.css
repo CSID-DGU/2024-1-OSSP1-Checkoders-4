@@ -166,3 +166,41 @@
   cursor: pointer;
   font-size: 2vh;
 }
+
+/* 이하는 팝업창 관련 */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 2px solid #000;
+  padding-top: 0.3vh;
+  padding-bottom: 1vh;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  z-index: 1000;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.popup-inner {
+  text-align: center;
+}
+
+.popup-inner p{
+  font-size: 1.5vh;
+}
+
+.popup-inner button {
+  margin-top: 20px;
+  padding: 0.3vh 1vw;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popup-inner button:hover {
+  background-color: #0056b3;
+}

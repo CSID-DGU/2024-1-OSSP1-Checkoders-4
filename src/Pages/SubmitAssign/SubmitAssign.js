@@ -13,6 +13,7 @@ function SubmitAssign() {
   const lecutreID = 1234; // 추후 수정 필요
 
   const storedUserToken = localStorage.getItem('userToken_main');
+  const storedName = localStorage.getItem('name_main');
 
   let [hw_name, change_hw_name] = useState('실습 과제2');
   let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
@@ -24,7 +25,15 @@ function SubmitAssign() {
   let [lectureId, change_LectureId] = useState('0');
   let [lectureAssignmentId, change_LectureAssignmentId] = useState('0');
 
-  // axios.get(`http://localhost:8080/user?usertoken=${usertoken}`)/
+  let [popupMessage, change_PopupMessage] = useState('');
+  let [isPopupVisible, change_IsPopupVisible] = useState(false);
+
+  const closePopup = () => {
+    change_IsPopupVisible(false);
+    navigate('/detail'); // '/detail' 페이지로 이동
+  }
+
+
 
   const fetchData = () => {
     // GET 요청 보내기
@@ -56,7 +65,7 @@ function SubmitAssign() {
   }
 
   useEffect(() => {
-    change_submitter(nickname);
+    change_submitter(storedName);
     // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
     fetchData();
   }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행
@@ -122,10 +131,21 @@ function SubmitAssign() {
       })
     })
       .then((response) => {
+        const success = response.data.success;
+        if (success) {
+          change_PopupMessage('제출 성공');  // 팝업창 관련
+        } else {
+          change_PopupMessage('제출 실패'); // 팝업창 관련
+        }
+        change_IsPopupVisible(true);  // 팝업창 관련
+
         console.log("제출 성공1");
         console.log(response);
       })
       .catch(error => {
+        change_PopupMessage('제출 실패'); // 팝업창 관련
+        change_IsPopupVisible(true);  // 팝업창 관련
+
         console.log("제출 실패1");
       });
   };
@@ -135,27 +155,25 @@ function SubmitAssign() {
   }
 
   const kakaoLogout = () => { // 카카오 로그아웃을 위한 함수, post 요청을 통해 accessToken을 보내 토큰을 만료시켜 로그아웃함
-    // const accessToken_main = localStorage.getItem('accessToken_main');
-    // //const accessToken_main = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
-    // axios({
-    //   method: 'POST',
-    //   url: 'https://kapi.kakao.com/v1/user/logout',
-    //   headers: {
-    //     "Content-Type": "application/x-www-form-urlencoded",
-    //     "Authorization": `Bearer ${accessToken_main}`
-    //   },
-    // })
-    //   .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함
-    //     console.log("logout 성공");
-    //     console.log(response.id);
-    //     localStorage.clear();
-    //     navigate('/');
-    //   })
-    //   .catch(error => {
-    //     console.log("logout 실패");
-    //     //navigate('/');
-    //   });
-    navigate('/');
+    const accessToken_main = localStorage.getItem('accessToken_main');
+    axios({
+      method: 'POST',
+      url: 'https://kapi.kakao.com/v1/user/logout',
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": `Bearer ${accessToken_main}`
+      },
+    })
+      .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함
+        console.log("logout 성공");
+        console.log(response);
+        console.log(response.data.id);
+        localStorage.clear();
+        navigate('/');
+      })
+      .catch(error => {
+        console.log("logout 실패");
+      });
   }
 
   return (
@@ -238,6 +256,16 @@ function SubmitAssign() {
         </div>
         <div className='rightBlank'></div>
       </div>
+
+      {isPopupVisible && (
+        <div className='popup'>
+          <div className='popup-inner'>
+            <p>{popupMessage}</p>
+            <button onClick={closePopup}>닫기</button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

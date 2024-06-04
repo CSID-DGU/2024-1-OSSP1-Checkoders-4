@@ -27,6 +27,7 @@ function MainPage2() {
   // 로그인 관련
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const username = new URLSearchParams(window.location.search).get('name');
   const usertoken = new URLSearchParams(window.location.search).get('usertoken');
   const access_token = new URLSearchParams(window.location.search).get('access_token');
   // 로그인 관련 끝
@@ -44,6 +45,7 @@ function MainPage2() {
         //   console.log(`Fetching user information with userId: ${userId}`);
         //   axios.get(`${API_BASE_URL}/user?userId=${userId}`)
         .then(response => {
+          console.log(response);
           console.log('User data fetched:', response.data); // 응답 데이터 확인
           setUser(response.data);
           setLoading(false);
@@ -57,61 +59,35 @@ function MainPage2() {
       setLoading(false);
     }
 
-    if (usertoken) {
+    if (username && usertoken && access_token) {
+      setName_main(username);
+      localStorage.setItem('name_main', username);
+      console.log("storing UN success", username);
+
       setUserToken_main(usertoken);
       localStorage.setItem('userToken_main', usertoken);
-      console.log("storing UT success");
-    }
+      console.log("storing UT success", usertoken);
 
-    getName();  // 이름을 저장하는 함수
-    if (access_token) {
       setAccessToken_main(access_token);
       localStorage.setItem('accessToken_main', access_token);
-      console.log("storing AT success");
+      console.log("storing AT success", access_token);
     }
 
     const storedName = localStorage.getItem('name_main');
     const storedUserToken = localStorage.getItem('userToken_main');
     const storedAccessToken = localStorage.getItem('accessToken_main');
-    if (storedName) {
+    
+    if (storedName&&storedUserToken&&storedAccessToken) {
       setName_main(storedName);
       console.log('gathering Name success');
-    }
-    else {
-      console.log('gathering Name fail');
-    }
-    if (storedUserToken) {
+
       setUserToken_main(storedUserToken);
       console.log('gathering UT success');
-    }
-    else {
-      console.log('gathering UT fail');
-    }
-    if (storedAccessToken) {
+
       setAccessToken_main(storedAccessToken);
       console.log('gathering AT success');
     }
-    else {
-      console.log('gathering AT fail');
-    }
-  }, [usertoken, access_token]);
-
-  const getName = () => {
-    axios({
-      method: 'GET',
-      url: `${API_BASE_URL}/${userToken_main}/mainpage`,
-    })
-      .then((response) => {
-        console.log("데이터 가져오기 성공");
-        console.log(response.data.name);  // 사용자 이름
-        setName_main(response.data.name);
-        localStorage.setItem('name_main', response.data.name);
-        // console.log(response.data.lecutres); 과목에 대한 정보를 주는듯
-      })
-      .catch(error => {
-        console.log("이름 가져오기 실패");
-      });
-  };
+  }, [username, usertoken, access_token]);
 
   useEffect(() => {
     localStorage.setItem('count', count);
@@ -144,7 +120,6 @@ function MainPage2() {
 
   const kakaoLogout = () => { // 카카오 로그아웃을 위한 함수, post 요청을 통해 accessToken을 보내 토큰을 만료시켜 로그아웃함
     const accessToken_main = localStorage.getItem('accessToken_main');
-    //const accessToken_main = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
     axios({
       method: 'POST',
       url: 'https://kapi.kakao.com/v1/user/logout',
@@ -155,16 +130,14 @@ function MainPage2() {
     })
       .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함
         console.log("logout 성공");
-        // console.log(response);
-        // console.log(response.data.id);
-        // localStorage.clear();
+        console.log(response);
+        console.log(response.data.id);
+        localStorage.clear();
         navigate('/');
       })
       .catch(error => {
         console.log("logout 실패");
-        //navigate('/');
       });
-    navigate('/');
   }
 
   return (

@@ -64,27 +64,25 @@ function SetTeam() {
   }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행
 
   const kakaoLogout = () => { // 카카오 로그아웃을 위한 함수, post 요청을 통해 accessToken을 보내 토큰을 만료시켜 로그아웃함
-    // const accessToken_main = localStorage.getItem('accessToken_main');
-    // //const accessToken_main = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
-    // axios({
-    //   method: 'POST',
-    //   url: 'https://kapi.kakao.com/v1/user/logout',
-    //   headers: {
-    //     "Content-Type": "application/x-www-form-urlencoded",
-    //     "Authorization": `Bearer ${accessToken_main}`
-    //   },
-    // })
-    //   .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함
-    //     console.log("logout 성공");
-    //     console.log(response.id);
-    //     localStorage.clear();
-    //     navigate('/');
-    //   })
-    //   .catch(error => {
-    //     console.log("logout 실패");
-    //     //navigate('/');
-    //   });
+    const accessToken_main = localStorage.getItem('accessToken_main');
+    axios({
+      method: 'POST',
+      url: 'https://kapi.kakao.com/v1/user/logout',
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": `Bearer ${accessToken_main}`
+      },
+    })
+      .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함
+        console.log("logout 성공");
+        console.log(response);
+        console.log(response.data.id);
+        localStorage.clear();
         navigate('/');
+      })
+      .catch(error => {
+        console.log("logout 실패");
+      });
   }
 
   return (
