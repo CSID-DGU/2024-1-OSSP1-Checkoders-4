@@ -5,6 +5,7 @@ import StudentTable from './StudentTable/StudentTable';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import stuData from './StudentTable/sData.json';
+import stuData2 from './StudentTable/sData2.json';
 
 function SetTeam() {
   const location = useLocation();
@@ -30,8 +31,7 @@ function SetTeam() {
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        // changeTableData(null);
-        // changeTableData(stuData.sData);
+        console.log('테이블 데이터 요청 실패');
       });
   }
 
@@ -52,7 +52,13 @@ function SetTeam() {
         console.log("전달 성공");
       })
       .catch(error => {
-        changeTableData(stuData.sData);
+        if (Math.random() < 0.5) {
+          changeTableData(stuData.sData);
+        } else {
+          changeTableData(stuData2.sData);
+        }
+        // changeTableData(stuData.sData);
+        // changeTableData(stuData2.sData);
         fetchData();
         // 요청 실패 시 실행되는 코드
         console.log("전달 실패");

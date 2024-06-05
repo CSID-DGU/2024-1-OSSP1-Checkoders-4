@@ -9,7 +9,7 @@ function ClassSearch({ onClassAdded }) {
   const [lectureName, setLectureName] = useState("");
   const [lectures, setLectures] = useState([]); 
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
-  const token = localStorage.getItem('id_token');
+  const token = localStorage.getItem('userToken_main');
 
   const sendClassName = async () => { //클래스 검색하기 누르면 서버로 클래스 이름과 사용자 ID 전송
       axios.post(`${API_BASE_URL}/${token}/participate`, 
@@ -17,6 +17,7 @@ function ClassSearch({ onClassAdded }) {
         lectureName: lectureName
       }))
       .then((response) => {
+        console.log(response);
         console.log("post 성공");
       })
       .catch(error => {
