@@ -4,20 +4,19 @@ import { useState, useEffect } from 'react';
 import StudentTable from './StudentTable/StudentTable';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import stuData from './StudentTable/student_data.json';
+import stuData from './StudentTable/sData.json';
 
 function SetTeam() {
   const location = useLocation();
   const lecture_name = location.state?.lecture_name || '강의명 없음';
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
-  
+
   let [tableName, changeTable] = useState('실습 팀');
   let [team_num, changeTeamNum] = useState('');
-  let [table_data, changeTableData] = useState([]);
+  let [table_data, changeTableData] = useState(null);
 
   let [student_per_group, changeSPG] = useState('');
-  // let [new_group_name, changeNGN] = useState('');
-  
+
   const fetchData = () => {
     // GET 요청 보내기
     axios.get(`${API_BASE_URL}/팀배정api`, {
@@ -31,8 +30,8 @@ function SetTeam() {
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        //changeTableData(null);, 배정된 팀이 없는 경우
-        changeTableData(stuData.sData);
+        // changeTableData(null);
+        // changeTableData(stuData.sData);
       });
   }
 
@@ -48,10 +47,12 @@ function SetTeam() {
     })
       .then((response) => {
         // 요청 성공 시 실행되는 코드
+        changeTableData(response);
         fetchData();
         console.log("전달 성공");
       })
       .catch(error => {
+        changeTableData(stuData.sData);
         fetchData();
         // 요청 실패 시 실행되는 코드
         console.log("전달 실패");
@@ -144,7 +145,15 @@ function SetTeam() {
                 </div>
                 <div className='showTeamState'>
                   <div className='showTable'>
-                    <StudentTable data={table_data} tableName={tableName} />
+                    {table_data === null ? (
+                      <div className="no-team-message">
+                        팀을 생성해 그룹 활동을 시작하세요.
+                      </div>
+                    ) : (
+                      <StudentTable data={table_data} tableName={tableName} />
+                    )}
+
+                    {/* <StudentTable data={table_data} tableName={tableName} /> */}
                   </div>
                 </div>
               </div>
