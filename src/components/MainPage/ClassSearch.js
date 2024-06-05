@@ -11,18 +11,22 @@ function ClassSearch({ onClassAdded }) {
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
   const token = localStorage.getItem('id_token');
 
-  const sendClassName = async () => { //클래스 검색하기 누르면 서버로 클래스 이름과 사용자 ID 전송
-      axios.post(`${API_BASE_URL}/${token}/participate`, 
-      new URLSearchParams({
-        lectureName: lectureName
-      }))
-      .then((response) => {
-        console.log("post 성공");
-      })
-      .catch(error => {
-        console.log("post 실패");
-      });
+  const sendClassName = async () => {
+    if (!token) {
+      console.error('Token is missing!');
+      return;
+    }
+    axios.post(`${API_BASE_URL}/${token}/participate`, {
+      lectureName: lectureName  // JSON 형식으로 데이터 전송
+    })
+    .then((response) => {
+      console.log("post 성공", response.data);
+    })
+    .catch(error => {
+      console.error("post 실패", error.response);
+    });
   };
+  
 
   // const sendClassId = async () => { //클래스 검색하기 누르면 서버로 클래스 ID와 사용자 ID 전송
   //   try {
@@ -39,6 +43,18 @@ function ClassSearch({ onClassAdded }) {
   //   }
   // };
   useEffect(() => {
+
+      const token = localStorage.getItem('id_token');
+    if (!token) {
+      console.error('Token is missing!');
+      return;
+    }
+    const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
+    if (!API_BASE_URL) {
+      console.error('API base URL is not set!');
+      return;
+    }
+
     const fetchClassData = () => {
       axios.get(`${API_BASE_URL}/${token}/participate`)
         .then((response) => {
