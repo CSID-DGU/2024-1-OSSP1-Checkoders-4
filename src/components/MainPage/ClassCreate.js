@@ -14,9 +14,11 @@ function ClassCreate() {
 
   const [lectureName, setLectureName] = useState('');
   const [course, setCourse] = useState('');
-  const token = localStorage.getItem('id_token');
+  const token = localStorage.getItem('userToken_main'); // 로컬 스토리지에 저장된 값 갱신했음
 
   const sendLectureData = async (event) => {
+    const storedUserToken = localStorage.getItem('userToken_main'); // 유저 토큰 가져오기, {token}이랑 동일함
+    console.log("유저 토큰: ",storedUserToken); // 콘솔에 토큰 찍는거
     //event.preventDefault(); // 폼이 제출될 때 페이지가 새로 고침되는 기본 동작을 막음
     if (optionType === 0) {
       setCourse('0');
@@ -26,6 +28,7 @@ function ClassCreate() {
     if (lecture_name) {
       setLectureName(lecture_name);
     }
+
     axios.post(`${API_BASE_URL}/${token}/createlecture`, 
     new URLSearchParams({
       lectureName: lectureName,
