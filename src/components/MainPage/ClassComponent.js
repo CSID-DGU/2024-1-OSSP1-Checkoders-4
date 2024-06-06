@@ -6,22 +6,34 @@ import { FaRegClock } from "react-icons/fa";
 
 
 function ClassComponent({ lectureData }) {
-    const { lecture_name, lecture_madeby, option_type } = lectureData;
+    // name: 과목명, madeby: 출제자 토큰, madeby_name: 출제자 이름, lectureId: 과목번호
+    const { name: lecture_name, madeby: lecture_madeby_token, madeby_name: lecture_madeby, lectureId: lecture_token } = lectureData;
     const [lecture_date1, setLectureDate1] = useState("월요일");
     const [lecture_date2, setLectureDate2] = useState("수요일");
 
     const location = useLocation();
     const navigate = useNavigate();
 
-    function moveToDetail(lectureName, lectureMadeBy) {
-        navigate('/detail', { state: { lecture_name: lectureName, lecture_madeby: lectureMadeBy} });
-    }
+    // 페이지 이동 시 사용할 과목 변수 시작
+    // const [className, setClassName] = useState();
+    // const [classToken, setClassToken] = useState();
+    // const [classMaker, setClassMaker] = useState();
+    // const [classMakerToken, setClassMakerToken] = useState();
+    // 페이지 이동 시 사용할 과목 변수 끝
 
-    const headerStyle = option_type === "1" ? { backgroundColor: '#FFE4E1' } : {};
+
+    function moveToDetail(lectureName, lectureToken, lectureMadeBy, lectureMadeByToken) {
+        navigate('/detail', { state: { lecture_name: lectureName, lecture_madeby: lectureMadeBy } });
+        localStorage.setItem('className', lectureName);
+        localStorage.setItem('classToken', lectureToken);
+        localStorage.setItem('classMaker', lectureMadeBy);
+        localStorage.setItem('classMakerToken', lectureMadeByToken);
+    }
+    //const headerStyle = option_type === "1" ? { backgroundColor: '#FFE4E1' } : {};
 
     return (
         <div className="main-box">
-            <div className="main-header" style={headerStyle}>
+            <div className="main-header" /*style={headerStyle}*/>
                 <span style={{ marginLeft: '2vw', fontSize: '2.2vh' }}>{lecture_name}</span>
                 <span style={{ marginLeft: '2vw', color: '#9A9A9A' }}>{lecture_madeby}</span>
             </div>
@@ -53,7 +65,7 @@ function ClassComponent({ lectureData }) {
                 </div>
 
                 <button
-                    onClick={() => moveToDetail(lecture_name, lecture_madeby)}
+                    onClick={() => moveToDetail(lecture_name, lecture_token, lecture_madeby, lecture_madeby_token)}
                     className="to-detailpage-button" // className을 Link 컴포넌트에 직접 적용
                 >자세히 보기</button>
             </div>

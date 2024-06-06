@@ -45,6 +45,7 @@ const fetchDataFromParticipate = async (storedUserToken) => {
     });
     console.log("participate 데이터 가져오기 성공1");
     console.log("participate 확인중:", response);
+
     return response;
   } catch (error) {
     console.log("participate 데이터 가져오기 실패1");

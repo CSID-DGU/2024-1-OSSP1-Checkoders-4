@@ -22,10 +22,12 @@ function ClassSearch({ onClassAdded }) {
         setLectures(response.data.lectures);
         setUserName(response.data.name); // 서버로부터 받은 사용자 이름을 상태에 저장
 
+        console.log("Data fetched and state updated");
+        onClassAdded(); // 강의 데이터를 성공적으로 가져온 후 콜백 실행
         const matchingLecture = response.data.lectures.find(lecture => lecture.name === lectureName);
         if (matchingLecture) {
           console.log(matchingLecture); // 일치하는 강의 정보만 콘솔에 출력
-          console.log('강의 제작자:', matchingLecture.madeby); // 사용자 이름 로그
+          console.log('강의 제작자:', matchingLecture.madeby_name); // 사용자 이름 로그
         } else {
           console.log("No matching lectures found"); // 일치하는 강의가 없을 경우
         }
@@ -35,7 +37,7 @@ function ClassSearch({ onClassAdded }) {
         console.error('Failed to fetch class data:', error);
       });
     }
-  }, [API_BASE_URL, token, lectureName]);
+  }, [API_BASE_URL, token, lectureName, onClassAdded]);
   
   const sendClassName = async (event) => { //클래스 검색하기 누르면 서버로 클래스 이름과 사용자 ID 전송
       const storedUserToken = localStorage.getItem('userToken_main'); // 유저 토큰 가져오기, {token}이랑 동일함
