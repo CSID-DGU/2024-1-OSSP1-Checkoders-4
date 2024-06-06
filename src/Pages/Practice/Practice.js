@@ -19,20 +19,20 @@ const fetchDataFromMainpage = async (storedUserToken) => {
   }
 };
 
-// const fetchDataFromGetLectures = async (storedUserToken) => {
-//   try {
-//     const response = await axios({
-//       method: 'GET',
-//       url: `${API_BASE_URL}/${storedUserToken}/getlectures`,
-//     });
-//     console.log("getlectures 데이터 가져오기 성공1");
-//     console.log("getlectures 확인중:", response);
-//     return response;
-//   } catch (error) {
-//     console.log("getlectures 데이터 가져오기 실패1");
-//     throw error;
-//   }
-// };
+const fetchDataFromGetLectures = async (storedUserToken) => {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: `${API_BASE_URL}/${storedUserToken}/getlectures`,
+    });
+    console.log("getlectures 데이터 가져오기 성공1");
+    console.log("getlectures 확인중:", response);
+    return response;
+  } catch (error) {
+    console.log("getlectures 데이터 가져오기 실패1");
+    throw error;
+  }
+};
 
 const fetchDataFromParticipate = async (storedUserToken) => {
   try {
@@ -93,16 +93,16 @@ function Practice() {
           setError(error);
         });
 
-      // if (storedUserToken) {
-      //   fetchDataFromGetLectures(storedUserToken)
-      //     .then((response) => {
-      //       setDataGetLectures(response.data);
-      //       // console.log(response.data);
-      //     })
-      //     .catch((error) => {
-      //       setError(error);
-      //     });
-      // }
+      if (storedUserToken) {
+        fetchDataFromGetLectures(storedUserToken)
+          .then((response) => {
+            setDataGetLectures(response.data);
+            // console.log(response.data);
+          })
+          .catch((error) => {
+            setError(error);
+          });
+      }
 
       if (storedUserToken) {
         fetchDataFromParticipate(storedUserToken)
@@ -128,7 +128,7 @@ function Practice() {
       자료구조스터디: {dataStructureStudy}<br /> */}
       {/* name이 존재하는 항목들: <br />{nonEmptyNames.join(', ')}<br /><br /> */}
 
-      {/* getlectures에서 받아온 데이터: <br />{JSON.stringify(dataGetLectures)}<br /><br /> */}
+      getlectures에서 받아온 데이터: <br />{JSON.stringify(dataGetLectures)}<br /><br />
 
       participate에서 받아온 데이터: <br />{JSON.stringify(dataParticipate)}<br /><br />
 
