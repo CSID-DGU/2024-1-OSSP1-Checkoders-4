@@ -32,7 +32,6 @@ function MainPage2() {
   const access_token = new URLSearchParams(window.location.search).get('access_token');
   // 로그인 관련 끝
 
-
   // 페이지 이동 시 사용할 과목 변수 시작
   const [className, setClassName] = useState();
   const [classToken, setClassToken] = useState();
@@ -47,9 +46,8 @@ function MainPage2() {
 
   const fetchClassData = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/${userToken_main}/getlectures`);
-      setLectures(response.data);
-
+      const response = await axios.get(`${API_BASE_URL}/${userToken_main}/mainpage`);
+      setLectures(response.data.lectures);
     } catch (error) {
       console.error('강의 데이터 받아오기 실패:', error);
     }
@@ -58,7 +56,6 @@ function MainPage2() {
   useEffect(() => {
     fetchClassData();
   }, [userToken_main]); // userToken_main이 변경될 때마다 데이터를 다시 불러옴
-
 
   useEffect(() => {
     if (usertoken) {
@@ -117,7 +114,7 @@ function MainPage2() {
       url: `${API_BASE_URL}/${storedUserToken}/mainpage`,
     })
       .then((response) => {
-        // console.log("mainpage로 데이터 가져오기성공 ", response);
+        console.log("mainpage로 데이터 가져오기성공 ", response);
 
       })
       .catch(error => {
@@ -126,6 +123,7 @@ function MainPage2() {
 
 
     // 실험 코드 끝
+    fetchClassData();
   }, [username, usertoken, access_token]);
 
   // useEffect(() => {
@@ -146,6 +144,10 @@ function MainPage2() {
   //     console.error('클래스 ID를 전달하는 데 실패했습니다!!', error);
   //   }
   // };
+
+  const handleClassAdded = () => {
+    fetchClassData();
+  };
 
   const renderClassComponents = () => {
     return lectures.map((lecture, index) => (

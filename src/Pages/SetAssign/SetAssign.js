@@ -58,9 +58,9 @@ function SetAssign() {
     hwTestAnswer5: q_test_answer5
   }
 
-    const setUserData = () => {
-      localStorage.setItem('name_main', username);
-  }
+  //   const setUserData = () => {
+  //     localStorage.setItem('name_main', username);
+  // }
 
   useEffect(() => {
     // 페이지가 로딩될 때 데이터를 받아오는 함수 호출

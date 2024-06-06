@@ -6,7 +6,7 @@ import { FaRegClock } from "react-icons/fa";
 
 
 function ClassComponent({ lectureData }) {
-    const { lecture_name, lecture_madeby, option_type } = lectureData;
+    const { name: lecture_name, madeby_name: lecture_madeby } = lectureData;
     const [lecture_date1, setLectureDate1] = useState("월요일");
     const [lecture_date2, setLectureDate2] = useState("수요일");
 
@@ -17,11 +17,11 @@ function ClassComponent({ lectureData }) {
         navigate('/detail', { state: { lecture_name: lectureName, lecture_madeby: lectureMadeBy} });
     }
 
-    const headerStyle = option_type === "1" ? { backgroundColor: '#FFE4E1' } : {};
+    //const headerStyle = option_type === "1" ? { backgroundColor: '#FFE4E1' } : {};
 
     return (
         <div className="main-box">
-            <div className="main-header" style={headerStyle}>
+            <div className="main-header" /*style={headerStyle}*/>
                 <span style={{ marginLeft: '2vw', fontSize: '2.2vh' }}>{lecture_name}</span>
                 <span style={{ marginLeft: '2vw', color: '#9A9A9A' }}>{lecture_madeby}</span>
             </div>
