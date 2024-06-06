@@ -32,6 +32,14 @@ function MainPage2() {
   const access_token = new URLSearchParams(window.location.search).get('access_token');
   // 로그인 관련 끝
 
+
+  // 페이지 이동 시 사용할 과목 변수 시작
+  const [className, setClassName] = useState();
+  const [classToken, setClassToken] = useState();
+  const [classMaker, setClassMaker] = useState();
+  const [classMakerToken, setClassMakerToken] = useState();
+  // 페이지 이동 시 사용할 과목 변수 끝
+
   // const [count, setCount] = useState(() => {
   //   const savedCount = localStorage.getItem('count');
   //   return savedCount ? parseInt(savedCount, 10) : 0;
@@ -41,6 +49,7 @@ function MainPage2() {
     try {
       const response = await axios.get(`${API_BASE_URL}/${userToken_main}/getlectures`);
       setLectures(response.data);
+
     } catch (error) {
       console.error('강의 데이터 받아오기 실패:', error);
     }
@@ -49,7 +58,7 @@ function MainPage2() {
   useEffect(() => {
     fetchClassData();
   }, [userToken_main]); // userToken_main이 변경될 때마다 데이터를 다시 불러옴
-  
+
 
   useEffect(() => {
     if (usertoken) {
@@ -90,8 +99,8 @@ function MainPage2() {
     const storedName = localStorage.getItem('name_main');
     const storedUserToken = localStorage.getItem('userToken_main');
     const storedAccessToken = localStorage.getItem('accessToken_main');
-    
-    if (storedName&&storedUserToken&&storedAccessToken) {
+
+    if (storedName && storedUserToken && storedAccessToken) {
       setName_main(storedName);
       console.log('gathering Name success');
 
@@ -101,6 +110,22 @@ function MainPage2() {
       setAccessToken_main(storedAccessToken);
       console.log('gathering AT success');
     }
+
+    // 실험 코드 시작
+    axios({
+      method: 'GET',
+      url: `${API_BASE_URL}/${storedUserToken}/mainpage`,
+    })
+      .then((response) => {
+        // console.log("mainpage로 데이터 가져오기성공 ", response);
+
+      })
+      .catch(error => {
+        console.log("mainpage로 데이터 가져오기 실패")
+      })
+
+
+    // 실험 코드 끝
   }, [username, usertoken, access_token]);
 
   // useEffect(() => {

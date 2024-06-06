@@ -14,6 +14,20 @@ function SetAssign() {
   const lectureID = 1234; // 추후 수정 필요
   const token = localStorage.getItem('id_token');
 
+
+  // 유저 정보 변수 시작
+  const [userName, setUserName] = useState();
+  const [userToken, setUserToken] = useState();
+  // 유저 정보 변수 끝
+
+  // 페이지 이동 시 사용할 과목 변수 시작
+  const [className, setClassName] = useState();
+  const [classToken, setClassToken] = useState();
+  const [classMaker, setClassMaker] = useState();
+  const [classMakerToken, setClassMakerToken] = useState();
+  // 페이지 이동 시 사용할 과목 변수 끝
+
+
   let [q_name, change_q_name] = useState('');  // 문제명
   let [q_deadline, change_q_deadline] = useState(new Date());
   let [q_problem, change_q_problem] = useState(''); // 문제 내용
@@ -44,7 +58,9 @@ function SetAssign() {
     hwTestAnswer5: q_test_answer5
   }
 
-
+    const setUserData = () => {
+      localStorage.setItem('name_main', username);
+  }
 
   useEffect(() => {
     // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
