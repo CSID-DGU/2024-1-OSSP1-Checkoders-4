@@ -4,25 +4,53 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import p_data from './problem_data.json'
+const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SubmitAssign() {
-  const location = useLocation();
-  const lecture_name = location.state?.lecture_name || '강의명 없음';
-  const nickname = localStorage.getItem('nickname');
-  const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
-  const lecutreID = 1234; // 추후 수정 필요
+  // 유저 정보 변수 시작
+  const [userName, setUserName] = useState();
+  const [userToken, setUserToken] = useState();
+  // 유저 정보 변수 끝
 
-  const storedUserToken = localStorage.getItem('userToken_main');
-  const storedName = localStorage.getItem('name_main');
+  // 페이지 이동 시 사용할 과목 변수 시작
+  const [className, setClassName] = useState();
+  const [classToken, setClassToken] = useState();
+  const [classMaker, setClassMaker] = useState();
+  const [classMakerToken, setClassMakerToken] = useState();
+  // 페이지 이동 시 사용할 과목 변수 끝
+
+  const setUserData = () => {
+    setUserName(localStorage.getItem('name_main'));
+    setUserToken(localStorage.getItem('userToken_main'));
+    console.log("유저 데이터 확인(유저이름): ", localStorage.getItem('name_main'));
+    console.log("유저 데이터 확인(유저토큰): ", localStorage.getItem('userToken_main'));
+  }
+
+  const setClassData = () => {
+    setClassName(localStorage.getItem('className'));
+    setClassToken(localStorage.getItem('classToken'));
+    setClassMaker(localStorage.getItem('classMaker'));
+    setClassMakerToken(localStorage.getItem('classMakerToken'));
+    console.log("클레스 데이터 확인(과목명): ", localStorage.getItem('className'));
+    console.log("클레스 데이터 확인(과목토큰): ", localStorage.getItem('classToken'));
+    console.log("클레스 데이터 확인(과목생성자): ", localStorage.getItem('classMaker'));
+    console.log("클레스 데이터 확인(과목생성자토큰): ", localStorage.getItem('classMakerToken'));
+  }
+
+  useEffect(() => {
+    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
+    // fetchData();
+    fetchData();
+    setUserData();
+    setClassData();
+  }, []);
 
   let [hw_name, change_hw_name] = useState('실습 과제2');
   let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
   let [hw_test1, change_hw_test1] = useState('');
   let [hw_test_answer1, change_hw_test_answer1] = useState('');
   let [submit_source, change_submit_source] = useState('');
-  let [submitter, change_submitter] = useState('');
 
-  let [lectureId, change_LectureId] = useState('0');
   let [lectureAssignmentId, change_LectureAssignmentId] = useState('0');
 
   let [popupMessage, change_PopupMessage] = useState('');
@@ -33,11 +61,9 @@ function SubmitAssign() {
     navigate('/detail'); // '/detail' 페이지로 이동
   }
 
-
-
   const fetchData = () => {
     // GET 요청 보내기
-    axios.get(`${API_BASE_URL}/${storedUserToken}/${lectureId}/${lectureAssignmentId}/assignmentpage`)
+    axios.get(`${API_BASE_URL}/${userToken}/${classToken}/${lectureAssignmentId}/assignmentpage`)
       .then((response) => {
         // 요청 성공 시 실행되는 코드
         console.log(response);  // 아래는 예상되는 반환값
@@ -64,12 +90,6 @@ function SubmitAssign() {
       });
   }
 
-  useEffect(() => {
-    change_submitter(storedName);
-    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
-    fetchData();
-  }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행
-
   // 초기화 관련
   const clearTextArea = () => {
     // textarea 내용을 초기화하기 위해 상태 변수 업데이트
@@ -84,7 +104,6 @@ function SubmitAssign() {
   let [xOutput, change_xOutput] = useState();
 
   const handleSubmit = () => {
-    change_submitter('제출자 이름');  // 제출자 바꿔야함
     // 서버로 데이터를 전송하기 위해 axios를 사용하여 POST 요청 보내기
     // axios.post(`${API_BASE_URL}/submit`,
     //   new URLSearchParams({
@@ -118,7 +137,6 @@ function SubmitAssign() {
     //   navigate('/detail');
     //   console.log("제출 실패")
     // });
-
     axios({
       method: 'POST',
       url: `${API_BASE_URL}/submit`,
@@ -199,7 +217,7 @@ function SubmitAssign() {
         <div className='leftBlank'></div>
         <div className='midCore'>
           <div className='lecture'>
-            📖 {lecture_name}
+            📖 {className}
           </div>
           <div className='mainContent'>
             <div className='tabCover'>
