@@ -5,16 +5,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SetAssign() {
-  const location = useLocation();
-  const lecture_name = location.state?.lecture_name || '강의명 없음';
-  const nickname = localStorage.getItem('nickname');
-  const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
-  const lectureID = 1234; // 추후 수정 필요
-  const token = localStorage.getItem('id_token');
-
-
   // 유저 정보 변수 시작
   const [userName, setUserName] = useState();
   const [userToken, setUserToken] = useState();
@@ -27,6 +20,30 @@ function SetAssign() {
   const [classMakerToken, setClassMakerToken] = useState();
   // 페이지 이동 시 사용할 과목 변수 끝
 
+  const setUserData = () => {
+    setUserName(localStorage.getItem('name_main'));
+    setUserToken(localStorage.getItem('userToken_main'));
+    console.log("유저 데이터 확인(유저이름): ", localStorage.getItem('name_main'));
+    console.log("유저 데이터 확인(유저토큰): ", localStorage.getItem('userToken_main'));
+  }
+
+  const setClassData = () => {
+    setClassName(localStorage.getItem('className'));
+    setClassToken(localStorage.getItem('classToken'));
+    setClassMaker(localStorage.getItem('classMaker'));
+    setClassMakerToken(localStorage.getItem('classMakerToken'));
+    console.log("클레스 데이터 확인(과목명): ", localStorage.getItem('className'));
+    console.log("클레스 데이터 확인(과목토큰): ", localStorage.getItem('classToken'));
+    console.log("클레스 데이터 확인(과목생성자): ", localStorage.getItem('classMaker'));
+    console.log("클레스 데이터 확인(과목생성자토큰): ", localStorage.getItem('classMakerToken'));
+  }
+
+  useEffect(() => {
+    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
+    // fetchData();
+    setUserData();
+    setClassData();
+  }, []);
 
   let [q_name, change_q_name] = useState('');  // 문제명
   let [q_deadline, change_q_deadline] = useState(new Date());
@@ -57,15 +74,6 @@ function SetAssign() {
     hwTest5: q_test5,
     hwTestAnswer5: q_test_answer5
   }
-
-  //   const setUserData = () => {
-  //     localStorage.setItem('name_main', username);
-  // }
-
-  useEffect(() => {
-    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
-    // fetchData();
-  }, []);
 
   const handleChange_q_name = (event) => {
     change_q_name(event.target.value);
@@ -110,14 +118,15 @@ function SetAssign() {
   const navigate = useNavigate();
 
   const handleSubmit = (event) => { // 문제 정보 전달
-    axios.post(`${API_BASE_URL}/${token}/${lectureID}/createAssignment`,
+    axios.post(`${API_BASE_URL}/${userToken}/${classToken}/createAssignment`,
       {
         assignmentRequestDTO: assignmentRequestDTO
       })
       .then((response) => {
         // 요청 성공 시 실행되는 코드
         navigate('/detail');
-        console.log("제출 성공");
+        console.log(assignmentRequestDTO);
+        console.log("제출 성공", response);
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
@@ -174,7 +183,7 @@ function SetAssign() {
         <div className='leftBlank'></div>
         <div className='midCore'>
           <div className='lecture'>
-            📖 {lecture_name}
+            📖 {className}
           </div>
           <div className='mainContent'>
             <div className='tabCover'>

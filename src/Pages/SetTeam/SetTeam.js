@@ -6,11 +6,47 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import stuData from './StudentTable/sData.json';
 import stuData2 from './StudentTable/sData2.json';
+const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SetTeam() {
   const location = useLocation();
-  const lecture_name = location.state?.lecture_name || '강의명 없음';
-  const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
+  // 유저 정보 변수 시작
+  const [userName, setUserName] = useState();
+  const [userToken, setUserToken] = useState();
+  // 유저 정보 변수 끝
+
+  // 페이지 이동 시 사용할 과목 변수 시작
+  const [className, setClassName] = useState();
+  const [classToken, setClassToken] = useState();
+  const [classMaker, setClassMaker] = useState();
+  const [classMakerToken, setClassMakerToken] = useState();
+  // 페이지 이동 시 사용할 과목 변수 끝
+
+  const setUserData = () => {
+    setUserName(localStorage.getItem('name_main'));
+    setUserToken(localStorage.getItem('userToken_main'));
+    console.log("유저 데이터 확인(유저이름): ", localStorage.getItem('name_main'));
+    console.log("유저 데이터 확인(유저토큰): ", localStorage.getItem('userToken_main'));
+  }
+
+  const setClassData = () => {
+    setClassName(localStorage.getItem('className'));
+    setClassToken(localStorage.getItem('classToken'));
+    setClassMaker(localStorage.getItem('classMaker'));
+    setClassMakerToken(localStorage.getItem('classMakerToken'));
+    console.log("클레스 데이터 확인(과목명): ", localStorage.getItem('className'));
+    console.log("클레스 데이터 확인(과목토큰): ", localStorage.getItem('classToken'));
+    console.log("클레스 데이터 확인(과목생성자): ", localStorage.getItem('classMaker'));
+    console.log("클레스 데이터 확인(과목생성자토큰): ", localStorage.getItem('classMakerToken'));
+  }
+
+  useEffect(() => {
+    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
+    // fetchData();
+    fetchData();
+    setUserData();
+    setClassData();
+  }, []);
 
   let [tableName, changeTable] = useState('실습 팀');
   let [team_num, changeTeamNum] = useState('');
@@ -65,11 +101,6 @@ function SetTeam() {
       });
   }
 
-  useEffect(() => {
-    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
-    fetchData();
-  }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행
-
   const kakaoLogout = () => { // 카카오 로그아웃을 위한 함수, post 요청을 통해 accessToken을 보내 토큰을 만료시켜 로그아웃함
     const accessToken_main = localStorage.getItem('accessToken_main');
     axios({
@@ -115,7 +146,7 @@ function SetTeam() {
         <div className='leftBlank'></div>
         <div className='midCore'>
           <div className='lecture'>
-            📖 {lecture_name}
+            📖 {className}
           </div>
           <div className='mainContent'>
             <div className='tabCover'>
