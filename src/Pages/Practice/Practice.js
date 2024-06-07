@@ -53,6 +53,43 @@ const fetchDataFromParticipate = async (storedUserToken) => {
   }
 };
 
+const fetchDataFromRandomTeam = async (storedUserToken) => {
+  const classToken = "44";
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: `${API_BASE_URL}/${storedUserToken}/${classToken}/randomTeam`,
+    });
+    console.log("randomTeam 데이터 가져오기 성공1");
+    console.log("randomTeam 확인중:", response);
+
+    return response;
+  } catch (error) {
+    console.log("randomTeam 데이터 가져오기 실패1");
+    throw error;
+  }
+};
+
+const fetchDataFromAssign = async (storedUserToken) => {
+  const classToken = "44";
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: `${API_BASE_URL}/${classToken}/assign`,
+      params: new URLSearchParams({
+        teamSize: '4'
+      })
+    });
+    console.log("assign 데이터 가져오기 성공1");
+    console.log("assign 확인중:", response);
+
+    return response;
+  } catch (error) {
+    console.log("assign 데이터 가져오기 실패1");
+    throw error;
+  }
+};
+
 function Practice() {
   const storedName = localStorage.getItem('name_main');
   const storedUserToken = localStorage.getItem('userToken_main');
@@ -114,6 +151,14 @@ function Practice() {
           .catch((error) => {
             setError(error);
           });
+      }
+
+      if (storedUserToken) {
+        fetchDataFromRandomTeam(storedUserToken);
+      }
+      
+      if (storedUserToken) {
+        fetchDataFromAssign(storedUserToken);
       }
     }
   }, [storedUserToken]);

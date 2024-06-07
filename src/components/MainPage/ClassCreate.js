@@ -36,7 +36,7 @@ function ClassCreate() {
     }))
     //axios.post(`http://localhost:8080/${token}/createlecture?lectureName=${lectureName}&course=${course}`)
     .then((response) => {
-      console.log("post 성공");
+      console.log("post 성공", lectureName, course);
     })
     .catch(error => {
       console.log("post 실패");
