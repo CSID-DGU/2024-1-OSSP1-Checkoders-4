@@ -12,7 +12,6 @@ function SetAssign() {
   const [userName, setUserName] = useState();
   const [userToken, setUserToken] = useState();
   // 유저 정보 변수 끝
-
   // 페이지 이동 시 사용할 과목 변수 시작
   const [className, setClassName] = useState();
   const [classToken, setClassToken] = useState();

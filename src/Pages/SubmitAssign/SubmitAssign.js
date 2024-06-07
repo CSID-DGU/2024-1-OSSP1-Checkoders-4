@@ -11,13 +11,15 @@ function SubmitAssign() {
   const [userName, setUserName] = useState();
   const [userToken, setUserToken] = useState();
   // 유저 정보 변수 끝
-
   // 페이지 이동 시 사용할 과목 변수 시작
   const [className, setClassName] = useState();
   const [classToken, setClassToken] = useState();
   const [classMaker, setClassMaker] = useState();
   const [classMakerToken, setClassMakerToken] = useState();
   // 페이지 이동 시 사용할 과목 변수 끝
+  // 과제 번호 변수 시작 
+  const [assignmentToken, setAssignmentToken] = useState(4);
+  // 과제 번호 변수 끝
 
   const setUserData = () => {
     setUserName(localStorage.getItem('name_main'));
@@ -37,21 +39,16 @@ function SubmitAssign() {
     console.log("클레스 데이터 확인(과목생성자토큰): ", localStorage.getItem('classMakerToken'));
   }
 
-  useEffect(() => {
-    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
-    // fetchData();
-    fetchData();
-    setUserData();
-    setClassData();
-  }, []);
+  const setAssignmentData = () =>{
+    setAssignmentToken(localStorage.getItem('assignmentToken'))
+    console.log("과제 번호 확인(과저벤호): ", localStorage.getItem('assignmentToken'));
+  }
 
   let [hw_name, change_hw_name] = useState('실습 과제2');
   let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
   let [hw_test1, change_hw_test1] = useState('');
   let [hw_test_answer1, change_hw_test_answer1] = useState('');
   let [submit_source, change_submit_source] = useState('');
-
-  let [lectureAssignmentId, change_LectureAssignmentId] = useState('0');
 
   let [popupMessage, change_PopupMessage] = useState('');
   let [isPopupVisible, change_IsPopupVisible] = useState(false);
@@ -63,22 +60,15 @@ function SubmitAssign() {
 
   const fetchData = () => {
     // GET 요청 보내기
-    axios.get(`${API_BASE_URL}/${userToken}/${classToken}/${lectureAssignmentId}/assignmentpage`)
+    axios.get(`${API_BASE_URL}/${userToken}/${classToken}/${assignmentToken}/assignmentpage`)
       .then((response) => {
         // 요청 성공 시 실행되는 코드
         console.log(response);  // 아래는 예상되는 반환값
-        // data: {
-        //   lectureId: 1,
-        //   title: "Lecture Title",
-        //   description: "Lecture Description",
-        //   hwTest1: "Test 1",
-        //   hwTestAnswer1: "Test Answer 1"
-        // }
         change_hw_name(response.data.title);
         change_hw_problem(response.data.description);
         change_hw_test1(response.data.hwTest1);
         change_hw_test_answer1(response.data.hwTestAnswer1);
-        console.log('데이터 받아오기 성공');
+        console.log('데이터 받아오기 성공123');
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
@@ -86,7 +76,7 @@ function SubmitAssign() {
         change_hw_problem(p_data.hw[0].hw_problem);
         change_hw_test1(p_data.hw[0].hw_test1);
         change_hw_test_answer1(p_data.hw[0].hw_test_answer1);
-        console.log('데이터 받아오기 실패');
+        console.log('데이터 받아오기 실패123');
       });
   }
 
@@ -194,6 +184,18 @@ function SubmitAssign() {
       });
   }
 
+  useEffect(() => {
+    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
+    setUserData();
+    setClassData();
+    // setAssignmentData();
+  }, []);
+  
+  useEffect(() => {
+    if (userToken && classToken && assignmentToken) {
+      fetchData();
+    }
+  }, [userToken, classToken, assignmentToken]);
   return (
     <div className="Foundation">
       <div className='topCover'>
