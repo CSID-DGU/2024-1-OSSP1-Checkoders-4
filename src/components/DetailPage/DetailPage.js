@@ -27,23 +27,46 @@ function DetailPage() {
   const storedUserToken = localStorage.getItem('userToken_main');   // 추가한 변수 240605/0137
 
   useEffect(() => {
-    setTeamMembers(teamData.Data); // DummyTeam.json에서 팀원 데이터 로드
-    const currentNickname = localStorage.getItem('name_main'); // 로컬 스토리지에서 nickname 가져오기
+    const storedName = localStorage.getItem('name_main');
     const lectureMadeBy = location.state?.lecture_madeby; // 강의 생성자 정보 가져오기
 
-    setIsAdmin(currentNickname === lectureMadeBy); // 권한 확인
-  }, []);
+    console.log('storedName:', storedName, 'lectureMadeBy:', lectureMadeBy);
+
+    if (storedName === lectureMadeBy) {
+    setIsAdmin(true);
+  }}, [location.state]);
+  // 06/07 0105 수정
+  
+
+  useEffect(() => {
+    const fetchLectureDetails = async () => {
+      setLoading(true); // 데이터 로딩 시작
+      try {
+        const response = await axios.get(`${API_BASE_URL}/${storedUserToken}/${lectureId}/lecturepage`);
+        setTeamMembers(response.data.teamMembers); // 서버로부터 받은 팀원 데이터로 상태 업데이트
+        console.log('팀원 이름 불러오기 성공')
+        setLoading(false); // 데이터 로딩 완료
+      } catch (error) {
+        console.error('Failed to fetch lecture details:', error);
+        setLoading(false); // 데이터 로딩 완료
+      }
+    };
+  
+    fetchLectureDetails();
+  }, [API_BASE_URL, storedUserToken, lectureId]); // 의존성 배열에 API_BASE_URL, storedUserToken, lectureId 추가
+  
   
   useEffect(() => {
-    axios.get(`${API_BASE_URL}/homeworks`)
-      .then(response => {
-        setHomeworks(response.data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Failed to fetch homeworks:', error);
-        setLoading(false);
-      });
+    axios.get(`${API_BASE_URL}/${storedUserToken}/${lectureId}/lecturepage`)
+    .then(response => {
+      console.log('서버로부터 받은 과제 데이터:', response.data);
+      setHomeworks(response.data.task); // 서버에서 받은 과제 데이터로 상태 업데이트
+      setLoading(false); // 데이터 로딩 완료
+    })
+    .catch(error => {
+      console.error('과제 데이터를 가져오는 데 실패:', error);
+      setLoading(false); // 데이터 로딩 완료
+    });
 
     axios.get(`${API_BASE_URL}/questions`)
       .then(response => {
@@ -74,7 +97,7 @@ function DetailPage() {
 
 
 
-    }, []);
+    }, [API_BASE_URL, storedUserToken, lectureId]);
 
   
 
@@ -170,8 +193,8 @@ function DetailPage() {
                 </button>
                 <div className="team-container">
                   {teamMembers.map(member => (
-                    <button className="team-name" key={member.id} onClick={() => handleTeamMemberClick(member.nickname, lecture_name)}>
-                      {member.nickname}
+                    <button className="team-name" key={member.id} onClick={() => handleTeamMemberClick(member.name, lecture_name)}>
+                      {member.name}
                     </button>
                   ))}
                 </div>
@@ -188,7 +211,8 @@ function DetailPage() {
                 {homeworks.map((hw, index) => (
                   <div className="task" key={index}>
                     <div className="task-font">
-                    {hw.hw_name.length > 30 ? `${hw.hw_name.substring(0, 30)}...` : hw.hw_name}
+                    {/* {hw.title.length > 30 ? `${hw.title.substring(0, 30)}...` : hw.title} */}
+                      {hw.title}
                       <button className="button-style"
                         onClick={() => moveToSubmitAssign(lecture_name)}>
                         View Details</button>

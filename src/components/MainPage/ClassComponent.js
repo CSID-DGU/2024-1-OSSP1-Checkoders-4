@@ -7,7 +7,7 @@ import { FaRegClock } from "react-icons/fa";
 
 function ClassComponent({ lectureData }) {
     // name: 과목명, madeby: 출제자 토큰, madeby_name: 출제자 이름, lectureId: 과목번호
-    const { name: lecture_name, madeby: lecture_madeby_token, madeby_name: lecture_madeby, lectureId: lecture_token } = lectureData;
+    const { name: lecture_name, madeby: lecture_madeby_token, madeby_name: lecture_madeby, lectureId: lecture_token, course } = lectureData;
     const [lecture_date1, setLectureDate1] = useState("월요일");
     const [lecture_date2, setLectureDate2] = useState("수요일");
 
@@ -29,11 +29,12 @@ function ClassComponent({ lectureData }) {
         localStorage.setItem('classMaker', lectureMadeBy);
         localStorage.setItem('classMakerToken', lectureMadeByToken);
     }
-    //const headerStyle = option_type === "1" ? { backgroundColor: '#FFE4E1' } : {};
+    const headerStyle = (course === "1") ? { backgroundColor: '#FFE4E1' } : {};
+
 
     return (
         <div className="main-box">
-            <div className="main-header" /*style={headerStyle}*/>
+            <div className="main-header" style={headerStyle}>
                 <span style={{ marginLeft: '2vw', fontSize: '2.2vh' }}>{lecture_name}</span>
                 <span style={{ marginLeft: '2vw', color: '#9A9A9A' }}>{lecture_madeby}</span>
             </div>
