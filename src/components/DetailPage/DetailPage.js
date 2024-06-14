@@ -18,7 +18,7 @@ function DetailPage() {
   const lecture_name = location.state?.lecture_name || '강의명 없음';
   const [teamMembers, setTeamMembers] = useState([]);
   const [homeworks, setHomeworks] = useState(homeworkData.Data);
-  const [questions, setQuestions] = useState(qData.Data);
+  const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);  // 권한 확인을 위한 상태
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
@@ -59,8 +59,9 @@ function DetailPage() {
   useEffect(() => {
     axios.get(`${API_BASE_URL}/${storedUserToken}/${lectureId}/lecturepage`)
     .then(response => {
-      console.log('서버로부터 받은 과제 데이터:', response.data);
+      console.log('서버로부터 받은 과제, 문제 데이터:', response.data);
       setHomeworks(response.data.task); // 서버에서 받은 과제 데이터로 상태 업데이트
+      setQuestions(response.data.exercise); // 문제 데이터 업데이트
       setLoading(false); // 데이터 로딩 완료
     })
     .catch(error => {
@@ -225,11 +226,13 @@ function DetailPage() {
               <div className="task-container-title" style={{ backgroundColor: '#FFAE35' }}>
                 학생들이 출제한 문제
               </div>
+
               <div className="task-container" style={{ backgroundColor: '#FFF9E9' }}>
                 {questions.map((question, index) => (
                   <div className="task" key={index}>
                     <div className="task-font">
-                      {question.q_name.length > 30 ? `${question.q_name.substring(0, 30)}...` : question.q_name}
+                      {/*{question.q_name.length > 30 ? `${question.q_name.substring(0, 30)}...` : question.q_name}*/}
+                      {question.title}
                       <button className="button-style" onClick={() => moveToSubmitAssign(lecture_name)}>
                         View Details
                       </button>
