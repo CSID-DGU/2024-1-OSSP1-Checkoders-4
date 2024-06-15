@@ -23,18 +23,21 @@ function ClassSearch({ onClassAdded }) {
         setUserName(response.data.name); // 서버로부터 받은 사용자 이름을 상태에 저장
 
         console.log("Data fetched and state updated");
-        onClassAdded(); // 강의 데이터를 성공적으로 가져온 후 콜백 실행
+        //onClassAdded(); // 강의 데이터를 성공적으로 가져온 후 콜백 실행
         const matchingLecture = response.data.lectures.find(lecture => lecture.name === lectureName);
         if (matchingLecture) {
           console.log(matchingLecture); // 일치하는 강의 정보만 콘솔에 출력
           console.log('강의 제작자:', matchingLecture.madeby_name); // 사용자 이름 로그
+          onClassAdded(matchingLecture); // Pass the matching lecture data to the callback
         } else {
           console.log("No matching lectures found"); // 일치하는 강의가 없을 경우
+          onClassAdded(null); // 일치하는 강의가 없으면 null을 전달
         }
       })
 
       .catch(error => {
         console.error('Failed to fetch class data:', error);
+        onClassAdded(null); // Call with null if no lecture matches
       });
     }
   }, [API_BASE_URL, token, lectureName, onClassAdded]);

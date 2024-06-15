@@ -145,8 +145,12 @@ function MainPage2() {
   //   }
   // };
 
-  const handleClassAdded = () => {
-    fetchClassData();
+  const handleClassAdded = (lecture) => {
+    if (lecture) {
+      // Assuming 'setLectures' updates the lectures state, you could do something like:
+      setLectures(prevLectures => [...prevLectures, lecture]);
+    }
+    // fetchClassData();
   };
 
   const renderClassComponents = () => {
@@ -203,7 +207,7 @@ function MainPage2() {
           <AiOutlineHome className="home-icon" />
           메인페이지
           <ClassCreate />
-          <ClassSearch onClassAdded={() => fetchClassData()} />
+          <ClassSearch onClassAdded={handleClassAdded} />
         </div>
         <div className="main-bottom-box">
           <div className="main-container">
@@ -221,9 +225,9 @@ function MainPage2() {
                 <img src={logo} alt="동국대로고" style={{ width: '6vw', height: 'auto' }} />
               </div>
             </div>
-            <div className="main-task-calendar">
-              <TaskCalendar />
-            </div>
+            
+            <TaskCalendar />
+            
             <div className="main-task-info">
               <TaskInfo lecture_name={lecture_name} />
             </div>

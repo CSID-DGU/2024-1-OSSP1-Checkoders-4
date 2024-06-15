@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css'; // css import
 import './MainPage2.css';
+import './CalendarStyle.css'; // 커스텀 스타일
 
 function TaskCalendar() {
   const [date, setDate] = useState(new Date());
@@ -11,9 +12,9 @@ function TaskCalendar() {
   };
 
   return (
-    <div>
+    <div className="main-task-calendar">
       <div className="main-calendar-header">
-        <span>과제 마감 기한</span>
+        과제 캘린더
       </div>
       <Calendar onChange={onChange} value={date}/>
     </div>
