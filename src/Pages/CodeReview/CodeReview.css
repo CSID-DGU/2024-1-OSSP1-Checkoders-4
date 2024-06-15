@@ -1,0 +1,294 @@
+/* bottomBox를 왼쪽, 가운데, 오른쪽으로 분할 */
+/* 왼쪽과 오른쪽 공백 */
+.leftBlank,
+.rightBlank {
+  flex: 1;
+  /* 1부분 중에서의 비율 */
+  /* background-color: white; */
+}
+
+/* 가운데 핵심 */
+.midCore {
+  flex: 6;
+  /* 4부분 중에서의 비율 */
+  /* background-color: purple; */
+  display: flex;
+  flex-direction: column;
+}
+
+/* midCore를 lecture과 mainContent로 위, 아래 분할 */
+.lecture {
+  flex: 1;
+  /* background-color: red; */
+}
+
+.mainContent {
+  flex: 9;
+  display: flex;
+  /* background-color: blue; */
+  flex-direction: column;
+  height: 100vh;
+}
+
+.lecture {
+  padding-left: 2vw;
+  padding-top: 3vh;
+  font-size: 3.5vh;
+}
+
+.tabCover {
+  background-color: #f0bf83;
+  height: 8%;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  width: 100%;
+}
+
+.assignInfo {
+  height: 96%;
+  background-color: #F9EBD0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.problemContent {
+  height: 40vh;
+  display: flex;
+  padding-top: 2vh;
+  padding-left: 1.5vw;
+  padding-right: 1.5vw;
+}
+
+/* 문제 내용 */
+.contentArea {
+  display: flex;
+  flex-direction: column;
+  padding-right: 1.5vw;
+  width: 50%;
+}
+
+.contentCover {
+  font-size: 2vh;
+  padding-top: 1vh;
+  padding-left: 1vw;
+  padding-bottom: 1vh;
+  height: 3.5vh;
+  background-color: #E6EDF4;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.contentExplanation {
+  padding-left: 1vw;
+  height: 100%;
+  background-color: #F0F0F0;
+  overflow-y: auto;
+  font-size: 1.8vh;
+}
+
+.contentExplanation p {
+  margin: 0.5vh;
+}
+
+.contentExplanation p:nth-child(odd) {
+  font-weight: bold;
+  /* 홀수 번째 p 태그에 볼드체를 적용 */
+  font-size: 2vh;
+}
+
+.contentExplanation p:nth-child(even) {
+  padding-left: 1vw;
+  font-size: 1.9vh;
+}
+
+.contentExplanation.p {
+  font-size: 10vh;
+}
+
+.CodeReviewIOExample {
+  display: flex;
+  width: 100%;
+}
+
+.CodeReviewInputExample {
+  width: 50%;
+}
+
+.CodeReviewOuputExample {
+  width: 50%;
+}
+
+/* 제출 코드 */
+.contentCode {
+  width: 50%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.codeCover{
+  font-size: 2vh;
+  padding-top: 1vh;
+  padding-left: 1vw;
+  padding-bottom: 1vh;
+  height: 3.5vh;
+  background-color: #E6EDF4;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.codeResponse{
+  display: flex;
+  height: 100%;
+  background-color: #F0F0F0;
+  overflow-x: auto;
+  overflow-y: auto;
+  font-size: 1.8vh;
+}
+
+.feedback {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  padding-top: 2vh;
+  padding-left: 1.5vw;
+  padding-right: 1.5vw;
+  padding-bottom: 1vh;
+}
+
+.gptFeedback {
+  flex: 1;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding-right: 1vw;
+}
+
+.gptCover {
+  font-size: 2vh;
+  padding-top: 1vh;
+  padding-left: 1vw;
+  height: 3.5vh;
+  background-color: #E6EDF4;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.gptContent {
+  display: flex;
+  height: 100%;
+  padding-top: 1vh;
+  padding-left: 1vw;
+  background-color: #F0F0F0;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  white-space: pre-line;
+}
+
+.teamFeedback {
+  width: 50%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.feedCover {
+  font-size: 2vh;
+  padding-top: 1vh;
+  padding-left: 1vw;
+  height: 3.5vh;
+  background-color: #E6EDF4;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+
+}
+
+.feedContent {
+  height: 100%;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  background-color: #F0F0F0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.comments {
+  height: 70%;
+  background-color: #d5e3fa;
+  border-radius: 5px;
+  padding-left: 1vw;
+  padding-top: 1vh;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  padding-left: 1vw;
+  margin: 0;
+}
+
+.one_comment p{
+  margin: 0;
+}
+
+.one_comment p:nth-child(2){
+  padding-left: 1vw;
+  padding-bottom: 1vh;
+}
+
+.writerName {
+  font-size: 1.5vh;
+  padding-bottom: 0.3vh;
+}
+
+.writerComment {
+  font-size: 1.3vh;
+  padding-bottom: 1vh;
+}
+
+.addComment {
+  border-radius: 5px;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  flex: 1;
+  margin-top: 1vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #d5e3fa;
+}
+
+.userName {
+  font-size: 1.7vh;
+  flex: 1;
+}
+
+.inputTextBox {
+  padding-top: 0.3vh;
+  padding-bottom: 0.3vh;
+  height: 60%;
+}
+
+.textBox {
+  height: 80%;
+  width: 100%;
+}
+
+.buttonArea {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.postButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}

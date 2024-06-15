@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+	font-family: 'GmarketSansMedium';
+}
 .Main-name{
     display: flex;
     margin-top: 5vh;
@@ -147,15 +156,16 @@
 
 .main-task-calendar {
     margin-top: 10%;
-    width: 25vw;
+    width: 23vw;
     height: auto;
     display: flex;
+    flex-direction: column;
     background-color: #FFAE35;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
   
   .main-calendar-header {
-    margin-top: 10%;
+    margin-bottom: 3%;
     text-align: center; /* 텍스트 가운데 정렬 */
     align-items: center; /* 제목과 달력 사이 여백 */
     font-weight: bold;
@@ -164,7 +174,7 @@
     justify-content: center;
     display: flex;
     width: 25vw;
-    height: 0.5vh;
+    height: 4vh;
 }
 
 .main-task-name {
