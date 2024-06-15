@@ -17,7 +17,7 @@ function SetTeam() {
 
   // 페이지 이동 시 사용할 과목 변수 시작
   const [className, setClassName] = useState();
-  const [classToken, setClassToken] = useState();
+  const [classToken, setClassToken] = useState(1);
   const [classMaker, setClassMaker] = useState();
   const [classMakerToken, setClassMakerToken] = useState();
   // 페이지 이동 시 사용할 과목 변수 끝
@@ -31,7 +31,7 @@ function SetTeam() {
 
   const setClassData = () => {
     setClassName(localStorage.getItem('className'));
-    setClassToken(localStorage.getItem('classToken'));
+    //setClassToken(localStorage.getItem('classToken'));
     setClassMaker(localStorage.getItem('classMaker'));
     setClassMakerToken(localStorage.getItem('classMakerToken'));
     console.log("클레스 데이터 확인(과목명): ", localStorage.getItem('className'));
@@ -56,54 +56,57 @@ function SetTeam() {
 
   const fetchData = () => {
     // GET 요청 보내기
-    axios.get(`${API_BASE_URL}/팀배정api`, {
-      params: {
-        team_num: team_num
-      }
-    })
+    axios.get(`${API_BASE_URL}/${userToken}/${classToken}/randomTeam`)
       .then((response) => {
+        console.log('요청 데이터');
+        console.log(response);
         // 요청 성공 시 실행되는 코드
-        changeTableData(response.data);
+        if (response.data.memberList.length === 0) {
+          changeTableData(null);  // 테이블 데이터를 null로 설정하여 메시지가 표시되도록 함
+        } else {
+          changeTableData(response.data.memberList);
+        }
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
         console.log('테이블 데이터 요청 실패');
       });
   }
-
+  
   const navigate = useNavigate();
   const handleSiteName = () => {
     navigate('/Main');
   }
 
-  const handleTeamSubmit = (event) => { // 배정 버튼 누르면, 팀 이름과 인원 수 전송
+  const handleTeamSubmit = (event) => {
+    console.log('클래스토큰: ', classToken);
     axios({
       method: 'POST',
       url: `${API_BASE_URL}/${classToken}/assign`,
-      params: new URLSearchParams({
+      params: {
         teamSize: student_per_group
-      })
+      }
     })
-      .then((response) => {
-        // 요청 성공 시 실행되는 코드
-        changeTableData(response);
-        fetchData();
-        console.log(response);
-        console.log("전달 성공");
-      })
-      .catch(error => {
-        if (Math.random() < 0.5) {
-          changeTableData(stuData.sData);
-        } else {
-          changeTableData(stuData2.sData);
-        }
-        // changeTableData(stuData.sData);
-        // changeTableData(stuData2.sData);
-        fetchData();
-        // 요청 실패 시 실행되는 코드
-        console.log("전달 실패");
-      });
+    .then((response) => {
+      // 요청 성공 시 실행되는 코드
+      console.log(response);
+      changeTableData(response.data.memberList); // 응답의 데이터 사용
+      fetchData();
+      console.log("전달 성공");
+    })
+    .catch(error => {
+      if (Math.random() < 0.5) {
+        changeTableData(stuData.sData);
+      } else {
+        changeTableData(stuData2.sData);
+      }
+      fetchData();
+      // 요청 실패 시 실행되는 코드
+      console.log("전달 실패");
+    });
   }
+  
+
 
   const kakaoLogout = () => { // 카카오 로그아웃을 위한 함수, post 요청을 통해 accessToken을 보내 토큰을 만료시켜 로그아웃함
     const accessToken_main = localStorage.getItem('accessToken_main');
