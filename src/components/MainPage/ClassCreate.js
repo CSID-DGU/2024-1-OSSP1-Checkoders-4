@@ -1,46 +1,31 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { AiFillPlusCircle } from "react-icons/ai";
-import ClassSearch from './ClassSearch.js';
 import axios from 'axios';
 
 function ClassCreate() {
   const [isOpen, setIsOpen] = useState(false);
   const [lecture_name, setLecture_name] = useState("");
-  const [lecture_id, setLectureId] = useState("");
   const [optionType, setOptionType] = useState(0); // 0은 lecture, 1은 study
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
-  const [type, setType] = useState('');
-
-  const [lectureName, setLectureName] = useState('');
-  const [course, setCourse] = useState('');
   const token = localStorage.getItem('userToken_main'); // 로컬 스토리지에 저장된 값 갱신했음
 
   const sendLectureData = async (event) => {
-    const storedUserToken = localStorage.getItem('userToken_main'); // 유저 토큰 가져오기, {token}이랑 동일함
-    console.log("유저 토큰: ",storedUserToken); // 콘솔에 토큰 찍는거
-    //event.preventDefault(); // 폼이 제출될 때 페이지가 새로 고침되는 기본 동작을 막음
-    if (optionType === 0) {
-      setCourse('0');
-    } else {
-      setCourse('1');
-    }
-    if (lecture_name) {
-      setLectureName(lecture_name);
-    }
+    event.preventDefault(); // 폼이 제출될 때 페이지가 새로 고침되는 기본 동작을 막음
+    const course = optionType === 0 ? '0' : '1';
+    const lectureName = lecture_name;
 
-    axios.post(`${API_BASE_URL}/${token}/createlecture`, 
-    new URLSearchParams({
-      lectureName: lectureName,
-      course: course
-    }))
-    //axios.post(`http://localhost:8080/${token}/createlecture?lectureName=${lectureName}&course=${course}`)
-    .then((response) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/${token}/createlecture`, 
+        new URLSearchParams({
+          lectureName: lectureName,
+          course: course
+        })
+      );
       console.log("post 성공", lectureName, course);
-    })
-    .catch(error => {
-      console.log("post 실패");
-    });
+    } catch (error) {
+      console.log("post 실패", error);
+    }
   };
 
   const openModal = () => {
@@ -65,17 +50,6 @@ function ClassCreate() {
       padding: "20px",
     },
   };
-
-  // const fetchClassId = async () => {
-  //   try {
-  //     const response = await axios.get(`/class`);
-  //     setLectureId(response.data.lecture_id);
-  //     console.log(response.data); // 서버 응답 로깅
-  //     // 여기서 받아온 데이터를 상태에 저장하거나 다른 로직을 실행할 수 있습니다.
-  //   } catch (error) {
-  //     console.error('클래스 ID를 가져오는데 실패했습니다:', error);
-  //   }
-  // };
 
   return (
     <div>
@@ -116,12 +90,10 @@ function ClassCreate() {
           </div>
         </div>
 
-        <button onClick={async () => {
-          await sendLectureData();
-        }} style={{
+        <button onClick={sendLectureData} style={{
           width: '24vw', height: '5vh', backgroundColor: '#FFB23F',
           display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '3vh', 
-          marginBottom: '1vh', border: 'none',borderRadius: '4px'
+          marginBottom: '1vh', border: 'none', borderRadius: '4px'
         }}>
           <h4 style={{ color: 'white', fontWeight: 'bold' }}>클래스 등록</h4>
         </button>

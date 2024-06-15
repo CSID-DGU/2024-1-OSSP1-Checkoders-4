@@ -77,14 +77,18 @@ function SetTeam() {
   }
 
   const handleTeamSubmit = (event) => { // 배정 버튼 누르면, 팀 이름과 인원 수 전송
-    axios.post(`${API_BASE_URL}/팀 배정 주소`, {
-      data:
-        student_per_group
+    axios({
+      method: 'POST',
+      url: `${API_BASE_URL}/${classToken}/assign`,
+      params: new URLSearchParams({
+        teamSize: student_per_group
+      })
     })
       .then((response) => {
         // 요청 성공 시 실행되는 코드
         changeTableData(response);
         fetchData();
+        console.log(response);
         console.log("전달 성공");
       })
       .catch(error => {

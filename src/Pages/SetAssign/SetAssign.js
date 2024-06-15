@@ -118,21 +118,19 @@ function SetAssign() {
 
   const handleSubmit = (event) => { // 문제 정보 전달
     axios.post(`${API_BASE_URL}/${userToken}/${classToken}/createAssignment`,
-      {
-        assignmentRequestDTO: assignmentRequestDTO
-      })
+      assignmentRequestDTO // assignmentRequestDTO 객체 자체를 직접 전달
+    )
       .then((response) => {
         // 요청 성공 시 실행되는 코드
         navigate('/detail');
-        console.log(assignmentRequestDTO);
         console.log("제출 성공", response);
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        //navigate('/detail');
         console.log("제출 실패");
       });
   };
+
 
   const handleSiteName = () => {
     navigate('/Main');
