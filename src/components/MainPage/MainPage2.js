@@ -12,8 +12,9 @@ import ClassSearch from './ClassSearch.js';
 import ClassComponent from './ClassComponent.js';
 import axios from 'axios';
 import DummyClass from './DummyClass.json';
-import { el } from 'date-fns/locale';
+import { ko } from 'date-fns/locale';
 
+//upstream과 동기화
 function MainPage2() {
   const location = useLocation();
   const navigate = useNavigate();
