@@ -16,7 +16,7 @@ function DetailPage() {
   const location = useLocation();
   const navigate = useNavigate();
   //const course = location.state?.course || 'none course';
-  const course = localStorage.getItem('course'); 
+  const course = localStorage.getItem('course');
   const lecture_name = localStorage.getItem('className');
 
   const [teamMembers, setTeamMembers] = useState([]);

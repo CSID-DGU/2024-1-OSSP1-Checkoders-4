@@ -21,7 +21,6 @@ function ClassComponent({ lectureData }) {
     // const [classMakerToken, setClassMakerToken] = useState();
     // 페이지 이동 시 사용할 과목 변수 끝
 
-
     function moveToDetail(lectureName, lectureToken, lectureMadeBy, lectureMadeByToken, course) {
         navigate('/detail', { state: { lecture_name: lectureName, lecture_madeby: lectureMadeBy, course: lectureData.course } });
         localStorage.setItem('className', lectureName);
