@@ -116,13 +116,18 @@
 }
 
 .button-style {
-    color: blue;
+    color: red;
     margin-top: 1vh;
     background-color: white;
     border-radius: 5px;
     border: 1.5px solid white;
     cursor: pointer;
     font-size: 1vw;
+}
+
+/* 추가된 부분 */
+.button-done {
+    color: blue;
 }
 
 .chart-container {
@@ -146,7 +151,3 @@
     border-radius: 4px 4px 0 0;
 }
 
-/* 추가된 부분 */
-.button-done {
-    color: red;
-}

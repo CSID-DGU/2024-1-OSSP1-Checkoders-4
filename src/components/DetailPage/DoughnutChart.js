@@ -10,12 +10,12 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 //   width: 50%;
 // `;
 
-export default function DoughnutChart() {
+export default function DoughnutChart({ correct, incorrect }) {
   const Data = {
     labels: ["미제출", "제출완료"],
     datasets: [
       {
-        data: [40, 60],
+        data: [incorrect, correct],
         backgroundColor: ["#FF8878", "skyblue"], //"c5f2ba"],
         borderColor: ["#FF8878", "skyblue"], //"c5f2ba"],
       },

@@ -17,7 +17,7 @@ function SetTeam() {
 
   // 페이지 이동 시 사용할 과목 변수 시작
   const [className, setClassName] = useState();
-  const [classToken, setClassToken] = useState(1);
+  const [classToken, setClassToken] = useState();
   const [classMaker, setClassMaker] = useState();
   const [classMakerToken, setClassMakerToken] = useState();
   // 페이지 이동 시 사용할 과목 변수 끝

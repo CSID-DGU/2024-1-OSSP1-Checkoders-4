@@ -29,6 +29,15 @@ function DetailPage() {
   let [lectureId, change_lectureId] = useState();             // 추가한 변수 240605/0137
   const storedUserToken = localStorage.getItem('userToken_main');   // 추가한 변수 240605/0137
 
+  // 도넛차트 변수 시작
+  const correctHwCount = homeworks.filter(hw => hw.correct).length;
+  const incorrectHwCount = homeworks.length - correctHwCount;
+  const correctQuestionCount = questions.filter(question => question.correct).length;
+  const incorrectQuestionCount = questions.length - correctQuestionCount;
+  const totalCorrect = correctHwCount + correctQuestionCount;
+  const totalIncorrect = incorrectHwCount + incorrectQuestionCount;
+  // 도넛 차트 변수 끝
+
   useEffect(() => {
     const storedName = localStorage.getItem('name_main');
     change_lectureId(localStorage.getItem('classToken'));
@@ -232,7 +241,7 @@ function DetailPage() {
                 과제 현황
               </div>
               <div className="chart-container">
-                <DoughnutChart />
+              <DoughnutChart correct={totalCorrect} incorrect={totalIncorrect} />
               </div>
 
             </div>
