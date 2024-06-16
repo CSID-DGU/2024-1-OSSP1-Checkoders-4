@@ -192,7 +192,7 @@ function SubmitAssign() {
       <div className='bottomBox'>
         <div className='leftBlank'></div>
         <div className='midCore'>
-          <div className='lecture'>
+          <div className='lecture' style = {{fontWeight: 'bold'}}>
             📖 {className}
           </div>
           <div className='mainContent'>

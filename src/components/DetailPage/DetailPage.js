@@ -100,10 +100,6 @@ function DetailPage() {
     navigate('/Main');
   }
 
-  function handleTeamMemberClick(memberName, lectureName) {
-    navigate('/studentqlist', { state: { team_member: memberName, lecture_name: lectureName } });
-  }
-
   function moveToSetAssign(lectureName) {
     navigate('/SetAssign', { state: { lecture_name: lectureName } });
   }
@@ -190,7 +186,7 @@ function DetailPage() {
                 </button>
                 <div className="team-container">
                   {teamMembers.map(member => (
-                    <button className="team-name" key={member.id} onClick={() => handleTeamMemberClick(member.name, lecture_name)}>
+                    <button className="team-name" key={member.id}>
                       {member.name}
                     </button>
                   ))}
