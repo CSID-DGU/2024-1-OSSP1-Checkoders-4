@@ -15,8 +15,10 @@ import teamData from './DummyTeam.json';
 function DetailPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const course = location.state?.course || 'none course';
-  const lecture_name = location.state?.lecture_name || '강의명 없음';
+  //const course = location.state?.course || 'none course';
+  const course = localStorage.getItem('course'); 
+  const lecture_name = localStorage.getItem('className');
+
   const [teamMembers, setTeamMembers] = useState([]);
 
   const [homeworks, setHomeworks] = useState(homeworkData.Data);
@@ -160,7 +162,7 @@ function DetailPage() {
           <div className="bottom-box">
             <div className="bottom-box-sidebar">
               <button className="side-bar"
-                onClick={() => moveToSetAssign(lecture_name)}>
+                onClick={() => moveToSetAssign(lecture_name, course)}>
                 <div style={{ margin: '1vh', color: 'white', fontWeight: 'bold' }}>문제출제</div>
               </button>
               {isAdmin && (
