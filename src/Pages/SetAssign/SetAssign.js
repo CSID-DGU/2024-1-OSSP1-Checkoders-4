@@ -63,6 +63,7 @@ function SetAssign() {
   let [q_test_answer5, change_q_test_answer5] = useState(''); // 출력 예제5
 
   const assignmentRequestDTO = {
+    course: course,
     title: q_name,
     description: q_problem,
     deadline: q_deadline,
@@ -131,7 +132,7 @@ function SetAssign() {
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        console.log("제출 실패");
+        console.log("제출 실패", error);
       });
   };
 
