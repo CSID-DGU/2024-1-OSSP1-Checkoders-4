@@ -19,7 +19,7 @@ function DetailPage() {
 
   const [teamMembers, setTeamMembers] = useState([]);
 
-  const [homeworks, setHomeworks] = useState(homeworkData.Data);
+  const [homeworks, setHomeworks] = useState([]);
   const [questions, setQuestions] = useState([]);
 
   const [loading, setLoading] = useState(true);

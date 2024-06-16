@@ -37,8 +37,6 @@ function SubmitAssign() {
     console.log("클레스 데이터 확인(과목토큰): ", localStorage.getItem('classToken'));
     console.log("클레스 데이터 확인(과목생성자): ", localStorage.getItem('classMaker'));
     console.log("클레스 데이터 확인(과목생성자토큰): ", localStorage.getItem('classMakerToken'));
-
-    console.log("과제 번호 확인(과제번호): ", localStorage.getItem('assignmentToken'));
   }
 
   const setAssignmentData = () =>{
@@ -159,7 +157,7 @@ function SubmitAssign() {
     // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
     setUserData();
     setClassData();
-    // setAssignmentData();
+    setAssignmentData();
   }, []);
   
   useEffect(() => {
