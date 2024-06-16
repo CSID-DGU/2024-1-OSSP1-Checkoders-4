@@ -7,7 +7,7 @@ import DoughnutChart from './DoughnutChart';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import MainPage2 from '../MainPage/MainPage2.js';
-import homeworkData from './DummyHW.json';
+// import homeworkData from './DummyHW.json';
 
 
 function DetailPage() {
@@ -19,7 +19,7 @@ function DetailPage() {
 
   const [teamMembers, setTeamMembers] = useState([]);
 
-  const [homeworks, setHomeworks] = useState(homeworkData.Data);
+  const [homeworks, setHomeworks] = useState([]);
   const [questions, setQuestions] = useState([]);
 
   const [loading, setLoading] = useState(true);
