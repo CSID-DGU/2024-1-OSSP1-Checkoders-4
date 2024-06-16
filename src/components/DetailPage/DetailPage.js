@@ -23,11 +23,12 @@ function DetailPage() {
   const [isAdmin, setIsAdmin] = useState(false);  // 권한 확인을 위한 상태
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
   
-  let [lectureId, change_lectureId] = useState('1234');             // 추가한 변수 240605/0137
+  let [lectureId, change_lectureId] = useState();             // 추가한 변수 240605/0137
   const storedUserToken = localStorage.getItem('userToken_main');   // 추가한 변수 240605/0137
 
   useEffect(() => {
     const storedName = localStorage.getItem('name_main');
+    change_lectureId(localStorage.getItem('classToken'));
     const lectureMadeBy = location.state?.lecture_madeby; // 강의 생성자 정보 가져오기
 
     console.log('storedName:', storedName, 'lectureMadeBy:', lectureMadeBy);
@@ -60,6 +61,7 @@ function DetailPage() {
     axios.get(`${API_BASE_URL}/${storedUserToken}/${lectureId}/lecturepage`)
     .then(response => {
       console.log('서버로부터 받은 과제, 문제 데이터:', response.data);
+      console.log('구분자');
       setHomeworks(response.data.task); // 서버에서 받은 과제 데이터로 상태 업데이트
       setQuestions(response.data.exercise); // 문제 데이터 업데이트
       setLoading(false); // 데이터 로딩 완료

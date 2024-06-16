@@ -51,7 +51,7 @@
 
 //     return (
 //         <div>
-//           <div className="main-box">
+//           <div className="main-box" style={{marginLeft: '0.2vw'}}>
 //             <div className="main-header" style={{ backgroundColor: "#FFE4E1" }}>
 //               <span style={{ marginLeft: '2vw', fontSize: '2.2vh', color: 'red', marginTop: '3vh'}}>D-{daysRemaining}</span>
 //               <p style={{ marginLeft: '2vw', color: "black", marginTop: '1vh' }}>실습과제 안내</p>
@@ -88,7 +88,7 @@ import { Link } from 'react-router-dom'; // React Router의 Link 컴포넌트 im
 function TaskInfo(props) {
     return (
         <div>
-          <div className="main-box">
+          <div className="main-box" style={{marginLeft: '0.2vw'}}>
             <div className="main-header" style={{ backgroundColor: "#FFE4E1" }}>
               <span style={{ marginLeft: '2vw', fontSize: '2.2vh', color: 'red', marginTop: '3vh'}}>D-3</span>
               <p style={{ marginLeft: '2vw', color: "black", marginTop: '1vh' }}>실습과제 안내</p>
