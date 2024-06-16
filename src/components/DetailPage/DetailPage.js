@@ -8,8 +8,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import MainPage2 from '../MainPage/MainPage2.js';
 import homeworkData from './DummyHW.json';
-import qData from './DummyQ.json';
-import teamData from './DummyTeam.json';
 
 
 function DetailPage() {
@@ -67,10 +65,11 @@ function DetailPage() {
   useEffect(() => {
     axios.get(`${API_BASE_URL}/${storedUserToken}/${lectureId}/lecturepage`)
       .then(response => {
+        const assignments = response.data.task.concat(response.data.exercise);
         console.log('서버로부터 받은 과제, 문제 데이터:', response.data);
         console.log('구분자');
-        setHomeworks(response.data.task); // 서버에서 받은 과제 데이터로 상태 업데이트
-        setQuestions(response.data.exercise); // 문제 데이터 업데이트
+        setHomeworks(assignments.filter(assignment => assignment.problem === '0'));
+        setQuestions(assignments.filter(assignment => assignment.problem === '1'));
         console.log(response.data); //  출력, 240616_14:37
         console.log('구분자2');
         console.log(homeworks); //  출력, 240616_14:37

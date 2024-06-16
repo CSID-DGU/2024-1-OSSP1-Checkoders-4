@@ -40,7 +40,7 @@ function ClassComponent({ lectureData }) {
                 <span style={{ marginLeft: '2vw', color: '#9A9A9A' }}>{lecture_madeby}</span>
             </div>
             <div className="main-content">
-                <div className="main-schedule">
+                {/* <div className="main-schedule">
                     <AiFillCalendar className="icon-margin" />
                     <span>{lecture_date1}</span>
                     <FaRegClock className="icon-margin" style={{ marginLeft: '2vw' }} />
@@ -64,7 +64,7 @@ function ClassComponent({ lectureData }) {
                         <span>과제 제출</span>
                         <span className="rate-percent" style={{ color: 'green' }}>100%</span>
                     </div>
-                </div>
+                </div> */}
 
                 <button
                     onClick={() => moveToDetail(lecture_name, lecture_token, lecture_madeby, lecture_madeby_token, course)}
