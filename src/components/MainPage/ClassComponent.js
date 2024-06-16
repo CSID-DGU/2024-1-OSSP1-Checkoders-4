@@ -22,12 +22,13 @@ function ClassComponent({ lectureData }) {
     // 페이지 이동 시 사용할 과목 변수 끝
 
 
-    function moveToDetail(lectureName, lectureToken, lectureMadeBy, lectureMadeByToken) {
+    function moveToDetail(lectureName, lectureToken, lectureMadeBy, lectureMadeByToken, course) {
         navigate('/detail', { state: { lecture_name: lectureName, lecture_madeby: lectureMadeBy, course: lectureData.course } });
         localStorage.setItem('className', lectureName);
         localStorage.setItem('classToken', lectureToken);
         localStorage.setItem('classMaker', lectureMadeBy);
         localStorage.setItem('classMakerToken', lectureMadeByToken);
+        localStorage.setItem('course', course);
     }
     const headerStyle = (course === "1") ? { backgroundColor: '#FFE4E1' } : {};
 
@@ -66,7 +67,7 @@ function ClassComponent({ lectureData }) {
                 </div>
 
                 <button
-                    onClick={() => moveToDetail(lecture_name, lecture_token, lecture_madeby, lecture_madeby_token)}
+                    onClick={() => moveToDetail(lecture_name, lecture_token, lecture_madeby, lecture_madeby_token, course)}
                     className="to-detailpage-button" // className을 Link 컴포넌트에 직접 적용
                 >자세히 보기</button>
             </div>

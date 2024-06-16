@@ -15,7 +15,6 @@ import teamData from './DummyTeam.json';
 function DetailPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const course = location.state?.course || 'none course';
   const lecture_name = location.state?.lecture_name || '강의명 없음';
   const [teamMembers, setTeamMembers] = useState([]);
   const [homeworks, setHomeworks] = useState(homeworkData.Data);
@@ -32,7 +31,7 @@ function DetailPage() {
     change_lectureId(localStorage.getItem('classToken'));
     const lectureMadeBy = location.state?.lecture_madeby; // 강의 생성자 정보 가져오기
 
-    console.log('storedName:', storedName, 'lectureMadeBy:', lectureMadeBy, 'course: ', course);
+    console.log('storedName:', storedName, 'lectureMadeBy:', lectureMadeBy);
 
     if (storedName === lectureMadeBy) {
     setIsAdmin(true);
@@ -117,8 +116,8 @@ function DetailPage() {
     navigate('/studentqlist', { state: { team_member: memberName, lecture_name: lectureName } });
   }
 
-  function moveToSetAssign(lectureName, course) {
-    navigate('/SetAssign', { state: { lecture_name: lectureName, course: course } });
+  function moveToSetAssign(lectureName) {
+    navigate('/SetAssign', { state: { lecture_name: lectureName } });
   }
 
   function moveToSetTeam(lectureName) {
