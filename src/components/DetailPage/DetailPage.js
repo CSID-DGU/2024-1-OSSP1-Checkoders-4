@@ -103,9 +103,14 @@ function DetailPage() {
     navigate('/SetTeam', { state: { lecture_name: lectureName } });
   }
 
-  function moveToSubmitAssign(assignmentId) {
-    localStorage.setItem('assignmentToken', assignmentId)
-    navigate('/SubmitAssign');
+  function moveToSubmitAssign(assignmentId, correct) {
+    if(correct){
+      navigate('/CodeReview');
+    }
+    else{
+      localStorage.setItem('assignmentToken', assignmentId)
+      navigate('/SubmitAssign');
+    }
   } // 이동 추가 + onClick={moveToSubmitAssign}
 
   const kakaoLogout = () => { // 카카오 로그아웃을 위한 함수, post 요청을 통해 accessToken을 보내 토큰을 만료시켜 로그아웃함
@@ -194,10 +199,10 @@ function DetailPage() {
                 {homeworks.map((hw, index) => (
                   <div className="task" key={index}>
                     <div className="task-font">
-                      {/* {hw.title.length > 30 ? `${hw.title.substring(0, 30)}...` : hw.title} */}
                       {hw.title}
-                      <button className="button-style" onClick={() => moveToSubmitAssign(hw.assignmentId)}>
-                        View Details</button>
+                      <button className={`button-style ${hw.correct ? 'button-done' : ''}`} onClick={() => moveToSubmitAssign(hw.assignmentId, hw.correct)}>
+                        {hw.correct ? "Done" : "View Details"}
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -212,10 +217,9 @@ function DetailPage() {
                 {questions.map((question, index) => (
                   <div className="task" key={index}>
                     <div className="task-font">
-                      {/*{question.q_name.length > 30 ? `${question.q_name.substring(0, 30)}...` : question.q_name}*/}
                       {question.title}
-                      <button className="button-style" onClick={() => moveToSubmitAssign(question.assignmentId)}>
-                        View Details
+                      <button className={`button-style ${question.correct ? 'button-done' : ''}`} onClick={() => moveToSubmitAssign(question.assignmentId, question.correct)}>
+                        {question.correct ? "Done" : "View Details"}
                       </button>
                     </div>
                   </div>
