@@ -45,3 +45,36 @@ public class Hello {
 */
 
 
+/*
+public class Hello {
+    public static void main(String[] args) {
+        for (int i = 0; i < args.length - 1; i++) {
+            for (int j = i + 1; j < args.length; j++) {
+                if (args[i].compareTo(args[j]) > 0) {
+                    // args[i]와 args[j]를 교환합니다.
+                    String temp = args[i];
+                    args[i] = args[j];
+                    args[j] = temp;
+                }
+            }
+        }
+        for (String arg : args) {
+            System.out.print(arg + " ");
+        }
+    }
+}
+*/
+
+/*public class Hello {
+    public static void main(String[] args) {
+        for (int i = 0; i < args.length - 1; i = Integer.sum(i, 1)) {
+            for (int j = Integer.sum(i, 1); j < args.length; j = Integer.sum(j, 1)) {
+                if (args[i].compareTo(args[j]) > 0) {
+                    String temp = args[i]; args[i] = args[j]; args[j] = temp;
+                }
+            }
+        } for (int k = 0; k < args.length; k = Integer.sum(k, 1)) {
+            System.out.print(args[k]); System.out.print(" "); }
+    }
+}*/
+

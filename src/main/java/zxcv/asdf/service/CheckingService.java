@@ -30,6 +30,7 @@ public class CheckingService {
 
     public boolean compile(String sourceCode,String test,String expectedAnswer) throws Exception{
 
+        String[] args = test.split(" ");
         Path path = Files.createTempDirectory("compile_output");
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
@@ -42,7 +43,7 @@ public class CheckingService {
 
         boolean success = task.call();
         if (!success) {
-            throw new RuntimeException("Compilation failed.");
+            return false;
         }
 
         URLClassLoader classLoader = URLClassLoader.newInstance(
@@ -52,12 +53,10 @@ public class CheckingService {
 
         Class<?> clazz = Class.forName("Hello", true, classLoader);
         Method method = clazz.getMethod("main", String[].class);
-
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(bos));
 
-        String[] args = {test};
         method.invoke(null, (Object) args);
         String result = bos.toString(StandardCharsets.UTF_8).trim();
         System.setOut(originalOut);

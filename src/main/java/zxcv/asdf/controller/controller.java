@@ -195,8 +195,9 @@ public class controller {
                 .hwTest5(page4_makeProb.getHwTest5())
                 .hwTestAnswer5(page4_makeProb.getHwTestAnswer5())
                 .build();
+
         if (page4_makeProb.getCourse().equals("0")){
-            if (user.getToken()==lecture.getMadeby()){
+            if (user.getToken().equals(lecture.getMadeby())){
                 lectureAssignment.setProblem("0");
             }
             else{
@@ -254,7 +255,6 @@ public class controller {
         testCases.add(Map.of("test", lectureAssignment.getHwTest4(), "answer", lectureAssignment.getHwTestAnswer4()));
         testCases.add(Map.of("test", lectureAssignment.getHwTest5(), "answer", lectureAssignment.getHwTestAnswer5()));
 
-        System.out.println(testCases);
         for (Map<String, String> testCase : testCases) {
             String test = testCase.get("test");
             String expectedAnswer = testCase.get("answer");
