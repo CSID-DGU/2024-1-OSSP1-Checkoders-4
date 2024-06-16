@@ -151,7 +151,10 @@ function MainPage2() {
       // Assuming 'setLectures' updates the lectures state, you could do something like:
       setLectures(prevLectures => [...prevLectures, lecture]);
     }
-    // fetchClassData();
+    else {
+      // 강의가 없으면 강의 목록을 새로 고침
+      fetchClassData();
+    }
   };
 
   const renderClassComponents = () => {
