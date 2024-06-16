@@ -19,7 +19,7 @@ function SetAssign() {
   const [classMaker, setClassMaker] = useState();
   const [classMakerToken, setClassMakerToken] = useState();
   // 페이지 이동 시 사용할 과목 변수 끝
-  const course = location.state?.course || 'none course';
+  const course = localStorage.getItem('course'); 
   //course 값 받아옴
 
   const setUserData = () => {
