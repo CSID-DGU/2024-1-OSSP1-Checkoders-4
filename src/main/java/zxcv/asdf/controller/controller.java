@@ -24,6 +24,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -112,10 +113,12 @@ public class controller {
         String name = user.getName();
         List<Lecture> lectures = userService.getLecturesByUserToken(token, name);
 
+        List<LocalDateTime> deadlines = userService.getDeadlines(token);
         List<LectureDTO> lectureDTOs = lectures.stream()
                 .map(lecture -> LectureDTO.builder()
                         .lectureId(lecture.getId())
                         .name(lecture.getName())
+                        .deadline(deadlines)
                         .madeby(lecture.getMadeby())
                         .madeby_name(lecture.getMadeby_name())
                         .course(lecture.getCourse())

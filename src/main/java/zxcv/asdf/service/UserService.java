@@ -10,6 +10,7 @@ import zxcv.asdf.DTO.page2_lecture;
 import zxcv.asdf.domain.*;
 import zxcv.asdf.repository.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -70,8 +71,17 @@ public class UserService {
         return lectureRepository.findByName(name);
     }
 
-    public List<Lecture> getAllLectures() {
-        return lectureRepository.findAll();
+    public List<LocalDateTime> getDeadlines(String token) {
+        User user = userRepository.findByToken(token)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // 사용자가 등록한 모든 강의 ID를 가져옵니다.
+        List<Long> lectureIds = enrollmentRepository.findLectureIdsByUserId(user.getToken());
+
+        // 해당 강의들에 대한 모든 과제의 마감 시간을 가져옵니다.
+        List<LocalDateTime> deadlines = lectureAssignmentRepository.findDeadlinesByLectureIds(lectureIds);
+
+        return deadlines;
     }
 
     public LectureAssignment getLectureAssignmentByLectureId(Long lectureId) {
