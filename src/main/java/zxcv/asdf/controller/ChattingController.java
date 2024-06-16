@@ -33,14 +33,9 @@ public class ChattingController {
         return chattingService.getChatsBySenderToken(senderToken);
     }
 
-    @GetMapping("/receiver/{receiverToken}")
-    public List<Chatting> getChatsByReceiverToken(@PathVariable String receiverToken) {
-        return chattingService.getChatsByReceiverToken(receiverToken);
-    }
-
-    @GetMapping("/between/{senderToken}/{receiverToken}")
-    public List<Chatting> getChatsBetweenUsers(@PathVariable String senderToken, @PathVariable String receiverToken) {
-        return chattingService.getChatsBetweenUsers(senderToken, receiverToken);
+    @GetMapping("/team/{teamId}/answer/{answerId}")
+    public List<Chatting> getChatsByTeamAndAnswer(@PathVariable Long teamId, @PathVariable Long answerId) {
+        return chattingService.getChatsByTeamAndAnswer(teamId, answerId);
     }
 
     @PostMapping

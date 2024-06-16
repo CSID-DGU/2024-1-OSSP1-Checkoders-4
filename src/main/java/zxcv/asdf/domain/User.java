@@ -1,9 +1,10 @@
 package zxcv.asdf.domain;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.List;
 
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,4 +26,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Answer> answers;
 
+    @OneToMany(mappedBy = "sender")
+    private List<Chatting> sentMessages;
 }

@@ -8,7 +8,9 @@ public class page6_chat {
 
     private String senderToken;
 
-    private String receiverToken;
+    private Long teamId;
+
+    private Long answerId;
 
     private String content;
 

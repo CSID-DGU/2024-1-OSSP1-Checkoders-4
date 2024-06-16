@@ -3,10 +3,14 @@ package zxcv.asdf.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import zxcv.asdf.domain.Chatting;
-import zxcv.asdf.DTO.page6_chat;
 import zxcv.asdf.domain.User;
+import zxcv.asdf.domain.Team;
+import zxcv.asdf.domain.Answer;
+import zxcv.asdf.DTO.page6_chat;
 import zxcv.asdf.repository.ChattingRepository;
 import zxcv.asdf.repository.UserRepository;
+import zxcv.asdf.repository.TeamRepository;
+import zxcv.asdf.repository.AnswerRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +24,12 @@ public class ChattingService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TeamRepository teamRepository;
+
+    @Autowired
+    private AnswerRepository answerRepository;
+
     public List<Chatting> getAllChats() {
         return chattingRepository.findAll();
     }
@@ -29,29 +39,26 @@ public class ChattingService {
     }
 
     public List<Chatting> getChatsBySenderToken(String senderToken) {
-        return chattingRepository.findBySenderToken(senderToken);
+        return chattingRepository.findBySender_Token(senderToken);
     }
 
-    public List<Chatting> getChatsByReceiverToken(String receiverToken) {
-        return chattingRepository.findByReceiverToken(receiverToken);
-    }
-
-    public List<Chatting> getChatsBetweenUsers(String senderToken, String receiverToken) {
-        return chattingRepository.findBySenderTokenAndReceiverToken(senderToken, receiverToken);
+    public List<Chatting> getChatsByTeamAndAnswer(Long teamId, Long answerId) {
+        return chattingRepository.findByTeam_IdAndAnswer_Id(teamId, answerId);
     }
 
     public Chatting saveChat(page6_chat chatDto) {
-        User sender = userRepository.findByToken(chatDto.getSenderToken())
-                .orElseThrow(() -> new IllegalArgumentException("Sender not found"));
-        User receiver = userRepository.findByToken(chatDto.getReceiverToken())
-                .orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
+        User sender = userRepository.findById(chatDto.getSenderToken()).orElseThrow(() -> new IllegalArgumentException("Invalid sender token"));
+        Team team = teamRepository.findById(chatDto.getTeamId()).orElseThrow(() -> new IllegalArgumentException("Invalid team ID"));
+        Answer answer = answerRepository.findById(chatDto.getAnswerId()).orElseThrow(() -> new IllegalArgumentException("Invalid answer ID"));
 
         Chatting chatting = Chatting.builder()
                 .sender(sender)
-                .receiver(receiver)
+                .team(team)
+                .answer(answer)
                 .content(chatDto.getContent())
                 .timestamp(chatDto.getTimestamp())
                 .build();
+
         return chattingRepository.save(chatting);
     }
 
