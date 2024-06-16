@@ -31,7 +31,7 @@ function SetTeam() {
 
   const setClassData = () => {
     setClassName(localStorage.getItem('className'));
-    //setClassToken(localStorage.getItem('classToken'));
+    setClassToken(localStorage.getItem('classToken'));
     setClassMaker(localStorage.getItem('classMaker'));
     setClassMakerToken(localStorage.getItem('classMakerToken'));
     console.log("클레스 데이터 확인(과목명): ", localStorage.getItem('className'));
@@ -41,17 +41,13 @@ function SetTeam() {
   }
 
   useEffect(() => {
-    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
-    // fetchData();
     fetchData();
     setUserData();
     setClassData();
   }, []);
 
   let [tableName, changeTable] = useState('실습 팀');
-  let [team_num, changeTeamNum] = useState('');
   let [table_data, changeTableData] = useState(null);
-
   let [student_per_group, changeSPG] = useState('');
 
   const fetchData = () => {
@@ -95,18 +91,16 @@ function SetTeam() {
       console.log("전달 성공");
     })
     .catch(error => {
-      if (Math.random() < 0.5) {
-        changeTableData(stuData.sData);
-      } else {
-        changeTableData(stuData2.sData);
-      }
-      fetchData();
+      // if (Math.random() < 0.5) {
+      //   changeTableData(stuData.sData);
+      // } else {
+      //   changeTableData(stuData2.sData);
+      // }
+      // fetchData();
       // 요청 실패 시 실행되는 코드
       console.log("전달 실패");
     });
   }
-  
-
 
   const kakaoLogout = () => { // 카카오 로그아웃을 위한 함수, post 요청을 통해 accessToken을 보내 토큰을 만료시켜 로그아웃함
     const accessToken_main = localStorage.getItem('accessToken_main');

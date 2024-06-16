@@ -96,13 +96,18 @@ function SubmitAssign() {
       console.log("소스 코드가 비어있음");
       return; // 소스 코드가 없으면 요청을 보내지 않음
     }
+    if (!assignmentToken) {
+      change_PopupMessage('과제 번호가 설정되지 않았습니다.');
+      change_IsPopupVisible(true);
+      return;
+  }
 
     console.log("제출 소스 코드: ", submit_source); // 콘솔 로그 추가
     axios({
       method: 'POST',
       url: `${API_BASE_URL}/${userToken}/${assignmentToken}/submit`,
       data: {
-        p: submit_source
+        answer_text: submit_source
       }
     })
       .then((response) => {

@@ -34,7 +34,7 @@ function CodeReview() {
 
   const setClassData = () => {
     setClassName(localStorage.getItem('className'));
-    //setClassToken(localStorage.getItem('classToken'));
+    setClassToken(localStorage.getItem('classToken'));
     setClassMaker(localStorage.getItem('classMaker'));
     setClassMakerToken(localStorage.getItem('classMakerToken'));
     console.log("클레스 데이터 확인(과목명): ", localStorage.getItem('className'));
@@ -43,26 +43,30 @@ function CodeReview() {
     console.log("클레스 데이터 확인(과목생성자토큰): ", localStorage.getItem('classMakerToken'));
   }
 
+  const setAssignmentData = () =>{
+    setAssignmentToken(localStorage.getItem('assignmentToken'))
+    console.log("과제 번호 확인(과제번호): ", localStorage.getItem('assignmentToken'));
+  }
+  
   useEffect(() => {
-    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
-    // fetchData();
     fetchData();
     setUserData();
     setClassData();
+    setAssignmentData();
   }, []);
 
   let [hw_name, change_hw_name] = useState('실습 과제2');
   let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
   let [hw_test1, change_hw_test1] = useState(''); // 입력 예제1
-  let [hw_test2, change_hw_test2] = useState(''); // 입력 예제2
-  let [hw_test3, change_hw_test3] = useState(''); // 입력 예제3
-  let [hw_test4, change_hw_test4] = useState(''); // 입력 예제4
-  let [hw_test5, change_hw_test5] = useState(''); // 입력 예제5
+  // let [hw_test2, change_hw_test2] = useState(''); // 입력 예제2
+  // let [hw_test3, change_hw_test3] = useState(''); // 입력 예제3
+  // let [hw_test4, change_hw_test4] = useState(''); // 입력 예제4
+  // let [hw_test5, change_hw_test5] = useState(''); // 입력 예제5
   let [hw_test_answer1, change_hw_test_answer1] = useState(''); // 출력 예제1
-  let [hw_test_answer2, change_hw_test_answer2] = useState(''); // 출력 예제2
-  let [hw_test_answer3, change_hw_test_answer3] = useState(''); // 출력 예제3
-  let [hw_test_answer4, change_hw_test_answer4] = useState(''); // 출력 예제4
-  let [hw_test_answer5, change_hw_test_answer5] = useState(''); // 출력 예제5
+  // let [hw_test_answer2, change_hw_test_answer2] = useState(''); // 출력 예제2
+  // let [hw_test_answer3, change_hw_test_answer3] = useState(''); // 출력 예제3
+  // let [hw_test_answer4, change_hw_test_answer4] = useState(''); // 출력 예제4
+  // let [hw_test_answer5, change_hw_test_answer5] = useState(''); // 출력 예제5
   let [source, change_source] = useState('printf("Hello World!");');
   let [gpt_feedback, change_gpt_feedback] = useState('GPT가 작성한 피드백 내용');
   let [cData, change_cData] = useState([]);
@@ -195,20 +199,20 @@ function CodeReview() {
                         <p>입력 예제</p>
                         <p>
                           {hw_test1}<br />
-                          {hw_test2}<br />
+                          {/* {hw_test2}<br />
                           {hw_test3}<br />
                           {hw_test4}<br />
-                          {hw_test5}
+                          {hw_test5} */}
                         </p>
                       </div>
                       <div className='CodeReviewOutputExample' style={{ whiteSpace: 'pre-line' }}>
                         <p>출력 예제</p>
                         <p>
                           {hw_test_answer1}<br />
-                          {hw_test_answer2}<br />
+                          {/* {hw_test_answer2}<br />
                           {hw_test_answer3}<br />
                           {hw_test_answer4}<br />
-                          {hw_test_answer5}
+                          {hw_test_answer5} */}
                         </p>
                       </div>
                     </div>

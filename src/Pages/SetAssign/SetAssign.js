@@ -41,8 +41,6 @@ function SetAssign() {
   }
 
   useEffect(() => {
-    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
-    // fetchData();
     setUserData();
     setClassData();
     console.log('course: ', course); //course 값 콘솔 출력
@@ -135,7 +133,6 @@ function SetAssign() {
         console.log("제출 실패", error);
       });
   };
-
 
   const handleSiteName = () => {
     navigate('/Main');
