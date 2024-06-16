@@ -186,7 +186,7 @@ function DetailPage() {
                 </button>
                 <div className="team-container">
                   {teamMembers.map(member => (
-                    <button className="team-name" key={member.id} >
+                    <button className="team-name" key={member.id}>
                       {member.name}
                     </button>
                   ))}
