@@ -10,6 +10,7 @@ import zxcv.asdf.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ChattingService {
@@ -20,27 +21,27 @@ public class ChattingService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<Chatting> getAllChats() {
-        return chattingRepository.findAll();
+    public List<page6_chat> getAllChats() {
+        return chattingRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public Optional<Chatting> getChatById(Long id) {
-        return chattingRepository.findById(id);
+    public Optional<page6_chat> getChatById(Long id) {
+        return chattingRepository.findById(id).map(this::convertToDTO);
     }
 
-    public List<Chatting> getChatsBySenderToken(String senderToken) {
-        return chattingRepository.findBySenderToken(senderToken);
+    public List<page6_chat> getChatsBySenderToken(String senderToken) {
+        return chattingRepository.findBySenderToken(senderToken).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public List<Chatting> getChatsByReceiverToken(String receiverToken) {
-        return chattingRepository.findByReceiverToken(receiverToken);
+    public List<page6_chat> getChatsByReceiverToken(String receiverToken) {
+        return chattingRepository.findByReceiverToken(receiverToken).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public List<Chatting> getChatsBetweenUsers(String senderToken, String receiverToken) {
-        return chattingRepository.findBySenderTokenAndReceiverToken(senderToken, receiverToken);
+    public List<page6_chat> getChatsBetweenUsers(String senderToken, String receiverToken) {
+        return chattingRepository.findBySenderTokenAndReceiverToken(senderToken, receiverToken).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public Chatting saveChat(page6_chat chatDto) {
+    public page6_chat saveChat(page6_chat chatDto) {
         User sender = userRepository.findByToken(chatDto.getSenderToken())
                 .orElseThrow(() -> new IllegalArgumentException("Sender not found"));
         User receiver = userRepository.findByToken(chatDto.getReceiverToken())
@@ -52,10 +53,20 @@ public class ChattingService {
                 .content(chatDto.getContent())
                 .timestamp(chatDto.getTimestamp())
                 .build();
-        return chattingRepository.save(chatting);
+        Chatting savedChat = chattingRepository.save(chatting);
+        return convertToDTO(savedChat);
     }
 
     public void deleteChat(Long id) {
         chattingRepository.deleteById(id);
+    }
+
+    private page6_chat convertToDTO(Chatting chatting) {
+        return page6_chat.builder()
+                .senderToken(chatting.getSender().getToken())
+                .receiverToken(chatting.getReceiver().getToken())
+                .content(chatting.getContent())
+                .timestamp(chatting.getTimestamp())
+                .build();
     }
 }
