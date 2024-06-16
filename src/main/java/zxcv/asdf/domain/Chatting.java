@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -21,8 +22,12 @@ public class Chatting {
     private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "receiver_token", nullable = false)
-    private User receiver;
+    @JoinColumn(name = "team_id", nullable = false)
+    private Team team;
+
+    @ManyToOne
+    @JoinColumn(name = "answer_id", nullable = false)
+    private Answer answer;
 
     private String content;
 

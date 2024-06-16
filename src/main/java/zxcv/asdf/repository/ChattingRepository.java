@@ -6,7 +6,6 @@ import zxcv.asdf.domain.Chatting;
 import java.util.List;
 
 public interface ChattingRepository extends JpaRepository<Chatting, Long> {
-    List<Chatting> findBySenderToken(String sender);
-    List<Chatting> findByReceiverToken(String receiver);
-    List<Chatting> findBySenderTokenAndReceiverToken(String sender, String receiver);
+    List<Chatting> findBySenderToken(String senderToken);
+    List<Chatting> findByTeamIdAndAnswerId(Long teamId, Long answerId);
 }
