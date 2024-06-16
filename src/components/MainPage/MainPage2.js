@@ -226,9 +226,9 @@ function MainPage2() {
                 <img src={logo} alt="동국대로고" style={{ width: '6vw', height: 'auto' }} />
               </div>
             </div>
-            
+
             <TaskCalendar />
-            
+
             <div className="main-task-info">
               <TaskInfo lecture_name={lecture_name} />
             </div>
