@@ -16,10 +16,14 @@ function CodeReview() {
 
   // 페이지 이동 시 사용할 과목 변수 시작
   const [className, setClassName] = useState();
-  const [classToken, setClassToken] = useState();
+  const [classToken, setClassToken] = useState(1);
   const [classMaker, setClassMaker] = useState();
   const [classMakerToken, setClassMakerToken] = useState();
   // 페이지 이동 시 사용할 과목 변수 끝
+
+  // 과제 번호 변수 시작 
+  const [assignmentToken, setAssignmentToken] = useState(1);
+  // 과제 번호 변수 끝
 
   const setUserData = () => {
     setUserName(localStorage.getItem('name_main'));
@@ -39,66 +43,61 @@ function CodeReview() {
     console.log("클레스 데이터 확인(과목생성자토큰): ", localStorage.getItem('classMakerToken'));
   }
 
+  const setAssignmentData = () =>{
+    setAssignmentToken(localStorage.getItem('assignmentToken'))
+    console.log("과제 번호 확인(과제번호): ", localStorage.getItem('assignmentToken'));
+  }
+  
   useEffect(() => {
-    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
-    // fetchData();
     fetchData();
     setUserData();
     setClassData();
+    setAssignmentData();
   }, []);
 
   let [hw_name, change_hw_name] = useState('실습 과제2');
   let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
   let [hw_test1, change_hw_test1] = useState(''); // 입력 예제1
-  let [hw_test2, change_hw_test2] = useState(''); // 입력 예제2
-  let [hw_test3, change_hw_test3] = useState(''); // 입력 예제3
-  let [hw_test4, change_hw_test4] = useState(''); // 입력 예제4
-  let [hw_test5, change_hw_test5] = useState(''); // 입력 예제5
+  // let [hw_test2, change_hw_test2] = useState(''); // 입력 예제2
+  // let [hw_test3, change_hw_test3] = useState(''); // 입력 예제3
+  // let [hw_test4, change_hw_test4] = useState(''); // 입력 예제4
+  // let [hw_test5, change_hw_test5] = useState(''); // 입력 예제5
   let [hw_test_answer1, change_hw_test_answer1] = useState(''); // 출력 예제1
-  let [hw_test_answer2, change_hw_test_answer2] = useState(''); // 출력 예제2
-  let [hw_test_answer3, change_hw_test_answer3] = useState(''); // 출력 예제3
-  let [hw_test_answer4, change_hw_test_answer4] = useState(''); // 출력 예제4
-  let [hw_test_answer5, change_hw_test_answer5] = useState(''); // 출력 예제5
+  // let [hw_test_answer2, change_hw_test_answer2] = useState(''); // 출력 예제2
+  // let [hw_test_answer3, change_hw_test_answer3] = useState(''); // 출력 예제3
+  // let [hw_test_answer4, change_hw_test_answer4] = useState(''); // 출력 예제4
+  // let [hw_test_answer5, change_hw_test_answer5] = useState(''); // 출력 예제5
   let [source, change_source] = useState('printf("Hello World!");');
   let [gpt_feedback, change_gpt_feedback] = useState('GPT가 작성한 피드백 내용');
   let [cData, change_cData] = useState([]);
   let [comment, change_comment] = useState('');
 
   const fetchData = () => {
+    axios.get(`${API_BASE_URL}/${userToken}/${classToken}/${assignmentToken}/assignmentpage`)
+      .then((response) => {
+        // 요청 성공 시 실행되는 코드
+        console.log(response);  // 아래는 예상되는 반환값
+        change_hw_name(response.data.title);
+        change_hw_problem(response.data.description);
+        change_hw_test1(response.data.hwTest1);
+        change_hw_test_answer1(response.data.hwTestAnswer1);
+        console.log('데이터 받아오기 성공123');
+      })
+      .catch(error => {
+        // 요청 실패 시 실행되는 코드
+        console.log('데이터 받아오기 실패123');
+      });
+
     // GET 요청 보내기
     axios.get(`${API_BASE_URL}/코드리뷰주소`)
       .then((response) => {
         // 요청 성공 시 실행되는 코드
-        change_hw_name(response.data.hw_name);
-        change_hw_problem(response.data.problem);
-        change_hw_test1(response.data.test1);
-        change_hw_test2(response.data.test2);
-        change_hw_test3(response.data.test3);
-        change_hw_test4(response.data.test4);
-        change_hw_test5(response.data.test5);
-        change_hw_test_answer1(response.data.test_answer1);
-        change_hw_test_answer2(response.data.test_answer2);
-        change_hw_test_answer3(response.data.test_answer3);
-        change_hw_test_answer4(response.data.test_answer4);
-        change_hw_test_answer5(response.data.test_answer5);
         change_source(response.data.source);
         change_gpt_feedback(response.data.gpt_feedback);
         change_cData(response.chat);
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        change_hw_name(codereview_data.hw[0].hw_name);
-        change_hw_problem(codereview_data.hw[0].hw_problem);
-        change_hw_test1(codereview_data.hw[0].hw_test1);
-        change_hw_test2(codereview_data.hw[0].hw_test2);
-        change_hw_test3(codereview_data.hw[0].hw_test3);
-        change_hw_test4(codereview_data.hw[0].hw_test4);
-        change_hw_test5(codereview_data.hw[0].hw_test5);
-        change_hw_test_answer1(codereview_data.hw[0].hw_test_answer1);
-        change_hw_test_answer2(codereview_data.hw[0].hw_test_answer2);
-        change_hw_test_answer3(codereview_data.hw[0].hw_test_answer3);
-        change_hw_test_answer4(codereview_data.hw[0].hw_test_answer4);
-        change_hw_test_answer5(codereview_data.hw[0].hw_test_answer5);
         change_source(codereview_data.code[0].source);
         change_gpt_feedback(codereview_data.gpt[0].gpt_feedback)
         change_cData(cData);
@@ -119,15 +118,15 @@ function CodeReview() {
       user_name: userName,
       comment: comment
     })
-    .then((response) => {
-      // 성공적으로 댓글이 등록되었을 때 실행할 코드
-      console.log("댓글이 성공적으로 등록되었습니다.");
-      change_cData(response.chat);
-    })
-    .catch((error) => {
-      // 댓글을 등록하는 과정에서 에러가 발생했을 때 실행할 코드
-      console.error("댓글을 등록하는 중 에러가 발생했습니다:", error);
-    });
+      .then((response) => {
+        // 성공적으로 댓글이 등록되었을 때 실행할 코드
+        console.log("댓글이 성공적으로 등록되었습니다.");
+        change_cData(response.chat);
+      })
+      .catch((error) => {
+        // 댓글을 등록하는 과정에서 에러가 발생했을 때 실행할 코드
+        console.error("댓글을 등록하는 중 에러가 발생했습니다:", error);
+      });
   };
 
   const handleSubmitComment = () => {
@@ -135,7 +134,7 @@ function CodeReview() {
     // 댓글 등록 후 입력 창 초기화
     change_comment('');
   };
-  
+
   const kakaoLogout = () => { // 카카오 로그아웃을 위한 함수, post 요청을 통해 accessToken을 보내 토큰을 만료시켜 로그아웃함
     const accessToken_main = localStorage.getItem('accessToken_main');
     axios({
@@ -200,20 +199,20 @@ function CodeReview() {
                         <p>입력 예제</p>
                         <p>
                           {hw_test1}<br />
-                          {hw_test2}<br />
+                          {/* {hw_test2}<br />
                           {hw_test3}<br />
                           {hw_test4}<br />
-                          {hw_test5}
+                          {hw_test5} */}
                         </p>
                       </div>
                       <div className='CodeReviewOutputExample' style={{ whiteSpace: 'pre-line' }}>
                         <p>출력 예제</p>
                         <p>
                           {hw_test_answer1}<br />
-                          {hw_test_answer2}<br />
+                          {/* {hw_test_answer2}<br />
                           {hw_test_answer3}<br />
                           {hw_test_answer4}<br />
-                          {hw_test_answer5}
+                          {hw_test_answer5} */}
                         </p>
                       </div>
                     </div>
@@ -256,7 +255,7 @@ function CodeReview() {
                         {userName}
                       </div>
                       <div className='inputTextBox'>
-                        <textarea className='textBox' placeholder='댓글을 남겨보세요'value ={comment} onChange = {handleChange_comment}></textarea>
+                        <textarea className='textBox' placeholder='댓글을 남겨보세요' value={comment} onChange={handleChange_comment}></textarea>
                       </div>
                       <div className='buttonArea'>
                         <button className='postButton' onClick={handleSubmitComment}>

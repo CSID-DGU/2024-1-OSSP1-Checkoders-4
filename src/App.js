@@ -6,7 +6,6 @@ import StudentQListPage from './components/StudentQListPage/StudentQListPage';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 //
 import Login from './Pages/Login/Login';
-import MainSpare from "./Pages/MainSpare/Main";
 import Foundation from "./Pages/Foundation/Foundation";
 import SubmitAssign from "./Pages/SubmitAssign/SubmitAssign";
 import SetAssign from "./Pages/SetAssign/SetAssign";
@@ -14,7 +13,6 @@ import SetTeam from "./Pages/SetTeam/SetTeam"
 import CodeReview from "./Pages/CodeReview/CodeReview"
 import StudentTable from "./Pages/SetTeam/StudentTable/StudentTable";
 //
-import Practice from './Pages/Practice/Practice';
 
 function App() {
   return (
@@ -26,7 +24,6 @@ function App() {
           <Route path={"/studentqlist"} element={<StudentQListPage/>}> </Route>
 
           <Route path = '/' element = {<Login />}></Route>
-          <Route path = '/MainSpare' element = {<MainSpare />} ></Route>
           <Route path = '/Foundation' element = {<Foundation />} ></Route>
           <Route path = '/SubmitAssign' element = {<SubmitAssign />} ></Route>
           <Route path = '/SetAssign' element = {<SetAssign />} ></Route>
@@ -34,7 +31,6 @@ function App() {
           <Route path = '/CodeReview' element = {<CodeReview />} ></Route>
           <Route path = '/StudentTable' element = {<StudentTable />} ></Route>
           //
-          <Route path = '/Practice' element = {<Practice/>}></Route>
         </Routes>
       </div>
     </BrowserRouter>

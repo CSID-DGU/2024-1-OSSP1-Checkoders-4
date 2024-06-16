@@ -8,6 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SetAssign() {
+  const location = useLocation();  // location 객체를 가져옴
   // 유저 정보 변수 시작
   const [userName, setUserName] = useState();
   const [userToken, setUserToken] = useState();
@@ -18,6 +19,8 @@ function SetAssign() {
   const [classMaker, setClassMaker] = useState();
   const [classMakerToken, setClassMakerToken] = useState();
   // 페이지 이동 시 사용할 과목 변수 끝
+  const course = localStorage.getItem('course');
+  //course 값 받아옴
 
   const setUserData = () => {
     setUserName(localStorage.getItem('name_main'));
@@ -38,11 +41,10 @@ function SetAssign() {
   }
 
   useEffect(() => {
-    // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
-    // fetchData();
     setUserData();
     setClassData();
-  }, []);
+    console.log('course: ', course); //course 값 콘솔 출력
+  }, [location.state]);
 
   let [q_name, change_q_name] = useState('');  // 문제명
   let [q_deadline, change_q_deadline] = useState(new Date());
@@ -59,6 +61,7 @@ function SetAssign() {
   let [q_test_answer5, change_q_test_answer5] = useState(''); // 출력 예제5
 
   const assignmentRequestDTO = {
+    course: course,
     title: q_name,
     description: q_problem,
     deadline: q_deadline,
@@ -118,19 +121,16 @@ function SetAssign() {
 
   const handleSubmit = (event) => { // 문제 정보 전달
     axios.post(`${API_BASE_URL}/${userToken}/${classToken}/createAssignment`,
-      {
-        assignmentRequestDTO: assignmentRequestDTO
-      })
+      assignmentRequestDTO // assignmentRequestDTO 객체 자체를 직접 전달
+    )
       .then((response) => {
         // 요청 성공 시 실행되는 코드
         navigate('/detail');
-        console.log(assignmentRequestDTO);
         console.log("제출 성공", response);
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        //navigate('/detail');
-        console.log("제출 실패");
+        console.log("제출 실패", error);
       });
   };
 

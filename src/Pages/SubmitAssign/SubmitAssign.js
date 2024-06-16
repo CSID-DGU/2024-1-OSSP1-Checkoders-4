@@ -18,7 +18,7 @@ function SubmitAssign() {
   const [classMakerToken, setClassMakerToken] = useState();
   // 페이지 이동 시 사용할 과목 변수 끝
   // 과제 번호 변수 시작 
-  const [assignmentToken, setAssignmentToken] = useState(4);
+  const [assignmentToken, setAssignmentToken] = useState(1);
   // 과제 번호 변수 끝
 
   const setUserData = () => {
@@ -41,7 +41,7 @@ function SubmitAssign() {
 
   const setAssignmentData = () =>{
     setAssignmentToken(localStorage.getItem('assignmentToken'))
-    console.log("과제 번호 확인(과저벤호): ", localStorage.getItem('assignmentToken'));
+    console.log("과제 번호 확인(과제번호): ", localStorage.getItem('assignmentToken'));
   }
 
   let [hw_name, change_hw_name] = useState('실습 과제2');
@@ -89,71 +89,45 @@ function SubmitAssign() {
   // 제출 관련
   const navigate = useNavigate();
 
-  let [sourceCode, change_sourceCode] = useState();
-  let [args, change_args] = useState();
-  let [xOutput, change_xOutput] = useState();
-
   const handleSubmit = () => {
-    // 서버로 데이터를 전송하기 위해 axios를 사용하여 POST 요청 보내기
-    // axios.post(`${API_BASE_URL}/submit`,
-    //   new URLSearchParams({
-    //     submit_source: submit_source,
-    //     submitter: submitter
-    //   }))
-    //   .then(response => {
-    //     // 특정 페이지로 이동
-    //     navigate('/detail');
-    //     console.log("제출 성공")
-    //   })
-    //   .catch(error => {
-    //     // 전송 실패 시의 처리
-    //     navigate('/detail');
-    //     console.log("제출 실패")
-    //   });
+    if (!submit_source) {
+      change_PopupMessage('소스 코드를 입력해주세요.'); // 팝업창 관련 메시지
+      change_IsPopupVisible(true);  // 팝업창 관련
+      console.log("소스 코드가 비어있음");
+      return; // 소스 코드가 없으면 요청을 보내지 않음
+    }
+    if (!assignmentToken) {
+      change_PopupMessage('과제 번호가 설정되지 않았습니다.');
+      change_IsPopupVisible(true);
+      return;
+  }
 
-    // axios.post(`${API_BASE_URL}/submit`,
-    //   sourceCode, 
-    //   new URLSearchParams{
-    //   args: args,
-    //   xOutput: xOutput
-    // })
-    // .then(response => {
-    //   // 특정 페이지로 이동
-    //   navigate('/detail');
-    //   console.log("제출 성공")
-    // })
-    // .catch(error => {
-    //   // 전송 실패 시의 처리
-    //   navigate('/detail');
-    //   console.log("제출 실패")
-    // });
+    console.log("제출 소스 코드: ", submit_source); // 콘솔 로그 추가
     axios({
       method: 'POST',
-      url: `${API_BASE_URL}/submit`,
+      url: `${API_BASE_URL}/${userToken}/${assignmentToken}/submit`,
       data: {
-        sourceCode: sourceCode
-      }, // 요청 본문
-      params: new URLSearchParams({
-        args: args,
-        xOutput: xOutput
-      })
+        answer_text: submit_source
+      }
     })
       .then((response) => {
+        console.log('제출에 대한 응답: ',response);
+
         const success = response.data.success;
         if (success) {
-          change_PopupMessage('제출 성공');  // 팝업창 관련
+          change_PopupMessage('제출 성공: 성공');  // 팝업창 관련
         } else {
-          change_PopupMessage('제출 실패'); // 팝업창 관련
+          change_PopupMessage('제출 실패: 성공'); // 팝업창 관련
         }
         change_IsPopupVisible(true);  // 팝업창 관련
-
         console.log("제출 성공1");
         console.log(response);
       })
       .catch(error => {
-        change_PopupMessage('제출 실패'); // 팝업창 관련
-        change_IsPopupVisible(true);  // 팝업창 관련
+        console.log('submit 에러: ', error);
 
+        change_PopupMessage('제출 실패: 에러'); // 팝업창 관련
+        change_IsPopupVisible(true);  // 팝업창 관련
         console.log("제출 실패1");
       });
   };
@@ -188,7 +162,7 @@ function SubmitAssign() {
     // 페이지가 로딩될 때 데이터를 받아오는 함수 호출
     setUserData();
     setClassData();
-    // setAssignmentData();
+    setAssignmentData();
   }, []);
   
   useEffect(() => {
