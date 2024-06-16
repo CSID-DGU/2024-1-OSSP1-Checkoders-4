@@ -23,7 +23,7 @@ function ClassComponent({ lectureData }) {
 
 
     function moveToDetail(lectureName, lectureToken, lectureMadeBy, lectureMadeByToken) {
-        navigate('/detail', { state: { lecture_name: lectureName, lecture_madeby: lectureMadeBy } });
+        navigate('/detail', { state: { lecture_name: lectureName, lecture_madeby: lectureMadeBy, course: lectureData.course } });
         localStorage.setItem('className', lectureName);
         localStorage.setItem('classToken', lectureToken);
         localStorage.setItem('classMaker', lectureMadeBy);

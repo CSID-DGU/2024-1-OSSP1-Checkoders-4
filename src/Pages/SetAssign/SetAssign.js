@@ -8,6 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SetAssign() {
+  const location = useLocation();  // location 객체를 가져옴
   // 유저 정보 변수 시작
   const [userName, setUserName] = useState();
   const [userToken, setUserToken] = useState();
@@ -18,6 +19,8 @@ function SetAssign() {
   const [classMaker, setClassMaker] = useState();
   const [classMakerToken, setClassMakerToken] = useState();
   // 페이지 이동 시 사용할 과목 변수 끝
+  const course = location.state?.course || 'none course';
+  //course 값 받아옴
 
   const setUserData = () => {
     setUserName(localStorage.getItem('name_main'));
@@ -42,7 +45,8 @@ function SetAssign() {
     // fetchData();
     setUserData();
     setClassData();
-  }, []);
+    console.log('course: ', course); //course 값 콘솔 출력
+  }, [location.state]);
 
   let [q_name, change_q_name] = useState('');  // 문제명
   let [q_deadline, change_q_deadline] = useState(new Date());
