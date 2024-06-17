@@ -108,7 +108,8 @@ function DetailPage() {
     navigate('/SetTeam', { state: { lecture_name: lectureName } });
   }
 
-  function moveToSubmitAssign(assignmentId, correct) {
+  function moveToSubmitAssign(assignmentId, correct, title) {
+    localStorage.setItem("assignmentTitle", title);
     if(correct){
       navigate('/CodeReview');
     }
@@ -205,7 +206,7 @@ function DetailPage() {
                   <div className="task" key={index}>
                     <div className="task-font">
                       {hw.title}
-                      <button className={`button-style ${hw.correct ? 'button-done' : ''}`} onClick={() => moveToSubmitAssign(hw.assignmentId, hw.correct)}>
+                      <button className={`button-style ${hw.correct ? 'button-done' : ''}`} onClick={() => moveToSubmitAssign(hw.assignmentId, hw.correct, hw.title)}>
                         {hw.correct ? "Done" : "View Details"}
                       </button>
                     </div>
@@ -223,7 +224,7 @@ function DetailPage() {
                   <div className="task" key={index}>
                     <div className="task-font">
                       {question.title}
-                      <button className={`button-style ${question.correct ? 'button-done' : ''}`} onClick={() => moveToSubmitAssign(question.assignmentId, question.correct)}>
+                      <button className={`button-style ${question.correct ? 'button-done' : ''}`} onClick={() => moveToSubmitAssign(question.assignmentId, question.correct, question.title)}>
                         {question.correct ? "Done" : "View Details"}
                       </button>
                     </div>
