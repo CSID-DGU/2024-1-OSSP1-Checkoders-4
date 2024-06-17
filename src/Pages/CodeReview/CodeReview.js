@@ -11,7 +11,7 @@ const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 function CodeReview() {
   // 유저 정보 변수 시작
   const [userName, setUserName] = useState();
-  const [userToken, setUserToken] = useState();
+  const userToken = localStorage.getItem('userToken_main');
   // 유저 정보 변수 끝
 
   // 페이지 이동 시 사용할 과목 변수 시작
@@ -31,20 +31,19 @@ function CodeReview() {
   //const [teamToken, setTeamToken] = useState();
   // 팀 번호 변수 끝
 
-  let [hw_name, change_hw_name] = useState('실습 과제2');
-  let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
-  let [hw_test1, change_hw_test1] = useState('18'); // 입력 예제1
-  let [hw_test_answer1, change_hw_test_answer1] = useState('12'); // 출력 예제1
-  let [source, change_source] = useState('printf("Hello World!");');
-  let [gpt_feedback, change_gpt_feedback] = useState('GPT가 작성한 피드백 내용');
+  let [hw_name, change_hw_name] = useState();
+  let [hw_problem, change_hw_problem] = useState()
+  let [hw_test1, change_hw_test1] = useState(); // 입력 예제1
+  let [hw_test_answer1, change_hw_test_answer1] = useState(); // 출력 예제1
+  let [source, change_source] = useState();
+  let [gpt_feedback, change_gpt_feedback] = useState();
   let [cData, change_cData] = useState([]);
-  let [comment, change_comment] = useState('');
+  let [comment, change_comment] = useState();
 
   const [chatData, setChatData] = useState([]);
 
   const setUserData = () => {
     setUserName(localStorage.getItem('name_main'));
-    setUserToken(localStorage.getItem('userToken_main'));
     console.log("유저 데이터 확인(유저이름): ", localStorage.getItem('name_main'));
     console.log("유저 데이터 확인(유저토큰): ", localStorage.getItem('userToken_main'));
   }
@@ -68,8 +67,8 @@ function CodeReview() {
   }, []);
 
   const fetchData = () => {
-    axios.get(`${API_BASE_URL}/api/review/${assignmentToken}`)
-      // axios.get(`${API_BASE_URL}/api/review/10`)
+    console.log("과제토큰: ", assignmentToken);
+    axios.get(`${API_BASE_URL}/api/review/${userToken}/${assignmentToken}`)
       .then((response) => {
         console.log("코드 리뷰 데이터(성공): ", response.data);
         change_hw_name(localStorage.getItem("assignmentTitle"));
@@ -91,15 +90,15 @@ function CodeReview() {
       .then((response) => {
         console.log("채팅 가져오기 성공: ", response);
 
-        const chatData = response.data;
+        const resChatData = response.data;
         // 각 댓글의 senderName과 content만 저장
-        const senderNames = chatData.map(chat => chat.senderName);
-        const contents = chatData.map(chat => chat.content);
+        const senderNames = resChatData.map(chat => chat.senderName);
+        const contents = resChatData.map(chat => chat.content);
 
         console.log("저장된 이름들: ", senderNames);
         console.log("저장된 내용들: ", contents);
 
-        setChatData(chatData);
+        setChatData(resChatData);
       })
       .catch(error => {
         console.log("채팅 가져오기 실패: ", error);
