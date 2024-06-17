@@ -54,6 +54,7 @@ public class ChattingService {
 
         Chatting chatting = Chatting.builder()
                 .sender(sender)
+                .senderName(sender.getName())
                 .team(team)
                 .answer(answer)
                 .content(chatDto.getContent())
@@ -71,6 +72,7 @@ public class ChattingService {
     private page6_chat convertToDTO(Chatting chatting) {
         return page6_chat.builder()
                 .senderToken(chatting.getSender().getToken())
+                .senderName(chatting.getSenderName())
                 .teamId(chatting.getTeam().getId())
                 .answerId(chatting.getAnswer().getId())
                 .content(chatting.getContent())
