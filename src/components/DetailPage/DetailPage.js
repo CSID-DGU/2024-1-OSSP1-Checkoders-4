@@ -75,15 +75,14 @@ function DetailPage() {
     axios.get(`${API_BASE_URL}/${storedUserToken}/${lectureId}/lecturepage`)
       .then(response => {
         const assignments = response.data.task.concat(response.data.exercise);
-        console.log('서버로부터 받은 과제, 문제 데이터:', response.data);
-        console.log('구분자');
+        const myData = response.data.teamMembers.find(member => member.token === storedUserToken);
+
+        localStorage.setItem("teamToken", myData.teamId);
         setHomeworks(assignments.filter(assignment => assignment.problem === '0'));
         setQuestions(assignments.filter(assignment => assignment.problem === '1'));
-        console.log(response.data); //  출력, 240616_14:37
-        console.log('구분자2');
-        console.log(homeworks); //  출력, 240616_14:37
-        console.log(questions); //  출력, 240616_14:37
-
+        
+        console.log("응답: ", myData);
+        console.log('서버로부터 받은 과제, 문제 데이터:', response.data);
         setLoading(false); // 데이터 로딩 완료
       })
       .catch(error => {

@@ -292,6 +292,7 @@
   padding-top: 1vh;
   padding-bottom: 1vh;
   background-color: #F0F0F0;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -371,9 +372,4 @@ ul {
   border: none;
   cursor: pointer;
 }
-
-/* 수정 */
-
-
-
 

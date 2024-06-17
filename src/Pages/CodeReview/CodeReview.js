@@ -61,11 +61,17 @@ function CodeReview() {
     console.log("과제 번호 확인(과제번호): ", localStorage.getItem('assignmentToken'));
   }
 
+  const setTeamData = () => {
+    // setTeamToken(localStorage.getItem('teamToken'));
+    console.log("팀 번호 확인(팀번호): ", localStorage.getItem('teamToken'));
+  }
+
   useEffect(() => {
     fetchData();
     setUserData();
     setClassData();
     // setAssignmentData();
+    // setTeamData();
     console.log("시각: ", new Date().toISOString());
   }, []);
 
@@ -107,14 +113,6 @@ function CodeReview() {
     change_comment(event.target.value);
 
   };
-
-/*
-sender: userToken
-team: teamToken
-answer: assignmentToken
-content: comment
-timestamp: time
-*/
 
   const postComment = () => {
     const currTime = new Date().toISOString();
