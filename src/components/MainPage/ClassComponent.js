@@ -51,19 +51,19 @@ function ClassComponent({ lectureData }) {
                     <span>{lecture_date2}</span>
                     <FaRegClock className="icon-margin" style={{ marginLeft: '2vw' }} />
                     <span>01:00 PM - 03:00 PM</span>
-                </div>
+                </div> */}
 
                 <div className="rate-container">
-                    <div className="attendence-rate">
+                    {/* <div className="attendence-rate">
                         <span>출석률</span>
                         <span style={{ marginLeft: '4vw', color: 'blue' }}>100%</span>
-                    </div>
+                    </div> */}
 
                     <div className="attendence-rate">
                         <span>과제 제출</span>
                         <span className="rate-percent" style={{ color: 'green' }}>100%</span>
                     </div>
-                </div> */}
+                </div>
 
                 <button
                     onClick={() => moveToDetail(lecture_name, lecture_token, lecture_madeby, lecture_madeby_token, course)}

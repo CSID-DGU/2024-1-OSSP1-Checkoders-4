@@ -64,7 +64,7 @@
 .main-box {
     margin-left: 2.5vw;
     width: 20vw;
-    height: 40vh;
+    height: 30vh;
     display: flex;
     flex-direction: column;
   }
@@ -81,14 +81,16 @@
     font-size: 2vh;
     font-weight: bold;
     color: black;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   }
 
   .main-content {
     background-color: white;
     width: 20vw;
-    height: 10vh;
+    height: 13vh;
     display: flex;
     flex-direction: column;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   }
 
   .main-schedule{
@@ -116,10 +118,12 @@
     flex-direction: row;
     font-size: 0.9vw;
     align-items: flex-end;
+    font-size: 1vw;
   }
 
   .rate-percent{
     margin-left: 3vw;
+    font-size: 1vw;
   }
 
 .name-container{
@@ -143,12 +147,12 @@
 
 .to-detailpage-button{
     width: 18vw;
-    height: 4vh;
+    height: 4.2vh;
     background-color: #3D70F5;
     color: white;
     border: none;
     border-radius: 4px;
-    font-size: 1.5vh;
+    font-size: 1.8vh;
     margin-left: 1vw; /* 가로 가운데 정렬 */
     margin-top: 3vh;
     cursor: pointer;
