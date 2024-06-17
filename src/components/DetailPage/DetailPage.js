@@ -75,15 +75,14 @@ function DetailPage() {
     axios.get(`${API_BASE_URL}/${storedUserToken}/${lectureId}/lecturepage`)
       .then(response => {
         const assignments = response.data.task.concat(response.data.exercise);
-        console.log('서버로부터 받은 과제, 문제 데이터:', response.data);
-        console.log('구분자');
+        const myData = response.data.teamMembers.find(member => member.token === storedUserToken);
+
+        localStorage.setItem("teamToken", myData.teamId);
         setHomeworks(assignments.filter(assignment => assignment.problem === '0'));
         setQuestions(assignments.filter(assignment => assignment.problem === '1'));
-        console.log(response.data); //  출력, 240616_14:37
-        console.log('구분자2');
-        console.log(homeworks); //  출력, 240616_14:37
-        console.log(questions); //  출력, 240616_14:37
-
+        
+        console.log("응답: ", myData);
+        console.log('서버로부터 받은 과제, 문제 데이터:', response.data);
         setLoading(false); // 데이터 로딩 완료
       })
       .catch(error => {
@@ -108,7 +107,8 @@ function DetailPage() {
     navigate('/SetTeam', { state: { lecture_name: lectureName } });
   }
 
-  function moveToSubmitAssign(assignmentId, correct) {
+  function moveToSubmitAssign(assignmentId, correct, title) {
+    localStorage.setItem("assignmentTitle", title);
     if(correct){
       navigate('/CodeReview');
     }
@@ -205,7 +205,7 @@ function DetailPage() {
                   <div className="task" key={index}>
                     <div className="task-font">
                       {hw.title}
-                      <button className={`button-style ${hw.correct ? 'button-done' : ''}`} onClick={() => moveToSubmitAssign(hw.assignmentId, hw.correct)}>
+                      <button className={`button-style ${hw.correct ? 'button-done' : ''}`} onClick={() => moveToSubmitAssign(hw.assignmentId, hw.correct, hw.title)}>
                         {hw.correct ? "Done" : "View Details"}
                       </button>
                     </div>
@@ -223,7 +223,7 @@ function DetailPage() {
                   <div className="task" key={index}>
                     <div className="task-font">
                       {question.title}
-                      <button className={`button-style ${question.correct ? 'button-done' : ''}`} onClick={() => moveToSubmitAssign(question.assignmentId, question.correct)}>
+                      <button className={`button-style ${question.correct ? 'button-done' : ''}`} onClick={() => moveToSubmitAssign(question.assignmentId, question.correct, question.title)}>
                         {question.correct ? "Done" : "View Details"}
                       </button>
                     </div>

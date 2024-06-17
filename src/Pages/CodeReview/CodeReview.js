@@ -3,10 +3,10 @@ import './CodeReview.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import chat_data from './chat.json'
 import codereview_data from './codereview.json'
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
+
 
 function CodeReview() {
   // 유저 정보 변수 시작
@@ -16,14 +16,27 @@ function CodeReview() {
 
   // 페이지 이동 시 사용할 과목 변수 시작
   const [className, setClassName] = useState();
-  const [classToken, setClassToken] = useState(1);
+  const [classToken, setClassToken] = useState("1");
   const [classMaker, setClassMaker] = useState();
   const [classMakerToken, setClassMakerToken] = useState();
   // 페이지 이동 시 사용할 과목 변수 끝
 
   // 과제 번호 변수 시작 
-  const [assignmentToken, setAssignmentToken] = useState(1);
+  const [assignmentToken, setAssignmentToken] = useState("10");
   // 과제 번호 변수 끝
+
+  // 팀 번호 변수 시작
+  const [teamToken, setTeamToken] = useState("1");
+  // 팀 번호 변수 끝
+
+  let [hw_name, change_hw_name] = useState('실습 과제2');
+  let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
+  let [hw_test1, change_hw_test1] = useState('18'); // 입력 예제1
+  let [hw_test_answer1, change_hw_test_answer1] = useState('12'); // 출력 예제1
+  let [source, change_source] = useState('printf("Hello World!");');
+  let [gpt_feedback, change_gpt_feedback] = useState('GPT가 작성한 피드백 내용');
+  let [cData, change_cData] = useState([]);
+  let [comment, change_comment] = useState('');
 
   const setUserData = () => {
     setUserName(localStorage.getItem('name_main'));
@@ -43,64 +56,51 @@ function CodeReview() {
     console.log("클레스 데이터 확인(과목생성자토큰): ", localStorage.getItem('classMakerToken'));
   }
 
-  const setAssignmentData = () =>{
-    setAssignmentToken(localStorage.getItem('assignmentToken'))
+  const setAssignmentData = () => {
+    // setAssignmentToken(localStorage.getItem('assignmentToken'));
     console.log("과제 번호 확인(과제번호): ", localStorage.getItem('assignmentToken'));
   }
-  
+
+  const setTeamData = () => {
+    // setTeamToken(localStorage.getItem('teamToken'));
+    console.log("팀 번호 확인(팀번호): ", localStorage.getItem('teamToken'));
+  }
+
   useEffect(() => {
     fetchData();
     setUserData();
     setClassData();
-    setAssignmentData();
+    // setAssignmentData();
+    // setTeamData();
+    console.log("시각: ", new Date().toISOString());
   }, []);
 
-  let [hw_name, change_hw_name] = useState('실습 과제2');
-  let [hw_problem, change_hw_problem] = useState('밑변과 높이 필드를 가지는 삼각형 클래스를 작성하고, 두 삼각형의 밑변과 높이를 입력 받아 넓이를 비교하시오.')
-  let [hw_test1, change_hw_test1] = useState(''); // 입력 예제1
-  // let [hw_test2, change_hw_test2] = useState(''); // 입력 예제2
-  // let [hw_test3, change_hw_test3] = useState(''); // 입력 예제3
-  // let [hw_test4, change_hw_test4] = useState(''); // 입력 예제4
-  // let [hw_test5, change_hw_test5] = useState(''); // 입력 예제5
-  let [hw_test_answer1, change_hw_test_answer1] = useState(''); // 출력 예제1
-  // let [hw_test_answer2, change_hw_test_answer2] = useState(''); // 출력 예제2
-  // let [hw_test_answer3, change_hw_test_answer3] = useState(''); // 출력 예제3
-  // let [hw_test_answer4, change_hw_test_answer4] = useState(''); // 출력 예제4
-  // let [hw_test_answer5, change_hw_test_answer5] = useState(''); // 출력 예제5
-  let [source, change_source] = useState('printf("Hello World!");');
-  let [gpt_feedback, change_gpt_feedback] = useState('GPT가 작성한 피드백 내용');
-  let [cData, change_cData] = useState([]);
-  let [comment, change_comment] = useState('');
-
   const fetchData = () => {
-    axios.get(`${API_BASE_URL}/${userToken}/${classToken}/${assignmentToken}/assignmentpage`)
+    //axios.get(`${API_BASE_URL}/api/review/${assignmentToken}`)
+    axios.get(`${API_BASE_URL}/api/review/10`)
       .then((response) => {
-        // 요청 성공 시 실행되는 코드
-        console.log(response);  // 아래는 예상되는 반환값
-        change_hw_name(response.data.title);
+        console.log("코드 리뷰 데이터(성공): ", response.data);
+        change_hw_name(localStorage.getItem("assignmentTitle"));
         change_hw_problem(response.data.description);
-        change_hw_test1(response.data.hwTest1);
-        change_hw_test_answer1(response.data.hwTestAnswer1);
-        console.log('데이터 받아오기 성공123');
-      })
-      .catch(error => {
-        // 요청 실패 시 실행되는 코드
-        console.log('데이터 받아오기 실패123');
-      });
-
-    // GET 요청 보내기
-    axios.get(`${API_BASE_URL}/코드리뷰주소`)
-      .then((response) => {
-        // 요청 성공 시 실행되는 코드
-        change_source(response.data.source);
+        change_hw_test1(response.data.hw_test1);
+        change_hw_test_answer1(response.data.hw_test_answer1);
+        change_source(response.data.answer_text);
         change_gpt_feedback(response.data.gpt_feedback);
-        change_cData(response.chat);
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
+        console.log("코드 리뷰 데이터(실패): ", error)
         change_source(codereview_data.code[0].source);
         change_gpt_feedback(codereview_data.gpt[0].gpt_feedback)
         change_cData(cData);
+      });
+
+    axios.get(`${API_BASE_URL}/api/chat/1`)
+      .then((response) => {
+        console.log("채팅 가져오기 성공: ", response.data);
+      })
+      .catch(error => {
+        console.log("채팅 가져오기 실패: ", error);
       });
   }
 
@@ -111,16 +111,28 @@ function CodeReview() {
 
   const handleChange_comment = (event) => {
     change_comment(event.target.value);
+
   };
 
   const postComment = () => {
-    axios.post(`${API_BASE_URL}/댓글등록주소`, {
-      user_name: userName,
-      comment: comment
+    const currTime = new Date().toISOString();
+    console.log("토큰: ", userToken);
+    console.log("팀토큰: ", teamToken);
+    console.log("문제토큰: ", assignmentToken);
+    console.log("댓글내용: ", comment);
+    console.log("제출시간: ", currTime);
+
+    axios.post(`${API_BASE_URL}/api/chat`, {
+      senderToken: userToken,
+      teamId: teamToken,
+      answerId: assignmentToken,
+      content: comment,
+      timestamp: currTime
     })
       .then((response) => {
         // 성공적으로 댓글이 등록되었을 때 실행할 코드
         console.log("댓글이 성공적으로 등록되었습니다.");
+        console.log("제출 성공: ", response);
         change_cData(response.chat);
       })
       .catch((error) => {
@@ -197,23 +209,11 @@ function CodeReview() {
                     <div className='CodeReviewIOExample'>
                       <div className='CodeReviewInputExample' style={{ whiteSpace: 'pre-line' }}>
                         <p>입력 예제</p>
-                        <p>
-                          {hw_test1}<br />
-                          {/* {hw_test2}<br />
-                          {hw_test3}<br />
-                          {hw_test4}<br />
-                          {hw_test5} */}
-                        </p>
+                        {hw_test1}<br />
                       </div>
                       <div className='CodeReviewOutputExample' style={{ whiteSpace: 'pre-line' }}>
                         <p>출력 예제</p>
-                        <p>
-                          {hw_test_answer1}<br />
-                          {/* {hw_test_answer2}<br />
-                          {hw_test_answer3}<br />
-                          {hw_test_answer4}<br />
-                          {hw_test_answer5} */}
-                        </p>
+                        {hw_test_answer1}<br />
                       </div>
                     </div>
                   </div>
@@ -224,16 +224,18 @@ function CodeReview() {
                     제출 코드
                   </div>
                   <div className='codeResponse'>
-                    <SyntaxHighlighter language="java">
-                      {source}
-                    </SyntaxHighlighter>
+                    {source}
                   </div>
                 </div>
               </div>
               <div className='feedback'>
                 <div className='gptFeedback'>
-                  <div className='gptCover'>GPT Feedback</div>
-                  <div className='gptContent' style={{ whiteSpace: 'pre-line' }}>{gpt_feedback}</div>
+                  <div className='gptCover'>
+                    GPT Feedback
+                    </div>
+                  <div className='gptContent'>
+                    {gpt_feedback}
+                    </div>
                 </div>
                 <div className='teamFeedback'>
                   <div className='feedCover'>Comment</div>
@@ -271,7 +273,7 @@ function CodeReview() {
         </div>
         <div className='rightBlank'></div>
       </div>
-    </div>
+    </div >
   );
 }
 
