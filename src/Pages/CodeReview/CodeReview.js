@@ -232,10 +232,10 @@ function CodeReview() {
                 <div className='gptFeedback'>
                   <div className='gptCover'>
                     GPT Feedback
-                    </div>
+                  </div>
                   <div className='gptContent'>
                     {gpt_feedback}
-                    </div>
+                  </div>
                 </div>
                 <div className='teamFeedback'>
                   <div className='feedCover'>Comment</div>
