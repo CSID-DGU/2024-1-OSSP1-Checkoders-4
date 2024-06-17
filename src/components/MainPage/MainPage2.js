@@ -22,7 +22,6 @@ function MainPage2() {
   const [name_main, setName_main] = useState("홍길동");
   const [userToken_main, setUserToken_main] = useState('0123456789');
   const [accessToken_main, setAccessToken_main] = useState('');
-  const [lecture_name, setLectureName] = useState("객체지향 프로그래밍");
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
   // 로그인 관련
@@ -45,17 +44,42 @@ function MainPage2() {
   //   return savedCount ? parseInt(savedCount, 10) : 0;
   // });
 
-  const [lectureName,setLectureName1234] = useState();
+  const [closestLectureName, setClosestLectureName] = useState("");
+  const [formattedDate, setFormattedDate] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [lectureName, setLectureName] = useState("");
+  const [daysRemaining, setDaysRemaining] = useState("");
 
   const fetchClassData = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/${userToken_main}/mainpage`);
       setLectures(response.data.lectures);
-      localStorage.setItem("lectureData",response.data.lectures);
 
-      setLectureName1234(response.data.lectures[0].name);
-      console.log("특정 강의명: ", lectureName);
+      let closestDeadline = new Date(response.data.lectures[0].deadline[0]);
+      let lectureName = response.data.lectures[0].name;
 
+      response.data.lectures.forEach(lecture => {
+        lecture.deadline.forEach(date => {
+          const currentDeadline = new Date(date);
+          if (currentDeadline < closestDeadline) {
+            closestDeadline = currentDeadline;
+            lectureName = lecture.name;
+          }
+        });
+      });
+
+      // 현재 날짜
+      const currentDate = new Date();
+      // 형식 변환
+      const deadlineDate = `${closestDeadline.getMonth() + 1}/${closestDeadline.getDate()}`;
+      // D-N 계산
+      const timeDiff = closestDeadline - currentDate;
+      const remainingDays = `D-${Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) - 1}`;
+
+      setClosestLectureName(lectureName);
+      setFormattedDate(deadlineDate);
+      setDaysRemaining(remainingDays);
+      
     } catch (error) {
       console.error('강의 데이터 받아오기 실패:', error);
     }
@@ -138,25 +162,6 @@ function MainPage2() {
     // 실험 코드 끝
     fetchClassData();
   }, [username, usertoken, access_token]);
-
-  // useEffect(() => {
-  //   localStorage.setItem('count', count);
-  // }, [count]);
-
-  // const incrementCount = () => {
-  //   setCount(count + 1);
-  // };
-
-  // const sendClassName = async () => {
-  //   try {
-  //     await axios.post(`${API_BASE_URL}/${token}/participate`, new URLSearchParams({ lectureName: lecture_id }));
-  //     // 성공적으로 강의가 추가된 후, 강의 목록을 새로 고침
-  //     const updatedLectures = await axios.get(`${API_BASE_URL}/${token}/lectures`);
-  //     setLectures(updatedLectures.data);  // 강의 목록을 업데이트
-  //   } catch (error) {
-  //     console.error('클래스 ID를 전달하는 데 실패했습니다!!', error);
-  //   }
-  // };
 
   const handleClassAdded = (lecture) => {
     if (lecture) {
@@ -248,7 +253,9 @@ function MainPage2() {
             <TaskCalendar />
 
             <div className="main-task-info">
-              <TaskInfo lecture_name={lecture_name} />
+              <TaskInfo lecture_name={closestLectureName} 
+                deadline={formattedDate} 
+                daysRemaining={daysRemaining} />
             </div>
           </div>
         </div>
