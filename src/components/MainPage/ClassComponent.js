@@ -62,7 +62,7 @@ function ClassComponent({ lectureData }) {
         <div className="main-box">
             <div className="main-header" style={headerStyle}>
                 <span style={{ marginLeft: '2vw', fontSize: '2.2vh' }}>{lecture_name}</span>
-                <span style={{ marginLeft: '2vw', color: '#9A9A9A', paddingLeft: '0.4vw', fontSize: '1.8vh' }}>제작자 : {lecture_madeby}</span>
+                <span style={{ marginLeft: '2vw', color: '#9A9A9A', fontSize: '2vh' }}>제작자 : {lecture_madeby}</span>
             </div>
             <div className="main-content">
                 {/* <div className="main-schedule">
@@ -86,7 +86,7 @@ function ClassComponent({ lectureData }) {
                     </div> */}
 
                     <div className="attendence-rate">
-                        <span style={{ fontSize: '1.3vh' }}>과제 제출: </span>
+                        <span>과제 제출: </span>
                         <span className="rate-percent" style={{ color: 'green' }}>{totalRate}%</span>
                     </div>
                 </div>
