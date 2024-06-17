@@ -60,6 +60,7 @@
   cursor: pointer;
   font-size: 3.5vh;
   color: white;
+  font-weight: bold;
 }
 
 .logOut{
@@ -73,6 +74,8 @@
 
 .logOut_button{
   font-size: 3.5vh;
+  font-weight: bold;
+  color: black;
   background-color: transparent;
   border: none;
   cursor: pointer;
