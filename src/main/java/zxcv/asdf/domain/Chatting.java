@@ -29,6 +29,8 @@ public class Chatting {
     @JoinColumn(name = "answer_id", referencedColumnName = "id", nullable = false)
     private Answer answer;
 
+    private String senderName;
+
     private String content;
 
     private LocalDateTime timestamp;

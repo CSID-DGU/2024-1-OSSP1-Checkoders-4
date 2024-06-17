@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class page6_chat {
     private String senderToken;
+    private String senderName;
     private Long teamId;
     private Long answerId;
     private String content;
