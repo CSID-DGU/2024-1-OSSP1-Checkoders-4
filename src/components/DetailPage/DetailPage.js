@@ -8,7 +8,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import MainPage2 from '../MainPage/MainPage2.js';
 // import homeworkData from './DummyHW.json';
-
+// main 도전
 
 function DetailPage() {
   const location = useLocation();
