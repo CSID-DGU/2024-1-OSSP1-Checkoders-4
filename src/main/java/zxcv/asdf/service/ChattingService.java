@@ -14,6 +14,7 @@ import zxcv.asdf.repository.AnswerRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ChattingService {
@@ -30,23 +31,23 @@ public class ChattingService {
     @Autowired
     private AnswerRepository answerRepository;
 
-    public List<Chatting> getAllChats() {
-        return chattingRepository.findAll();
+    public List<page6_chat> getAllChats() {
+        return chattingRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public Optional<Chatting> getChatById(Long id) {
-        return chattingRepository.findById(id);
+    public Optional<page6_chat> getChatById(Long id) {
+        return chattingRepository.findById(id).map(this::convertToDTO);
     }
 
-    public List<Chatting> getChatsBySenderToken(String senderToken) {
-        return chattingRepository.findBySender_Token(senderToken);
+    public List<page6_chat> getChatsBySenderToken(String senderToken) {
+        return chattingRepository.findBySender_Token(senderToken).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public List<Chatting> getChatsByTeamAndAnswer(Long teamId, Long answerId) {
-        return chattingRepository.findByTeam_IdAndAnswer_Id(teamId, answerId);
+    public List<page6_chat> getChatsByTeamAndAnswer(Long teamId, Long answerId) {
+        return chattingRepository.findByTeam_IdAndAnswer_Id(teamId, answerId).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public Chatting saveChat(page6_chat chatDto) {
+    public page6_chat saveChat(page6_chat chatDto) {
         User sender = userRepository.findById(chatDto.getSenderToken()).orElseThrow(() -> new IllegalArgumentException("Invalid sender token"));
         Team team = teamRepository.findById(chatDto.getTeamId()).orElseThrow(() -> new IllegalArgumentException("Invalid team ID"));
         Answer answer = answerRepository.findById(chatDto.getAnswerId()).orElseThrow(() -> new IllegalArgumentException("Invalid answer ID"));
@@ -59,10 +60,21 @@ public class ChattingService {
                 .timestamp(chatDto.getTimestamp())
                 .build();
 
-        return chattingRepository.save(chatting);
+        Chatting savedChat = chattingRepository.save(chatting);
+        return convertToDTO(savedChat);
     }
 
     public void deleteChat(Long id) {
         chattingRepository.deleteById(id);
+    }
+
+    private page6_chat convertToDTO(Chatting chatting) {
+        return page6_chat.builder()
+                .senderToken(chatting.getSender().getToken())
+                .teamId(chatting.getTeam().getId())
+                .answerId(chatting.getAnswer().getId())
+                .content(chatting.getContent())
+                .timestamp(chatting.getTimestamp())
+                .build();
     }
 }
