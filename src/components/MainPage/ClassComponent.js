@@ -1,9 +1,11 @@
 import './MainPage2.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AiFillCalendar } from "react-icons/ai";
 import { FaRegClock } from "react-icons/fa";
+import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function ClassComponent({ lectureData }) {
     // name: 과목명, madeby: 출제자 토큰, madeby_name: 출제자 이름, lectureId: 과목번호
@@ -11,8 +13,16 @@ function ClassComponent({ lectureData }) {
     const [lecture_date1, setLectureDate1] = useState("월요일");
     const [lecture_date2, setLectureDate2] = useState("수요일");
 
+    const [homeworks, setHomeworks] = useState([]);
+    const [questions, setQuestions] = useState([]);
+    const [totalRate, setTotalRate] = useState(); // totalRate 상태 변수 추가
+
     const location = useLocation();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        getSubmissionRate(lecture_token); // useEffect로 getSubmissionRate 호출
+    }, [lecture_token]);
 
     function moveToDetail(lectureName, lectureToken, lectureMadeBy, lectureMadeByToken, course) {
         navigate('/detail', { state: { lecture_name: lectureName, lecture_madeby: lectureMadeBy, course: lectureData.course } });
@@ -24,12 +34,35 @@ function ClassComponent({ lectureData }) {
     }
     const headerStyle = (course === "1") ? { backgroundColor: '#FFE4E1' } : {};
 
+    const getSubmissionRate = (lectureIdFactor) => {
+        const lectureId = lectureIdFactor;
+        const userToken = localStorage.getItem('userToken_main');
+        axios.get(`${API_BASE_URL}/${userToken}/${lectureId}/lecturepage`)
+            .then(response => {
+                const assignments = response.data.task.concat(response.data.exercise);
+                const hw = assignments.filter(assignment => assignment.problem === '0'); // 수정된 부분
+                const qs = assignments.filter(assignment => assignment.problem === '1'); // 수정된 부분
+                setHomeworks(hw); // 수정된 부분
+                setQuestions(qs); // 수정된 부분
+                const correctHwCount = hw.filter(hw => hw.correct).length; // 수정된 부분
+                const incorrectHwCount = hw.length - correctHwCount; // 수정된 부분
+                const correctQuestionCount = qs.filter(qs => qs.correct).length; // 수정된 부분
+                const incorrectQuestionCount = qs.length - correctQuestionCount; // 수정된 부분
+                const totalCorrect = correctHwCount + correctQuestionCount; // 수정된 부분
+                const totalIncorrect = incorrectHwCount + incorrectQuestionCount; // 수정된 부분
+                const totalRate = totalCorrect / (totalCorrect + totalIncorrect) * 100; // 수정된 부분
+                setTotalRate(totalRate); // totalRate 상태 업데이트
+            })
+            .catch(error => {
+                console.error('과제 데이터를 가져오는 데 실패:', error);
+            });
+    }
 
     return (
         <div className="main-box">
             <div className="main-header" style={headerStyle}>
                 <span style={{ marginLeft: '2vw', fontSize: '2.2vh' }}>{lecture_name}</span>
-                <span style={{ marginLeft: '2vw', color: '#9A9A9A' }}>제작자 : {lecture_madeby}</span>
+                <span style={{ marginLeft: '2vw', color: '#9A9A9A', paddingLeft: '0.4vw', fontSize: '1.8vh' }}>제작자 : {lecture_madeby}</span>
             </div>
             <div className="main-content">
                 {/* <div className="main-schedule">
@@ -53,8 +86,8 @@ function ClassComponent({ lectureData }) {
                     </div> */}
 
                     <div className="attendence-rate">
-                        <span>과제 제출</span>
-                        <span className="rate-percent" style={{ color: 'green' }}>100%</span>
+                        <span style={{ fontSize: '1.3vh' }}>과제 제출: </span>
+                        <span className="rate-percent" style={{ color: 'green' }}>{totalRate}%</span>
                     </div>
                 </div>
 

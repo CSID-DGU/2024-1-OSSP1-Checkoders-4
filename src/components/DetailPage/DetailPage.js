@@ -38,6 +38,8 @@ function DetailPage() {
   const totalIncorrect = incorrectHwCount + incorrectQuestionCount;
   // 도넛 차트 변수 끝
 
+  const storedLectureMap = JSON.parse(localStorage.getItem('lectureMap'));
+
   useEffect(() => {
     const storedName = localStorage.getItem('name_main');
     change_lectureId(localStorage.getItem('classToken'));
