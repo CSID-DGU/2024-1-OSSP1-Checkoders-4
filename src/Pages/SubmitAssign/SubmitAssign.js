@@ -112,13 +112,13 @@ function SubmitAssign() {
     })
       .then((response) => {
         console.log('제출에 대한 응답: ',response);
-
-        const success = response.data.success;
-        if (success) {
-          change_PopupMessage('제출 성공: 성공');  // 팝업창 관련
-        } else {
+        if(response.data === "성공"){
+          change_PopupMessage('제출 성공: 성공');
+        }
+        else{
           change_PopupMessage('제출 실패: 성공'); // 팝업창 관련
         }
+        
         change_IsPopupVisible(true);  // 팝업창 관련
         console.log("제출 성공1");
         console.log(response);

@@ -84,10 +84,6 @@ function MainPage2() {
       console.error('강의 데이터 받아오기 실패:', error);
     }
 
-    // const lectureData = localStorage.getItem("lectureData");
-    // console.log("check1: ", lectureData);
-    // const speLecture = lectureData.find(lecture => lecture.name === lectureName);
-    // console.log("check2: ", speLecture);
   };
 
   useEffect(() => {

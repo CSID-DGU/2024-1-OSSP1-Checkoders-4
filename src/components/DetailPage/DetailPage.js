@@ -38,6 +38,8 @@ function DetailPage() {
   const totalIncorrect = incorrectHwCount + incorrectQuestionCount;
   // 도넛 차트 변수 끝
 
+  const storedLectureMap = JSON.parse(localStorage.getItem('lectureMap'));
+
   useEffect(() => {
     const storedName = localStorage.getItem('name_main');
     change_lectureId(localStorage.getItem('classToken'));
@@ -80,7 +82,7 @@ function DetailPage() {
         localStorage.setItem("teamToken", myData.teamId);
         setHomeworks(assignments.filter(assignment => assignment.problem === '0'));
         setQuestions(assignments.filter(assignment => assignment.problem === '1'));
-        
+
         console.log("응답: ", myData);
         console.log('서버로부터 받은 과제, 문제 데이터:', response.data);
         setLoading(false); // 데이터 로딩 완료
@@ -108,12 +110,17 @@ function DetailPage() {
   }
 
   function moveToSubmitAssign(assignmentId, correct, title) {
+    console.log("assignToken", assignmentId);
+    console.log("correct", correct);
+
     localStorage.setItem("assignmentTitle", title);
-    if(correct){
+    localStorage.setItem('assignmentToken', assignmentId);
+    
+    if (correct) {
       navigate('/CodeReview');
     }
-    else{
-      localStorage.setItem('assignmentToken', assignmentId)
+    if (!correct) {
+      console.log("assignToken check: ", assignmentId);
       navigate('/SubmitAssign');
     }
   } // 이동 추가 + onClick={moveToSubmitAssign}
@@ -237,7 +244,7 @@ function DetailPage() {
                 문제 풀이 현황
               </div>
               <div className="chart-container">
-              <DoughnutChart correct={totalCorrect} incorrect={totalIncorrect} />
+                <DoughnutChart correct={totalCorrect} incorrect={totalIncorrect} />
               </div>
 
             </div>

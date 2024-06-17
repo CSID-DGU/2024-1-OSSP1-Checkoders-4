@@ -16,17 +16,19 @@ function CodeReview() {
 
   // 페이지 이동 시 사용할 과목 변수 시작
   const [className, setClassName] = useState();
-  const [classToken, setClassToken] = useState("1");
+  const [classToken, setClassToken] = useState();
   const [classMaker, setClassMaker] = useState();
   const [classMakerToken, setClassMakerToken] = useState();
   // 페이지 이동 시 사용할 과목 변수 끝
 
   // 과제 번호 변수 시작 
-  const [assignmentToken, setAssignmentToken] = useState("10");
+  const assignmentToken = localStorage.getItem('assignmentToken');
+  // const [assignmentToken, setAssignmentToken] = useState();
   // 과제 번호 변수 끝
 
   // 팀 번호 변수 시작
-  const [teamToken, setTeamToken] = useState("1");
+  const teamToken = localStorage.getItem('teamToken');
+  //const [teamToken, setTeamToken] = useState();
   // 팀 번호 변수 끝
 
   let [hw_name, change_hw_name] = useState('실습 과제2');
@@ -58,28 +60,16 @@ function CodeReview() {
     console.log("클레스 데이터 확인(과목생성자토큰): ", localStorage.getItem('classMakerToken'));
   }
 
-  const setAssignmentData = () => {
-    // setAssignmentToken(localStorage.getItem('assignmentToken'));
-    console.log("과제 번호 확인(과제번호): ", localStorage.getItem('assignmentToken'));
-  }
-
-  const setTeamData = () => {
-    // setTeamToken(localStorage.getItem('teamToken'));
-    console.log("팀 번호 확인(팀번호): ", localStorage.getItem('teamToken'));
-  }
-
   useEffect(() => {
     fetchData();
     setUserData();
     setClassData();
-    // setAssignmentData();
-    // setTeamData();
     console.log("시각: ", new Date().toISOString());
   }, []);
 
   const fetchData = () => {
-    //axios.get(`${API_BASE_URL}/api/review/${assignmentToken}`)
-    axios.get(`${API_BASE_URL}/api/review/10`)
+    axios.get(`${API_BASE_URL}/api/review/${assignmentToken}`)
+      // axios.get(`${API_BASE_URL}/api/review/10`)
       .then((response) => {
         console.log("코드 리뷰 데이터(성공): ", response.data);
         change_hw_name(localStorage.getItem("assignmentTitle"));
@@ -97,8 +87,7 @@ function CodeReview() {
         change_cData(cData);
       });
 
-    // axios.get(`${API_BASE_URL}/api/chat/team//answer/10`)
-    axios.get(`${API_BASE_URL}/api/chat/team/1/answer/10`)
+    axios.get(`${API_BASE_URL}/api/chat/team/${teamToken}/answer/${assignmentToken}`)
       .then((response) => {
         console.log("채팅 가져오기 성공: ", response);
 
@@ -137,6 +126,7 @@ function CodeReview() {
 
     axios.post(`${API_BASE_URL}/api/chat`, {
       senderToken: userToken,
+      senderName: userName,
       teamId: teamToken,
       answerId: assignmentToken,
       content: comment,
