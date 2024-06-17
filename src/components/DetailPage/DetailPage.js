@@ -234,7 +234,7 @@ function DetailPage() {
 
             <div>
               <div className="chart-container-title">
-                과제 현황
+                문제 풀이 현황
               </div>
               <div className="chart-container">
               <DoughnutChart correct={totalCorrect} incorrect={totalIncorrect} />

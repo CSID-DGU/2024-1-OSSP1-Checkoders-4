@@ -36,7 +36,7 @@ function ClassComponent({ lectureData }) {
         <div className="main-box">
             <div className="main-header" style={headerStyle}>
                 <span style={{ marginLeft: '2vw', fontSize: '2.2vh' }}>{lecture_name}</span>
-                <span style={{ marginLeft: '2vw', color: '#9A9A9A' }}>{lecture_madeby}</span>
+                <span style={{ marginLeft: '2vw', color: '#9A9A9A' }}>제작자 : {lecture_madeby}</span>
             </div>
             <div className="main-content">
                 {/* <div className="main-schedule">
