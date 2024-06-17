@@ -35,4 +35,9 @@ public class AnswerService {
             return answerRepository.save(answer);
         }
     }
+
+    @Transactional
+    public Optional<Answer> findAnswerByUserTokenAndAssignmentId(String userToken, Long assignmentId) {
+        return answerRepository.findByUserTokenAndAssignmentId(userToken, assignmentId);
+    }
 }
