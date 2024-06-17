@@ -28,6 +28,7 @@ function App() {
           <Route path = '/SubmitAssign' element = {<SubmitAssign />} ></Route>
           <Route path = '/SetAssign' element = {<SetAssign />} ></Route>
           <Route path = '/SetTeam' element = {<SetTeam />} ></Route>
+          <Route path = '/StudentQListPage' element = {<StudentQListPage />} ></Route>
           <Route path = '/CodeReview' element = {<CodeReview />} ></Route>
           <Route path = '/StudentTable' element = {<StudentTable />} ></Route>
           //

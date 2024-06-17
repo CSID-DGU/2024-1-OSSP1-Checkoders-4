@@ -105,6 +105,10 @@ function DetailPage() {
     navigate('/SetAssign', { state: { lecture_name: lectureName } });
   }
 
+  function moveToStudentQList(lectureName){
+    navigate('/StudentQListPage', { state: { lecture_name: lectureName } })
+  }
+
   function moveToSetTeam(lectureName) {
     navigate('/SetTeam', { state: { lecture_name: lectureName } });
   }
@@ -193,7 +197,7 @@ function DetailPage() {
                 </button>
                 <div className="team-container">
                   {teamMembers.map(member => (
-                    <button className="team-name" key={member.id}>
+                    <button className="team-name" onClick={() => moveToStudentQList(lecture_name)} key={member.id}>
                       {member.name}
                     </button>
                   ))}
