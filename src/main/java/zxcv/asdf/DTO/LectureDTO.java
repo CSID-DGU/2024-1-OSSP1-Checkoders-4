@@ -2,6 +2,7 @@ package zxcv.asdf.DTO;
 
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,5 +15,5 @@ public class LectureDTO {
     private String madeby_name;
     private Long lectureId;
     private String course;
-    private LocalDateTime deadline;
+    private List<LocalDateTime> deadline;
 }
