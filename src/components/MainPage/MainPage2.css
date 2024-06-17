@@ -63,9 +63,6 @@
 
 .main-box {
     margin-left: 2.5vw;
-    width: 20vw;
-    height: 40vh;
-    display: flex;
     flex-direction: column;
   }
   

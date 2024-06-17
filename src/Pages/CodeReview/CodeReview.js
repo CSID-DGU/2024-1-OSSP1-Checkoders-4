@@ -38,6 +38,8 @@ function CodeReview() {
   let [cData, change_cData] = useState([]);
   let [comment, change_comment] = useState('');
 
+  const [chatData, setChatData] = useState([]);
+
   const setUserData = () => {
     setUserName(localStorage.getItem('name_main'));
     setUserToken(localStorage.getItem('userToken_main'));
@@ -95,9 +97,20 @@ function CodeReview() {
         change_cData(cData);
       });
 
-    axios.get(`${API_BASE_URL}/api/chat/1`)
+    // axios.get(`${API_BASE_URL}/api/chat/team//answer/10`)
+    axios.get(`${API_BASE_URL}/api/chat/team/1/answer/10`)
       .then((response) => {
-        console.log("채팅 가져오기 성공: ", response.data);
+        console.log("채팅 가져오기 성공: ", response);
+
+        const chatData = response.data;
+        // 각 댓글의 senderName과 content만 저장
+        const senderNames = chatData.map(chat => chat.senderName);
+        const contents = chatData.map(chat => chat.content);
+
+        console.log("저장된 이름들: ", senderNames);
+        console.log("저장된 내용들: ", contents);
+
+        setChatData(chatData);
       })
       .catch(error => {
         console.log("채팅 가져오기 실패: ", error);
@@ -134,6 +147,7 @@ function CodeReview() {
         console.log("댓글이 성공적으로 등록되었습니다.");
         console.log("제출 성공: ", response);
         change_cData(response.chat);
+        window.location.reload();
       })
       .catch((error) => {
         // 댓글을 등록하는 과정에서 에러가 발생했을 때 실행할 코드
@@ -197,7 +211,7 @@ function CodeReview() {
             <div className='tabCover'>
 
             </div>
-            <div className='assignInfo'>
+            <div className='assignInfoCode'>
               <div className='problemContent'>
                 <div className='contentArea'>
                   <div className='contentCover'>
@@ -209,11 +223,11 @@ function CodeReview() {
                     <div className='CodeReviewIOExample'>
                       <div className='CodeReviewInputExample' style={{ whiteSpace: 'pre-line' }}>
                         <p>입력 예제</p>
-                        {hw_test1}<br />
+                        <p>{hw_test1}</p>
                       </div>
                       <div className='CodeReviewOutputExample' style={{ whiteSpace: 'pre-line' }}>
                         <p>출력 예제</p>
-                        {hw_test_answer1}<br />
+                        <p>{hw_test_answer1}</p>
                       </div>
                     </div>
                   </div>
@@ -243,10 +257,10 @@ function CodeReview() {
                     <div className='comments'>
                       <div className='one_comment'>
                         <ul>
-                          {chat_data.map((item, index) => (
+                          {chatData.map((item, index) => (
                             <li key={index}>
-                              <p>{item.name}</p>
-                              <p>{item.comment}</p>
+                              <p>{item.senderName}</p>
+                              <p>{item.content}</p>
                             </li>
                           ))}
                         </ul>

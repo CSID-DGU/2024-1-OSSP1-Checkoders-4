@@ -14,13 +14,6 @@ function ClassComponent({ lectureData }) {
     const location = useLocation();
     const navigate = useNavigate();
 
-    // 페이지 이동 시 사용할 과목 변수 시작
-    // const [className, setClassName] = useState();
-    // const [classToken, setClassToken] = useState();
-    // const [classMaker, setClassMaker] = useState();
-    // const [classMakerToken, setClassMakerToken] = useState();
-    // 페이지 이동 시 사용할 과목 변수 끝
-
     function moveToDetail(lectureName, lectureToken, lectureMadeBy, lectureMadeByToken, course) {
         navigate('/detail', { state: { lecture_name: lectureName, lecture_madeby: lectureMadeBy, course: lectureData.course } });
         localStorage.setItem('className', lectureName);
@@ -51,19 +44,19 @@ function ClassComponent({ lectureData }) {
                     <span>{lecture_date2}</span>
                     <FaRegClock className="icon-margin" style={{ marginLeft: '2vw' }} />
                     <span>01:00 PM - 03:00 PM</span>
-                </div>
+                </div> */}
 
                 <div className="rate-container">
-                    <div className="attendence-rate">
+                    {/* <div className="attendence-rate">
                         <span>출석률</span>
                         <span style={{ marginLeft: '4vw', color: 'blue' }}>100%</span>
-                    </div>
+                    </div> */}
 
                     <div className="attendence-rate">
                         <span>과제 제출</span>
                         <span className="rate-percent" style={{ color: 'green' }}>100%</span>
                     </div>
-                </div> */}
+                </div>
 
                 <button
                     onClick={() => moveToDetail(lecture_name, lecture_token, lecture_madeby, lecture_madeby_token, course)}

@@ -45,13 +45,25 @@ function MainPage2() {
   //   return savedCount ? parseInt(savedCount, 10) : 0;
   // });
 
+  const [lectureName,setLectureName1234] = useState();
+
   const fetchClassData = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/${userToken_main}/mainpage`);
       setLectures(response.data.lectures);
+      localStorage.setItem("lectureData",response.data.lectures);
+
+      setLectureName1234(response.data.lectures[0].name);
+      console.log("특정 강의명: ", lectureName);
+
     } catch (error) {
       console.error('강의 데이터 받아오기 실패:', error);
     }
+
+    // const lectureData = localStorage.getItem("lectureData");
+    // console.log("check1: ", lectureData);
+    // const speLecture = lectureData.find(lecture => lecture.name === lectureName);
+    // console.log("check2: ", speLecture);
   };
 
   useEffect(() => {
@@ -159,7 +171,10 @@ function MainPage2() {
 
   const renderClassComponents = () => {
     return lectures.map((lecture, index) => (
-      <ClassComponent key={index} lectureData={lecture} />
+      <ClassComponent
+        key={index}
+        lectureData={lecture}
+      />
     ));
   };
 

@@ -187,7 +187,7 @@ function SetAssign() {
           <div className='mainContent'>
             <div className='tabCover'>
             </div>
-            <div className='assignInfo'>
+            <div className='assignInfoSetAssign'>
               <div className='problemName'>
                 <div className='problemNameSpace'>
                   문제 제목:

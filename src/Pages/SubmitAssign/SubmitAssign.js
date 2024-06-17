@@ -199,7 +199,7 @@ function SubmitAssign() {
             <div className='tabCover'>
 
             </div>
-            <div className='assignInfo'>
+            <div className='assignInfoSubAssign'>
               <div className='assignContent'>
                 <div className='problem'>
                   문제 내용

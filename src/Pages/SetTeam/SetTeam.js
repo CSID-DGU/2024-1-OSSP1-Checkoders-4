@@ -65,10 +65,10 @@ function SetTeam() {
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        console.log('테이블 데이터 요청 실패');
+        console.log('테이블 데이터 요청 실패', error);
       });
   }
-  
+
   const navigate = useNavigate();
   const handleSiteName = () => {
     navigate('/Main');
@@ -152,7 +152,7 @@ function SetTeam() {
           <div className='mainContent'>
             <div className='tabCover'>
             </div>
-            <div className='assignInfo'>
+            <div className='assignInfoSetT'>
               <div className='teamSetting'>
                 <div className='teamCover'>
                   팀 배정
