@@ -40,7 +40,7 @@ function SubmitAssign() {
     console.log("클레스 데이터 확인(과목생성자토큰): ", localStorage.getItem('classMakerToken'));
   }
 
-  const setAssignmentData = () =>{
+  const setAssignmentData = () => {
     setAssignmentToken(localStorage.getItem('assignmentToken'))
     console.log("과제 번호 확인(과제번호): ", localStorage.getItem('assignmentToken'));
   }
@@ -97,7 +97,7 @@ function SubmitAssign() {
       change_PopupMessage('과제 번호가 설정되지 않았습니다.');
       change_IsPopupVisible(true);
       return;
-  }
+    }
 
     console.log("제출 소스 코드: ", submit_source); // 콘솔 로그 추가
     axios({
@@ -108,14 +108,14 @@ function SubmitAssign() {
       }
     })
       .then((response) => {
-        console.log('제출에 대한 응답: ',response);
-        if(response.data === "성공"){
+        console.log('제출에 대한 응답: ', response);
+        if (response.data === "성공") {
           change_PopupMessage('제출 성공: 정답');
         }
-        else{
+        else {
           change_PopupMessage('제출 실패: 오답'); // 팝업창 관련
         }
-        
+
         change_IsPopupVisible(true);  // 팝업창 관련
         console.log("제출 성공1");
         console.log(response);
@@ -161,7 +161,7 @@ function SubmitAssign() {
     setClassData();
     setAssignmentData();
   }, []);
-  
+
   useEffect(() => {
     if (userToken && classToken && assignmentToken) {
       fetchData();
@@ -189,7 +189,7 @@ function SubmitAssign() {
       <div className='bottomBox'>
         <div className='leftBlank'></div>
         <div className='midCore'>
-          <div className='lecture' style = {{fontWeight: 'bold'}}>
+          <div className='lecture' style={{ fontWeight: 'bold' }}>
             📖 {className}
           </div>
           <div className='mainContent'>
@@ -249,12 +249,15 @@ function SubmitAssign() {
       </div>
 
       {isPopupVisible && (
-        <div className='popup'>
-          <div className='popup-inner'>
-            <p>{popupMessage}</p>
-            <button onClick={closePopup}>닫기</button>
+        <>
+          <div className='modal-backdrop'></div> {/* New backdrop */}
+          <div className='popup'>
+            <div className='popup-inner'>
+              <p>{popupMessage}</p>
+              <button onClick={closePopup}>닫기</button>
+            </div>
           </div>
-        </div>
+        </>
       )}
 
     </div>
