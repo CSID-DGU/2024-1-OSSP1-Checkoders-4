@@ -7,7 +7,7 @@ function QListComponent({ q_name, q_problem, q_token }) {
     const location = useLocation();
     const navigate = useNavigate();
     const lecture_name = location.state?.lecture_name || '강의명 없음';
-
+    const maxLength = 100; // 원하는 최대 길이 설정
 
 
     useEffect(() => {
@@ -31,6 +31,13 @@ function QListComponent({ q_name, q_problem, q_token }) {
         });
     }
 
+    function truncateText(text, maxLength) {
+        if (text.length <= maxLength) {
+            return text;
+        }
+        return text.slice(0, maxLength) + '...';
+    }
+
 
     return (
         <div className="q-field">
@@ -40,7 +47,7 @@ function QListComponent({ q_name, q_problem, q_token }) {
                 {q_name}
             </button>
             <div className="q-field-content">
-                {q_problem}
+                {truncateText(q_problem, maxLength)}
             </div>
         </div>
     );
