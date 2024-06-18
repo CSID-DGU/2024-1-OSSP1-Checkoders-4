@@ -74,7 +74,7 @@ function MainPage2() {
       const deadlineDate = `${closestDeadline.getMonth() + 1}/${closestDeadline.getDate()}`;
       // D-N 계산
       const timeDiff = closestDeadline - currentDate;
-      const remainingDays = `D-${Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) - 1}`;
+      const remainingDays = `D-${Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) }`;
 
       setClosestLectureName(lectureName);
       setFormattedDate(deadlineDate);
