@@ -25,13 +25,14 @@ function CodeReview() {
   // 과제 번호 변수 끝
 
   // 팀 번호 변수 시작
-  const teamToken = localStorage.getItem('teamToken');
-  //const [teamToken, setTeamToken] = useState();
+  // const teamToken = localStorage.getItem('teamToken');
+  const [teamToken, setTeamToken] = useState();
   // 팀 번호 변수 끝
+  
   const mySelf = localStorage.getItem("mySelf");
 
   let [hw_name, change_hw_name] = useState();
-  let [hw_problem, change_hw_problem] = useState()
+  let [hw_problem, change_hw_problem] = useState();
   let [hw_test1, change_hw_test1] = useState(); // 입력 예제1
   let [hw_test_answer1, change_hw_test_answer1] = useState(); // 출력 예제1
   let [source, change_source] = useState();
@@ -54,6 +55,9 @@ function CodeReview() {
     setUserName(localStorage.getItem('name_main'));
     console.log("유저 데이터 확인(유저이름): ", localStorage.getItem('name_main'));
     console.log("유저 데이터 확인(유저토큰): ", localStorage.getItem('userToken_main'));
+
+    setTeamToken(localStorage.getItem('teamToken'));
+    console.log("팀원 확인(팀토큰): ", localStorage.getItem('teamToken'));
   }
 
   const setClassData = () => {
@@ -72,16 +76,22 @@ function CodeReview() {
 
   useEffect(() => {
     checkUser();
-    fetchData();
     setUserData();
     setClassData();
+
+    fetchData();
     console.log("시각: ", new Date().toISOString());
   }, []);
 
   const fetchData = () => {
     // if (mySelf === "true") {
     console.log("과제토큰: ", assignmentToken);
-    axios.get(`${API_BASE_URL}/review/${userToken}/${assignmentToken}`)
+    const aT = parseInt(assignmentToken.toString());
+    console.log("숫자: ", aT);
+    console.log("내 토큰: ", userToken);
+    axios.get(`${API_BASE_URL}/${userToken}/${aT}`)
+    // axios.get(`${API_BASE_URL}/${userToken}/${assignmentToken}`)
+    // axios.get(`${API_BASE_URL}/${userToken}/1`)
       .then((response) => {
         console.log("코드 리뷰 데이터(성공): ", response.data);
         change_hw_name(localStorage.getItem("assignmentTitle"));
@@ -96,23 +106,23 @@ function CodeReview() {
         console.log("코드 리뷰 데이터(실패): ", error)
       });
 
-    axios.get(`${API_BASE_URL}/api/chat/team/${teamToken}/answer/${assignmentToken}`)
-      .then((response) => {
-        console.log("채팅 가져오기 성공: ", response);
+    // axios.get(`${API_BASE_URL}/api/chat/team/${teamToken}/answer/${assignmentToken}`)
+    //   .then((response) => {
+    //     console.log("채팅 가져오기 성공: ", response);
 
-        const resChatData = response.data;
-        // 각 댓글의 senderName과 content만 저장
-        const senderNames = resChatData.map(chat => chat.senderName);
-        const contents = resChatData.map(chat => chat.content);
+    //     const resChatData = response.data;
+    //     // 각 댓글의 senderName과 content만 저장
+    //     const senderNames = resChatData.map(chat => chat.senderName);
+    //     const contents = resChatData.map(chat => chat.content);
 
-        console.log("저장된 이름들: ", senderNames);
-        console.log("저장된 내용들: ", contents);
+    //     console.log("저장된 이름들: ", senderNames);
+    //     console.log("저장된 내용들: ", contents);
 
-        setChatData(resChatData);
-      })
-      .catch(error => {
-        console.log("채팅 가져오기 실패: ", error);
-      });
+    //     setChatData(resChatData);
+    //   })
+    //   .catch(error => {
+    //     console.log("채팅 가져오기 실패: ", error);
+    //   });
     // }
     // else{}
   }

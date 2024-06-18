@@ -7,10 +7,12 @@
   line-height: 1.125em;
   font-size: 0.8vw !important; /* 텍스트 크기를 줄임 */
   height: auto; /* 필요에 따라 높이 조정 */
+  border-radius: 0 0 7px 7px; /* 전체 캘린더 테두리 둥글게 */
 }
 
 .react-calendar__navigation {
   height: 3vh; /* 높이 줄임 */
+  border-radius: 7px 7px 0 0; /* 상단 네비게이션 테두리 둥글게 */
 }
 
 .react-calendar__navigation button {
@@ -32,6 +34,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 5px; /* 타일 테두리 둥글게 */
 }
 
 .react-calendar__month-view__days__day {
@@ -53,6 +56,6 @@
 }
 
 .deadline {
-  background: rgb(240, 108, 108) !important;
+  background: rgb(250, 134, 134) !important;
   color: white !important;
 }
