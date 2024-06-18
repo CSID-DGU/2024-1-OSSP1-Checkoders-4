@@ -22,11 +22,11 @@ public class Chatting {
     private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "team_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "team_id", nullable = false)
     private Team team;
 
     @ManyToOne
-    @JoinColumn(name = "answer_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "answer_id", nullable = false)
     private Answer answer;
 
     private String senderName;

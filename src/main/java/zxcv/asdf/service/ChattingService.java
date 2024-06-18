@@ -45,7 +45,6 @@ public class ChattingService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid sender token"));
         Lecture lecture = lectureRepository.findById(chatDto.getLectureId())
                 .orElseThrow(() -> new IllegalArgumentException("123"));
-        System.out.println(chatDto.getLectureassignmentId());
         LectureAssignment assignment = lectureAssignmentRepository.findById(chatDto.getLectureassignmentId())
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 과제없음"));
         Team team = teamRepository.findByUserTokenAndLectureId(sender.getToken(), lecture.getId());
