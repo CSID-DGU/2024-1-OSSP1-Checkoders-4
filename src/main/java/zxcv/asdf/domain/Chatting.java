@@ -22,7 +22,7 @@ public class Chatting {
     private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "team_id", nullable = false)
+    @JoinColumn(name = "team_id", referencedColumnName = "team_id", nullable = false)
     private Team team;
 
     @ManyToOne
