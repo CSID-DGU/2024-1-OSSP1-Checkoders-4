@@ -8,6 +8,7 @@ import QListComponent from './QListComponent.js';
 import DummyQList from './DummyQList.json';
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
+import { LuLogOut } from "react-icons/lu";
 
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
@@ -89,7 +90,7 @@ function StudentQListPage() {
         </div>
         <div className='logOut'>
           <button className='logOut_button' onClick={kakaoLogout}>
-            Logout🔓
+            Logout<LuLogOut />
             {/* 온클릭하면 로그아웃 후 로그인 페이지 */}
           </button>
         </div>
@@ -115,7 +116,7 @@ function StudentQListPage() {
                   <QListComponent key={q.q_name} q_name={q.q_name} q_problem={q.q_problem} />
                 ))} */}
                 {qList.map(q => (
-                  <QListComponent key={q.q_name} q_name={q.q_name} q_problem={q.q_problem} q_token={q.q_token}/>
+                  <QListComponent key={q.q_name} q_name={q.q_name} q_problem={q.q_problem} q_token={q.q_token} />
                 ))}
               </div>
 
