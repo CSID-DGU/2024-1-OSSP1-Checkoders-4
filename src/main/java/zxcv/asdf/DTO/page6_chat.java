@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 public class page6_chat {
     private String senderToken;
     private String senderName;
-    private Long teamId;
-    private Long answerId;
+    private Long lectureId;
+    private Long lectureassignmentId;
     private String content;
     private LocalDateTime timestamp;
 }

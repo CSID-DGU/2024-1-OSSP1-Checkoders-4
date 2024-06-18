@@ -12,6 +12,8 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
 
     List<Team> findByLectureId(Long lectureId);
 
+    Team findByUserTokenAndLectureId(String token, Long lectureId);
+
     @Query("SELECT t.team_id FROM Team t WHERE t.lecture.id = :lectureId AND t.user.token = :token")
     Long findTeamIdByLectureIdAndToken(@Param("lectureId") Long lectureId, @Param("token") String token);
 

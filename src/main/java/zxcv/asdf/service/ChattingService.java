@@ -1,35 +1,28 @@
 package zxcv.asdf.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import zxcv.asdf.domain.Chatting;
-import zxcv.asdf.domain.User;
-import zxcv.asdf.domain.Team;
-import zxcv.asdf.domain.Answer;
+import zxcv.asdf.domain.*;
 import zxcv.asdf.DTO.page6_chat;
-import zxcv.asdf.repository.ChattingRepository;
-import zxcv.asdf.repository.UserRepository;
-import zxcv.asdf.repository.TeamRepository;
-import zxcv.asdf.repository.AnswerRepository;
+import zxcv.asdf.repository.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class ChattingService {
 
-    @Autowired
-    private ChattingRepository chattingRepository;
+    private final ChattingRepository chattingRepository;
+    private final UserRepository userRepository;
+    private final TeamRepository teamRepository;
+    private final AnswerRepository answerRepository;
+    private final LectureRepository lectureRepository;
+    private final LectureAssignmentRepository lectureAssignmentRepository;
 
-    @Autowired
-    private UserRepository userRepository;
 
-    @Autowired
-    private TeamRepository teamRepository;
-
-    @Autowired
-    private AnswerRepository answerRepository;
 
     public List<page6_chat> getAllChats() {
         return chattingRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
@@ -48,10 +41,16 @@ public class ChattingService {
     }
 
     public page6_chat saveChat(page6_chat chatDto) {
-        User sender = userRepository.findById(chatDto.getSenderToken()).orElseThrow(() -> new IllegalArgumentException("Invalid sender token"));
-        Team team = teamRepository.findById(chatDto.getTeamId()).orElseThrow(() -> new IllegalArgumentException("Invalid team ID"));
-        Answer answer = answerRepository.findById(chatDto.getAnswerId()).orElseThrow(() -> new IllegalArgumentException("Invalid answer ID"));
-
+        User sender = userRepository.findById(chatDto.getSenderToken())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid sender token"));
+        Lecture lecture = lectureRepository.findById(chatDto.getLectureId())
+                .orElseThrow(() -> new IllegalArgumentException("123"));
+        System.out.println(chatDto.getLectureassignmentId());
+        LectureAssignment assignment = lectureAssignmentRepository.findById(chatDto.getLectureassignmentId())
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 과제없음"));
+        Team team = teamRepository.findByUserTokenAndLectureId(sender.getToken(), lecture.getId());
+        Answer answer = answerRepository.findByUserTokenAndAssignmentId(sender.getToken(), assignment.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid answer ID"));
         Chatting chatting = Chatting.builder()
                 .sender(sender)
                 .senderName(sender.getName())
@@ -73,8 +72,8 @@ public class ChattingService {
         return page6_chat.builder()
                 .senderToken(chatting.getSender().getToken())
                 .senderName(chatting.getSenderName())
-                .teamId(chatting.getTeam().getId())
-                .answerId(chatting.getAnswer().getId())
+                .lectureId(chatting.getTeam().getLecture().getId())
+                .lectureassignmentId(chatting.getAnswer().getAssignment().getId())
                 .content(chatting.getContent())
                 .timestamp(chatting.getTimestamp())
                 .build();
