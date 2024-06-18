@@ -2,16 +2,16 @@
   width: 20vw !important; /* 크기를 줄임 */
   max-width: 100% !important;
   background: white;
-  border: 1px solid #a0a096;
+  border: 1px solid white !important;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.125em;
-  font-size: 0.8vw !important; /* 텍스트 크기를 줄임 */
+  font-size: 0.85vw !important; /* 텍스트 크기를 줄임 */
   height: auto; /* 필요에 따라 높이 조정 */
   border-radius: 0 0 7px 7px; /* 전체 캘린더 테두리 둥글게 */
 }
 
 .react-calendar__navigation {
-  height: 3vh; /* 높이 줄임 */
+  height: 3.2vh !important; /* 높이 줄임 */
   border-radius: 7px 7px 0 0; /* 상단 네비게이션 테두리 둥글게 */
 }
 

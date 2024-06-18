@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import StudentTable from './StudentTable/StudentTable';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { LuLogOut } from "react-icons/lu";
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SetTeam() {
@@ -141,7 +142,8 @@ function SetTeam() {
         </div>
         <div className='logOut'>
           <button className='logOut_button' onClick={kakaoLogout}>
-            Logout🔓
+            Logout
+            <LuLogOut />
             {/* 온클릭하면 로그아웃 후 로그인 페이지 */}
           </button>
         </div>

@@ -11,6 +11,7 @@ import ClassCreate from './ClassCreate.js';
 import ClassSearch from './ClassSearch.js';
 import ClassComponent from './ClassComponent.js';
 import axios from 'axios';
+import { LuLogOut } from "react-icons/lu";
 import DummyClass from './DummyClass.json';
 import { ko } from 'date-fns/locale';
 
@@ -217,7 +218,8 @@ function MainPage2() {
         <div className='midBlank'></div>
         <div className='logOut'>
           <button className='logOut_button' onClick={kakaoLogout}>
-            Logout🔓
+            Logout
+            <LuLogOut />
             {/* 온클릭하면 로그아웃 후 로그인 페이지 */}
           </button>
         </div>
