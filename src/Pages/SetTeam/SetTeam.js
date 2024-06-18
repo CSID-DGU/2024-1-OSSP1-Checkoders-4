@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 import StudentTable from './StudentTable/StudentTable';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import stuData from './StudentTable/sData.json';
-import stuData2 from './StudentTable/sData2.json';
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SetTeam() {

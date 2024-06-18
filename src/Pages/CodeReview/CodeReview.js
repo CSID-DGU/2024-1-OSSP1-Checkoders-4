@@ -3,8 +3,6 @@ import './CodeReview.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
-import chat_data from './chat.json'
-import codereview_data from './codereview.json'
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 
@@ -53,12 +51,7 @@ function CodeReview() {
   }
 
   const setUserData = () => {
-    if (mySelf === "true") {
-      setUserName(localStorage.getItem('name_main'));
-    }
-    else {
-      setUserName(localStorage.getItem('memberNameCR')); // detail-moveToSQL
-    }
+    setUserName(localStorage.getItem('name_main'));
     console.log("유저 데이터 확인(유저이름): ", localStorage.getItem('name_main'));
     console.log("유저 데이터 확인(유저토큰): ", localStorage.getItem('userToken_main'));
   }
@@ -101,9 +94,6 @@ function CodeReview() {
       .catch(error => {
         // 요청 실패 시 실행되는 코드
         console.log("코드 리뷰 데이터(실패): ", error)
-        change_source(codereview_data.code[0].source);
-        change_gpt_feedback(codereview_data.gpt[0].gpt_feedback)
-        change_cData(cData);
       });
 
     axios.get(`${API_BASE_URL}/api/chat/team/${teamToken}/answer/${assignmentToken}`)

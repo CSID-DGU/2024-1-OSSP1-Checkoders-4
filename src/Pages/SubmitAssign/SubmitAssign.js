@@ -3,7 +3,6 @@ import './SubmitAssign.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
-import p_data from './problem_data.json'
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SubmitAssign() {
@@ -72,10 +71,6 @@ function SubmitAssign() {
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        change_hw_name(p_data.hw[0].hw_name);
-        change_hw_problem(p_data.hw[0].hw_problem);
-        change_hw_test1(p_data.hw[0].hw_test1);
-        change_hw_test_answer1(p_data.hw[0].hw_test_answer1);
         console.log('데이터 받아오기 실패123');
       });
   }
