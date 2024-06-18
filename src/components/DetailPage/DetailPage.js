@@ -218,7 +218,9 @@ function DetailPage() {
                   <div className="task" key={index}>
                     <div className="task-font">
                       {hw.title}
-                      <button className={`button-style ${hw.correct ? 'button-done' : ''}`} onClick={() => moveToSubmitAssign(hw.assignmentId, hw.correct, hw.title)}>
+                      <button className={`button-style ${hw.correct ? 'button-done' : ''}`} 
+                        style={{ backgroundColor: hw.correct ? '#FF8878' : 'skyblue' }}
+                        onClick={() => moveToSubmitAssign(hw.assignmentId, hw.correct, hw.title)}>
                         {hw.correct ? "Done" : "View Details"}
                       </button>
                     </div>
@@ -236,7 +238,8 @@ function DetailPage() {
                   <div className="task" key={index}>
                     <div className="task-font">
                       {question.title}
-                      <button className={`button-style ${question.correct ? 'button-done' : ''}`} onClick={() => moveToSubmitAssign(question.assignmentId, question.correct, question.title)}>
+                      <button className={`button-style ${question.correct ? 'button-done' : ''}`} 
+                        onClick={() => moveToSubmitAssign(question.assignmentId, question.correct, question.title)}>
                         {question.correct ? "Done" : "View Details"}
                       </button>
                     </div>

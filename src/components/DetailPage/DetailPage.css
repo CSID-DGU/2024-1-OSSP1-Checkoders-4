@@ -85,6 +85,7 @@
     color: white;
     font-weight: bold;
     border-radius: 4px 4px 0 0;
+    padding-top: 5px;
 }
 
 .task-container {
