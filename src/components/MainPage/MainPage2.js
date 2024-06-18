@@ -21,7 +21,7 @@ function MainPage2() {
   const navigate = useNavigate();
   const [lectures, setLectures] = useState([]);
   const [name_main, setName_main] = useState("홍길동");
-  const [userToken_main, setUserToken_main] = useState('0123456789');
+  const [userToken_main, setUserToken_main] = useState();
   const [accessToken_main, setAccessToken_main] = useState('');
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
@@ -54,6 +54,7 @@ function MainPage2() {
   const fetchClassData = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/${userToken_main}/mainpage`);
+      // const response = await axios.get(`${API_BASE_URL}/${usertoken}/mainpage`);
       setLectures(response.data.lectures);
 
       let closestDeadline = new Date(response.data.lectures[0].deadline[0]);
@@ -88,6 +89,7 @@ function MainPage2() {
   };
 
   useEffect(() => {
+
     fetchClassData();
   }, [userToken_main]); // userToken_main이 변경될 때마다 데이터를 다시 불러옴
 
