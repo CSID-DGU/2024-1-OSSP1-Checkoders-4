@@ -9,6 +9,7 @@ import axios from 'axios';
 import MainPage2 from '../MainPage/MainPage2.js';
 // import homeworkData from './DummyHW.json';
 // main 도전
+const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function DetailPage() {
   const location = useLocation();
@@ -24,7 +25,6 @@ function DetailPage() {
 
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);  // 권한 확인을 위한 상태
-  const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
   let [lectureId, change_lectureId] = useState();             // 추가한 변수 240605/0137
   const storedUserToken = localStorage.getItem('userToken_main');   // 추가한 변수 240605/0137
@@ -37,8 +37,6 @@ function DetailPage() {
   const totalCorrect = correctHwCount + correctQuestionCount;
   const totalIncorrect = incorrectHwCount + incorrectQuestionCount;
   // 도넛 차트 변수 끝
-
-  const storedLectureMap = JSON.parse(localStorage.getItem('lectureMap'));
 
   useEffect(() => {
     const storedName = localStorage.getItem('name_main');
@@ -53,7 +51,6 @@ function DetailPage() {
     }
   }, [location.state]);
   // 06/07 0105 수정
-
 
   useEffect(() => {
     const fetchLectureDetails = async () => {
@@ -71,7 +68,6 @@ function DetailPage() {
 
     fetchLectureDetails();
   }, [API_BASE_URL, storedUserToken, lectureId]); // 의존성 배열에 API_BASE_URL, storedUserToken, lectureId 추가
-
 
   useEffect(() => {
     axios.get(`${API_BASE_URL}/${storedUserToken}/${lectureId}/lecturepage`)
@@ -105,8 +101,11 @@ function DetailPage() {
     navigate('/SetAssign', { state: { lecture_name: lectureName } });
   }
 
-  function moveToStudentQList(memberName) {
-    navigate('/StudentQListPage', { state: { team_member: memberName, lecture_name: lecture_name } });
+  function moveToStudentQList(memberName, memberId) {
+    console.log("이름: ", memberName);
+    console.log("토큰: ", memberId);
+    localStorage.setItem('memberToken', memberId);
+    navigate('/StudentQListPage', { state: { team_member: memberName} });
   }
 
   function moveToSetTeam(lectureName) {
@@ -119,7 +118,7 @@ function DetailPage() {
 
     localStorage.setItem("assignmentTitle", title);
     localStorage.setItem('assignmentToken', assignmentId);
-    
+
     if (correct) {
       navigate('/CodeReview');
     }
@@ -197,7 +196,7 @@ function DetailPage() {
                 </button>
                 <div className="team-container">
                   {teamMembers.map(member => (
-                    <button className="team-name" onClick={() => moveToStudentQList(member.name)} key={member.id}>
+                    <button className="team-name" onClick={() => moveToStudentQList(member.name, member.id)} key={member.id}>
                       {member.name}
                     </button>
                   ))}
@@ -250,13 +249,8 @@ function DetailPage() {
               <div className="chart-container">
                 <DoughnutChart correct={totalCorrect} incorrect={totalIncorrect} />
               </div>
-
             </div>
-
-
           </div>
-
-
         </div>
       </div>
     </div>
