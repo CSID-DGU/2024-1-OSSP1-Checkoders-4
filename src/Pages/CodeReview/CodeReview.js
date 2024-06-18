@@ -67,7 +67,7 @@ function CodeReview() {
     console.log("클레스 데이터 확인(과목명): ", localStorage.getItem('className'));
 
 
-    
+
     setClassToken(localStorage.getItem('classToken'));
     setClassMaker(localStorage.getItem('classMaker'));
     setClassMakerToken(localStorage.getItem('classMakerToken'));
@@ -84,10 +84,8 @@ function CodeReview() {
   }, []);
 
   useEffect(() => {
-    if (teamToken) {
-      fetchData();
-    }
-  }, [teamToken]);
+    fetchData();
+  });
 
   const fetchData = () => {
     console.log("내 과제토큰: ", assignmentToken);
@@ -101,10 +99,10 @@ function CodeReview() {
     console.log("최종 토큰: ", finalUserToken);
     console.log("최종 과제 토큰: ", finalAssignToken);
 
-    if(mySelf === "true"){
+    if (mySelf === "true") {
       change_hw_name(localStorage.getItem("assignmentTitle"));
     }
-    else{
+    else {
       change_hw_name(localStorage.getItem("otherAssignmentName"));
     }
 
@@ -142,7 +140,7 @@ function CodeReview() {
     console.log("문제토큰: ", assignmentToken);
     console.log("댓글내용: ", comment);
     console.log("제출시간: ", currTime);
-//
+    //
     axios.post(`${API_BASE_URL}/api/chat`, {
       // "senderToken": "3474498186",
       // "senderName": "한윤수",

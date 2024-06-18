@@ -29,7 +29,7 @@ function StudentQListPage() {
     console.log("강의 토큰: ", lectureToken);
     console.log("팀원 토큰: ", memberToken);
 
-    axios.get(`${API_BASE_URL}/page7/${memberToken}/${lectureToken}`)
+    axios.get(`${API_BASE_URL}/page7/${userToken}/${memberToken}/${lectureToken}`)
       .then((response) => {
         console.log("PAGE7요청에 대한 응답:", response);
 

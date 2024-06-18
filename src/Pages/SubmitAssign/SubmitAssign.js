@@ -110,10 +110,10 @@ function SubmitAssign() {
       .then((response) => {
         console.log('제출에 대한 응답: ',response);
         if(response.data === "성공"){
-          change_PopupMessage('제출 성공: 성공');
+          change_PopupMessage('제출 성공: 정답');
         }
         else{
-          change_PopupMessage('제출 실패: 성공'); // 팝업창 관련
+          change_PopupMessage('제출 실패: 오답'); // 팝업창 관련
         }
         
         change_IsPopupVisible(true);  // 팝업창 관련
@@ -123,7 +123,7 @@ function SubmitAssign() {
       .catch(error => {
         console.log('submit 에러: ', error);
 
-        change_PopupMessage('제출 실패: 에러'); // 팝업창 관련
+        change_PopupMessage('통신 실패: 에러'); // 팝업창 관련
         change_IsPopupVisible(true);  // 팝업창 관련
         console.log("제출 실패1");
       });
