@@ -2,23 +2,18 @@ package zxcv.asdf.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import zxcv.asdf.DTO.AssignmentDTO;
-import zxcv.asdf.DTO.page6;
-import zxcv.asdf.DTO.page6_chat;
-import zxcv.asdf.DTO.page7;
+import zxcv.asdf.DTO.*;
 import zxcv.asdf.domain.*;
 import zxcv.asdf.repository.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
 
-
+    private final Repository123 repository123;
     private final ChattingService chattingService;
     private final AnswerRepository answerRepository;
     private final TeamRepository teamRepository;
@@ -29,6 +24,14 @@ public class ReviewService {
     private final LectureAssignmentMappingRepository lectureAssignmentMappingRepository;
     private final LectureRepository lectureRepository;
     private final UserService userService;
+
+    public static Map<String, String> chats = new HashMap<>();
+
+    static {
+        chats.put("한윤수", "Wow");
+        chats.put("김민선", "아쉬워요");
+        chats.put("최진석", "멋져요");
+    }
 
     public page6_chat convertToPage6Chat(Chatting chatting) {
         return page6_chat.builder()
@@ -56,13 +59,16 @@ public class ReviewService {
                 .build();
     }
 
-    public page6 getPage6(String token,Long lectureassignmentId) {
+    /*public page6 getPage6(String token,Long lectureassignmentId) {
 
         User user = userService.getUser(token);
+
         Lecture lecture = lectureRepository
                 .getById(lectureAssignmentMappingRepository.findLectureIdByLectureAssignmentId(lectureassignmentId));
+
         LectureAssignment assignment = lectureAssignmentRepository.findById(lectureassignmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid lecture assignment ID"));
+
         Team t = teamRepository.findByUserTokenAndLectureId(token, lecture.getId());
 
         Answer answer = answerRepository.findByUserTokenAndAssignmentId(token, lectureassignmentId)
@@ -70,12 +76,16 @@ public class ReviewService {
 
         List<page6_chat> allChats = new ArrayList<>();
 
-        List<Chatting> chats = chattingRepository.findByTeam_IdAndAnswer_Id(t.getTeam_id(), answer.getId());
+        //List<Chatting> chats = chattingRepository.findByTeam_IdAndAnswer_Id(t.getTeam_id(), answer.getId());
 
-        List<page6_chat> page6Chats = chats.stream()
+
+        *//*List<page6_chat> page6Chats = chats.stream()
                 .map(this::convertToPage6Chat)
-                .collect(Collectors.toList());
-        allChats.addAll(page6Chats);
+                .collect(Collectors.toList());*//*
+        //allChats.addAll(page6Chats);
+
+
+
 
         page6 p = page6.builder()
                 .description(assignment.getDescription())
@@ -90,10 +100,58 @@ public class ReviewService {
                 .build();
 
         return p;
+    }*/
+    public page666 getPage666(String token,Long lectureassignmentId) {
+
+        User user = userService.getUser(token);
+
+        Lecture lecture = lectureRepository
+                .getById(lectureAssignmentMappingRepository.findLectureIdByLectureAssignmentId(lectureassignmentId));
+
+        LectureAssignment assignment = lectureAssignmentRepository.findById(lectureassignmentId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid lecture assignment ID"));
+
+        Team t = teamRepository.findByUserTokenAndLectureId(token, lecture.getId());
+
+        Answer answer = answerRepository.findByUserTokenAndAssignmentId(token, lectureassignmentId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user token"));
+
+        //List<Chatting> chats = chattingRepository.findByTeam_IdAndAnswer_Id(t.getTeam_id(), answer.getId());
+
+
+
+        page666 p = page666.builder()
+                .description(assignment.getDescription())
+                .hw_test1(assignment.getHwTest1())
+                .hw_test_answer1(assignment.getHwTestAnswer1())
+                .answer_text(answer.getAnswerText())
+                .assignment_id(assignment.getId())
+                .user_token(user.getToken())
+                .chats(chats)
+                .gpt_feedback(answer.getGptFeedback())
+                .correct(answer.getCorrect())
+                .build();
+
+
+
+        return p;
+    }
+    public void savechat(Chat chat) {
+        User user = userRepository.findByToken(chat.getToken()).orElseThrow(() -> new RuntimeException("User not found"));
+        chats.put(user.getName(),chat.getText());
     }
 
-    public page7 getReviewList(String token, Long lectureId) {
-        // Answer 데이터베이스에서 해당 사용자와 lectureId에 해당하는 답변을 조회
+    public page7 getReviewList(String token, String membertoken, Long lectureId) {
+        // Answer 데이터베이스에서 membertoken에 해당하는 답변을 조회
+        List<Answer> memberAnswers = answerRepository.findByUserToken(membertoken);
+
+        // Answer에서 과제 ID 목록 추출 및 lectureId로 필터링
+        List<Long> memberAssignmentIds = memberAnswers.stream()
+                .filter(answer -> answer.getAssignment().getLecture().getId().equals(lectureId))
+                .map(answer -> answer.getAssignment().getId())
+                .collect(Collectors.toList());
+
+        // Answer 데이터베이스에서 usertoken에 해당하는 답변을 조회
         List<Answer> userAnswers = answerRepository.findByUserToken(token);
 
         // Answer에서 과제 ID 목록 추출 및 lectureId로 필터링
@@ -102,14 +160,19 @@ public class ReviewService {
                 .map(answer -> answer.getAssignment().getId())
                 .collect(Collectors.toList());
 
+        // membertoken이 제출한 과제 중 usertoken이 아직 제출하지 않은 과제를 필터링
+        List<Long> filteredAssignmentIds = memberAssignmentIds.stream()
+                .filter(memberAssignmentId -> userAssignmentIds.contains(memberAssignmentId))
+                .collect(Collectors.toList());
+
         // 과제 ID 목록으로 LectureAssignment 조회 및 problem = 1로 필터링
-        List<LectureAssignment> filteredAssignments = lectureAssignmentRepository.findByIdIn(userAssignmentIds).stream()
+        List<LectureAssignment> filteredAssignments = lectureAssignmentRepository.findByIdIn(filteredAssignmentIds).stream()
                 .filter(assignment -> "1".equals(assignment.getProblem()))
                 .collect(Collectors.toList());
 
         // DTO로 변환
         List<AssignmentDTO> assignmentDTOs = filteredAssignments.stream()
-                .map(assignment -> convertToDTO(assignment, token))
+                .map(assignment -> convertToDTO(assignment, membertoken))
                 .collect(Collectors.toList());
 
         return page7.builder()

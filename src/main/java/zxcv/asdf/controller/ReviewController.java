@@ -25,18 +25,19 @@ public class ReviewController {
     private final AnswerService answerService;
     private final ReviewService reviewService;
 
-    @GetMapping("/{token}/{lectureassignmentId}")
+    /*@GetMapping("/{token}/{lectureassignmentId}")
     public page6 getReviewByAnswerId(@PathVariable String token,
                                      @PathVariable Long lectureassignmentId) {
 
         return reviewService.getPage6(token,lectureassignmentId);
-    }
+    }*/
 
-    @GetMapping("/page7/{token}/{lectureId}")
+    @GetMapping("/page7/{token}/{membertoken}/{lectureId}")
     public page7 getReviewList(@PathVariable String token,
+                               @PathVariable String membertoken,
                                @PathVariable Long lectureId) {
 
-        return reviewService.getReviewList(token, lectureId);
+        return reviewService.getReviewList(token,membertoken, lectureId);
     }
 
 }
