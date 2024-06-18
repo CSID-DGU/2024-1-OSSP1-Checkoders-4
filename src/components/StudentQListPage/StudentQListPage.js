@@ -108,7 +108,7 @@ function StudentQListPage() {
           <div className="qlist-bottom-box">
             <div className="q-container">
               <div className="q-container-title">
-                출제한 문제
+                해결한 문제
               </div>
 
               <div className="q-container-box">

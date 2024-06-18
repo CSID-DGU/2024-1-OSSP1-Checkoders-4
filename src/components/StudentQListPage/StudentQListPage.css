@@ -50,7 +50,7 @@
     margin-left: 10%;
     /* margin-bottom: 5%; */
     width: 40vw;
-    height: 15vh;
+    height: 17vh;
     background-color: white;
     border-radius: 4px;
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.2);
@@ -66,4 +66,8 @@
 .q-field-content{
     font-size: 1vw;
     margin-bottom: 3%;
+    overflow: hidden; /* 넘치는 텍스트 숨기기 */
+    text-overflow: ellipsis; /* 넘치는 텍스트에 말줄임표 표시 */
+    margin-left: 10px;
+    margin-right: 10px;
 }
