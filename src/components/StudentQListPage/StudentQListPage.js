@@ -43,9 +43,15 @@ function StudentQListPage() {
         setQList(response.data);
         */
 
+        const formattedData = Object.values(response.data).map(item => ({
+          q_name: item.assignmentName,
+          q_problem: item.assignmentDescription
+        }));
+        setQList(formattedData);
+
       })
       .catch(error => {
-
+        console.error("문제list 가져오기 실패", error);
       });
   }
 
