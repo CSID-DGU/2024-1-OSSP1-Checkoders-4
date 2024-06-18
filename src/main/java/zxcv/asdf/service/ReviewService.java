@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ReviewService {
 
-    private final Repository123 repository123;
     private final ChattingService chattingService;
     private final AnswerRepository answerRepository;
     private final TeamRepository teamRepository;
@@ -25,12 +24,12 @@ public class ReviewService {
     private final LectureRepository lectureRepository;
     private final UserService userService;
 
-    public static Map<String, String> chats = new HashMap<>();
+    public static Map<String, String> chats = new LinkedHashMap<>();
 
     static {
-        chats.put("한윤수", "Wow");
-        chats.put("김민선", "아쉬워요");
-        chats.put("최진석", "멋져요");
+        chats.put("한윤수", "버블 정렬로 풀었어요 ~");
+        chats.put("김민선", "다음엔 퀵 정렬로 해보세요. 퀵 정렬은 더 빨라요.");
+        chats.put("최진석", "근데 퀵 정렬은 구현이 좀 어려워요!");
     }
 
     public page6_chat convertToPage6Chat(Chatting chatting) {
@@ -127,12 +126,12 @@ public class ReviewService {
                 .answer_text(answer.getAnswerText())
                 .assignment_id(assignment.getId())
                 .user_token(user.getToken())
-                .chats(chats)
+                .chats(new LinkedHashMap<>(chats))
                 .gpt_feedback(answer.getGptFeedback())
                 .correct(answer.getCorrect())
                 .build();
 
-
+        chats.remove("김지우");
 
         return p;
     }
