@@ -84,8 +84,10 @@ function CodeReview() {
   }, []);
 
   useEffect(() => {
-    fetchData();
-  });
+    if (teamToken) {
+      fetchData();
+    }
+  }, [teamToken]);
 
   const fetchData = () => {
     console.log("내 과제토큰: ", assignmentToken);
@@ -108,14 +110,23 @@ function CodeReview() {
 
     console.log("과제 제목: ", hw_name);
 
-    axios.get(`${API_BASE_URL}/${finalUserToken}/${finalAssignToken}`)
+    axios.get(`${API_BASE_URL}/aaa/${finalUserToken}/${finalAssignToken}`)
       .then((response) => {
         console.log("코드 리뷰 데이터(성공): ", response.data);
+
         change_hw_problem(response.data.description);
         change_hw_test1(response.data.hw_test1);
         change_hw_test_answer1(response.data.hw_test_answer1);
         change_source(response.data.answer_text);
         change_gpt_feedback(response.data.gpt_feedback);
+        console.log(response.data.chats);
+
+        const chatArray = Object.keys(response.data.chats).map((key) => ({
+          senderName: key,
+          content: response.data.chats[key],
+        }));
+
+        setChatData(chatArray);
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
@@ -141,7 +152,7 @@ function CodeReview() {
     console.log("댓글내용: ", comment);
     console.log("제출시간: ", currTime);
     //
-    axios.post(`${API_BASE_URL}/api/chat`, {
+    axios.post(`${API_BASE_URL}/chatting`, {
       // "senderToken": "3474498186",
       // "senderName": "한윤수",
       // "lectureId": 1,
@@ -149,12 +160,12 @@ function CodeReview() {
       // "content": "김민선",
       // "timestamp": "2024-06-18T12:00:00"
 
-      senderToken: userToken,
-      senderName: userName,
-      lectureId: classToken,
-      lectureassignmentId: assignmentToken,
-      content: comment,
-      timestamp: currTime
+      token: userToken,
+      // senderName: userName,
+      // lectureId: classToken,
+      // lectureassignmentId: assignmentToken,
+      text: comment,
+      // timestamp: currTime
     })
       .then((response) => {
         // 성공적으로 댓글이 등록되었을 때 실행할 코드
