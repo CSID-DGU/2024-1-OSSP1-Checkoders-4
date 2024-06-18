@@ -199,3 +199,10 @@
 .getDeadline .inputBox {
   border-color: #ff6347;
 }
+
+.problemNameTextArea::placeholder,
+.problemExplanationTextArea::placeholder,
+.inputBox::placeholder {
+  color: #d3d3d3; /* 연한 회색으로 설정 */
+  opacity: 1; /* 불투명도 설정 (0에서 1까지 값) */
+}

@@ -86,12 +86,8 @@ function CodeReview() {
   const fetchData = () => {
     // if (mySelf === "true") {
     console.log("과제토큰: ", assignmentToken);
-    const aT = parseInt(assignmentToken.toString());
-    console.log("숫자: ", aT);
-    console.log("내 토큰: ", userToken);
-    axios.get(`${API_BASE_URL}/${userToken}/${aT}`)
-    // axios.get(`${API_BASE_URL}/${userToken}/${assignmentToken}`)
-    // axios.get(`${API_BASE_URL}/${userToken}/1`)
+    // axios.get(`${API_BASE_URL}/review/${userToken}/${assignmentToken}`)
+    axios.get(`${API_BASE_URL}/review/${userToken}/1`)
       .then((response) => {
         console.log("코드 리뷰 데이터(성공): ", response.data);
         change_hw_name(localStorage.getItem("assignmentTitle"));
