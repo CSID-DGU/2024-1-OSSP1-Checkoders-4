@@ -25,9 +25,10 @@ function CodeReview() {
   // 과제 번호 변수 끝
 
   // 팀 번호 변수 시작
-  const teamToken = localStorage.getItem('teamToken');
-  //const [teamToken, setTeamToken] = useState();
+  // const teamToken = localStorage.getItem('teamToken');
+  const [teamToken, setTeamToken] = useState();
   // 팀 번호 변수 끝
+  
   const mySelf = localStorage.getItem("mySelf");
 
   let [hw_name, change_hw_name] = useState();
@@ -54,6 +55,9 @@ function CodeReview() {
     setUserName(localStorage.getItem('name_main'));
     console.log("유저 데이터 확인(유저이름): ", localStorage.getItem('name_main'));
     console.log("유저 데이터 확인(유저토큰): ", localStorage.getItem('userToken_main'));
+
+    setTeamToken(localStorage.getItem('teamToken'));
+    console.log("팀원 확인(팀토큰): ", localStorage.getItem('teamToken'));
   }
 
   const setClassData = () => {
@@ -72,16 +76,18 @@ function CodeReview() {
 
   useEffect(() => {
     checkUser();
-    fetchData();
     setUserData();
     setClassData();
+
+    fetchData();
     console.log("시각: ", new Date().toISOString());
   }, []);
 
   const fetchData = () => {
     // if (mySelf === "true") {
     console.log("과제토큰: ", assignmentToken);
-    axios.get(`${API_BASE_URL}/review/${userToken}/${assignmentToken}`)
+    // axios.get(`${API_BASE_URL}/review/${userToken}/${assignmentToken}`)
+    axios.get(`${API_BASE_URL}/review/${userToken}/1`)
       .then((response) => {
         console.log("코드 리뷰 데이터(성공): ", response.data);
         change_hw_name(localStorage.getItem("assignmentTitle"));
