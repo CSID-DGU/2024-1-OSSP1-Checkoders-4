@@ -8,14 +8,17 @@ function QListComponent({ q_name, q_problem }) {
     const lecture_name = location.state?.lecture_name || '강의명 없음';
 
     function moveToCodeReview(lectureName) {
-        navigate('/CodeReview', { state: { lecture_name: lectureName } });
+        navigate('/CodeReview', { state: { 
+            lecture_name: lectureName,
+            hw_name: q_name,
+            hw_problem: q_problem } });
       }
 
 
     return (
     <div className="q-field">
         <button className="q-field-title"
-        style = {{backgroundColor: "white", border: "1.5px solid white"}}
+        style = {{backgroundColor: "white", border: "1.5px solid white", cursor: 'pointer'}}
         onClick={() => moveToCodeReview(lecture_name)}>
             {q_name}
         </button>
