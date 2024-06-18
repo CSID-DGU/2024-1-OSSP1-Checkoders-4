@@ -28,11 +28,11 @@ function CodeReview() {
   // const teamToken = localStorage.getItem('teamToken');
   const [teamToken, setTeamToken] = useState();
   // 팀 번호 변수 끝
-  
+
   const mySelf = localStorage.getItem("mySelf");
 
   let [hw_name, change_hw_name] = useState();
-  let [hw_problem, change_hw_problem] = useState()
+  let [hw_problem, change_hw_problem] = useState();
   let [hw_test1, change_hw_test1] = useState(); // 입력 예제1
   let [hw_test_answer1, change_hw_test_answer1] = useState(); // 출력 예제1
   let [source, change_source] = useState();
@@ -56,8 +56,8 @@ function CodeReview() {
     console.log("유저 데이터 확인(유저이름): ", localStorage.getItem('name_main'));
     console.log("유저 데이터 확인(유저토큰): ", localStorage.getItem('userToken_main'));
 
-    setTeamToken(localStorage.getItem('teamToken'));
-    console.log("팀원 확인(팀토큰): ", localStorage.getItem('teamToken'));
+    setTeamToken(localStorage.getItem('memberTokenCR'));
+    console.log("팀원 확인(팀토큰): ", localStorage.getItem('memberTokenCR'));
   }
 
   const setClassData = () => {
@@ -78,16 +78,28 @@ function CodeReview() {
     checkUser();
     setUserData();
     setClassData();
-
-    fetchData();
     console.log("시각: ", new Date().toISOString());
   }, []);
 
+  useEffect(() => {
+    if (teamToken) {
+      fetchData();
+    }
+  }, [teamToken]);
+
   const fetchData = () => {
-    // if (mySelf === "true") {
     console.log("과제토큰: ", assignmentToken);
-    // axios.get(`${API_BASE_URL}/review/${userToken}/${assignmentToken}`)
-    axios.get(`${API_BASE_URL}/review/${userToken}/1`)
+    // const [token, setToken] = useState();
+    // if (mySelf === "true") {
+    //   setToken(userToken);
+    // }
+    // else{
+    //   setToken(teamToken);
+    // }
+    console.log("내 토큰: ", userToken);
+    console.log("팀원 토큰: ", teamToken);
+
+    axios.get(`${API_BASE_URL}/${userToken}/${assignmentToken}`)
       .then((response) => {
         console.log("코드 리뷰 데이터(성공): ", response.data);
         change_hw_name(localStorage.getItem("assignmentTitle"));
@@ -96,17 +108,9 @@ function CodeReview() {
         change_hw_test_answer1(response.data.hw_test_answer1);
         change_source(response.data.answer_text);
         change_gpt_feedback(response.data.gpt_feedback);
-      })
-      .catch(error => {
-        // 요청 실패 시 실행되는 코드
-        console.log("코드 리뷰 데이터(실패): ", error)
-      });
 
-    axios.get(`${API_BASE_URL}/api/chat/team/${teamToken}/answer/${assignmentToken}`)
-      .then((response) => {
-        console.log("채팅 가져오기 성공: ", response);
-
-        const resChatData = response.data;
+        const resChatData = response.data.chats;
+        console.log("채팅: ", response.data.chats);
         // 각 댓글의 senderName과 content만 저장
         const senderNames = resChatData.map(chat => chat.senderName);
         const contents = resChatData.map(chat => chat.content);
@@ -117,10 +121,9 @@ function CodeReview() {
         setChatData(resChatData);
       })
       .catch(error => {
-        console.log("채팅 가져오기 실패: ", error);
+        // 요청 실패 시 실행되는 코드
+        console.log("코드 리뷰 데이터(실패): ", error)
       });
-    // }
-    // else{}
   }
 
   const navigate = useNavigate();
@@ -136,16 +139,23 @@ function CodeReview() {
   const postComment = () => {
     const currTime = new Date().toISOString();
     console.log("토큰: ", userToken);
-    console.log("팀토큰: ", teamToken);
+    console.log("강의토큰: ", classToken);
     console.log("문제토큰: ", assignmentToken);
     console.log("댓글내용: ", comment);
     console.log("제출시간: ", currTime);
 
     axios.post(`${API_BASE_URL}/api/chat`, {
+      // "senderToken": "3474498186",
+      // "senderName": "한윤수",
+      // "lectureId": 1,
+      // "lectureassignmentId": 1,
+      // "content": "김민선",
+      // "timestamp": "2024-06-18T12:00:00"
+
       senderToken: userToken,
       senderName: userName,
-      teamId: teamToken,
-      answerId: assignmentToken,
+      lectureId: classToken,
+      lectureassignmentId: assignmentToken,
       content: comment,
       timestamp: currTime
     })

@@ -117,7 +117,8 @@ function DetailPage() {
     console.log("assignToken", assignmentId);
     console.log("correct", correct);
     localStorage.setItem("assignmentTitle", title);
-    localStorage.setItem('assignmentToken', assignmentId);
+    
+    localStorage.setItem('assignmentToken', parseInt(assignmentId.toString()));
 
     if (correct) {
       const isMySelf = true;
