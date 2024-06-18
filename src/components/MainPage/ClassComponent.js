@@ -50,7 +50,7 @@ function ClassComponent({ lectureData }) {
                 const incorrectQuestionCount = qs.length - correctQuestionCount; // 수정된 부분
                 const totalCorrect = correctHwCount + correctQuestionCount; // 수정된 부분
                 const totalIncorrect = incorrectHwCount + incorrectQuestionCount; // 수정된 부분
-                const totalRate = totalCorrect / (totalCorrect + totalIncorrect) * 100; // 수정된 부분
+                const totalRate = (totalCorrect / (totalCorrect + totalIncorrect) * 100).toFixed(1); // 수정된 부분
                 setTotalRate(totalRate); // totalRate 상태 업데이트
             })
             .catch(error => {

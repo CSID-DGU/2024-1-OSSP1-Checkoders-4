@@ -3,6 +3,7 @@ import './CodeReview.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { LuLogOut } from "react-icons/lu";
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 
@@ -108,22 +109,31 @@ function CodeReview() {
         change_hw_test_answer1(response.data.hw_test_answer1);
         change_source(response.data.answer_text);
         change_gpt_feedback(response.data.gpt_feedback);
-
-        const resChatData = response.data.chats;
-        console.log("채팅: ", response.data.chats);
-        // 각 댓글의 senderName과 content만 저장
-        const senderNames = resChatData.map(chat => chat.senderName);
-        const contents = resChatData.map(chat => chat.content);
-
-        console.log("저장된 이름들: ", senderNames);
-        console.log("저장된 내용들: ", contents);
-
-        setChatData(resChatData);
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
         console.log("코드 리뷰 데이터(실패): ", error)
       });
+
+    // axios.get(`${API_BASE_URL}/api/chat/team/${teamToken}/answer/${assignmentToken}`)
+    //   .then((response) => {
+    //     console.log("채팅 가져오기 성공: ", response);
+
+    //     const resChatData = response.data;
+    //     // 각 댓글의 senderName과 content만 저장
+    //     const senderNames = resChatData.map(chat => chat.senderName);
+    //     const contents = resChatData.map(chat => chat.content);
+
+    //     console.log("저장된 이름들: ", senderNames);
+    //     console.log("저장된 내용들: ", contents);
+
+    //     setChatData(resChatData);
+    //   })
+    //   .catch(error => {
+    //     console.log("채팅 가져오기 실패: ", error);
+    //   });
+    // }
+    // else{}
   }
 
   const navigate = useNavigate();
@@ -213,7 +223,8 @@ function CodeReview() {
         </div>
         <div className='logOut'>
           <button className='logOut_button' onClick={kakaoLogout}>
-            Logout🔓
+            Logout
+            <LuLogOut />
             {/* 온클릭하면 로그아웃 후 로그인 페이지 */}
           </button>
         </div>

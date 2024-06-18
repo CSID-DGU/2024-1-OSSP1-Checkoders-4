@@ -14,8 +14,8 @@ function QListComponent({ q_name, q_problem }) {
         navigate('/CodeReview',{
             state: {
                 lecture_name: lecture_name,
-                q_name: q_name,
-                q_problem: q_problem,
+                hw_name: q_name,
+                hw_problem: q_problem,
                 // q_token: q_token, // 주석 해제하여 사용 가능
             }
         });

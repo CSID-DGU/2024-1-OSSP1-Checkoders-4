@@ -7,6 +7,7 @@ import DoughnutChart from './DoughnutChart';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import MainPage2 from '../MainPage/MainPage2.js';
+import { LuLogOut } from "react-icons/lu";
 // import homeworkData from './DummyHW.json';
 // main 도전
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
@@ -167,7 +168,7 @@ function DetailPage() {
         </div>
         <div className='logOut'>
           <button className='logOut_button' onClick={kakaoLogout}>
-            Logout🔓
+            Logout<LuLogOut />
             {/* 온클릭하면 로그아웃 후 로그인 페이지 */}
           </button>
         </div>
