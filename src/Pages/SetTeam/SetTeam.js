@@ -41,10 +41,15 @@ function SetTeam() {
   }
 
   useEffect(() => {
-    fetchData();
     setUserData();
     setClassData();
   }, []);
+
+  useEffect(() => {
+    if (userToken && classToken) {
+      fetchData();
+    }
+  }, [userToken, classToken]);
 
   let [tableName, changeTable] = useState('실습 팀');
   let [table_data, changeTableData] = useState(null);

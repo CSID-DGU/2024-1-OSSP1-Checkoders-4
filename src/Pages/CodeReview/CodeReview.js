@@ -30,6 +30,7 @@ function CodeReview() {
   const teamToken = localStorage.getItem('teamToken');
   //const [teamToken, setTeamToken] = useState();
   // 팀 번호 변수 끝
+  const mySelf = localStorage.getItem("mySelf");
 
   let [hw_name, change_hw_name] = useState();
   let [hw_problem, change_hw_problem] = useState()
@@ -42,13 +43,28 @@ function CodeReview() {
 
   const [chatData, setChatData] = useState([]);
 
+  const checkUser = () => {
+    if (mySelf === "true") {
+      console.log("사용자를 위한 코드리뷰 페이지를 실행합니다.", mySelf);
+    }
+    else {
+      console.log("팀원을 위한 코드리뷰 페이지를 실행합니다.", mySelf);
+    }
+  }
+
   const setUserData = () => {
-    setUserName(localStorage.getItem('name_main'));
+    if (mySelf === "true") {
+      setUserName(localStorage.getItem('name_main'));
+    }
+    else {
+      setUserName(localStorage.getItem('memberNameCR')); // detail-moveToSQL
+    }
     console.log("유저 데이터 확인(유저이름): ", localStorage.getItem('name_main'));
     console.log("유저 데이터 확인(유저토큰): ", localStorage.getItem('userToken_main'));
   }
 
   const setClassData = () => {
+    // if(mySelf === "true"){
     setClassName(localStorage.getItem('className'));
     setClassToken(localStorage.getItem('classToken'));
     setClassMaker(localStorage.getItem('classMaker'));
@@ -57,9 +73,12 @@ function CodeReview() {
     console.log("클레스 데이터 확인(과목토큰): ", localStorage.getItem('classToken'));
     console.log("클레스 데이터 확인(과목생성자): ", localStorage.getItem('classMaker'));
     console.log("클레스 데이터 확인(과목생성자토큰): ", localStorage.getItem('classMakerToken'));
+    // }
+    // else{}
   }
 
   useEffect(() => {
+    checkUser();
     fetchData();
     setUserData();
     setClassData();
@@ -67,8 +86,9 @@ function CodeReview() {
   }, []);
 
   const fetchData = () => {
+    // if (mySelf === "true") {
     console.log("과제토큰: ", assignmentToken);
-    axios.get(`${API_BASE_URL}/api/review/${userToken}/${assignmentToken}`)
+    axios.get(`${API_BASE_URL}/review/${userToken}/${assignmentToken}`)
       .then((response) => {
         console.log("코드 리뷰 데이터(성공): ", response.data);
         change_hw_name(localStorage.getItem("assignmentTitle"));
@@ -103,6 +123,8 @@ function CodeReview() {
       .catch(error => {
         console.log("채팅 가져오기 실패: ", error);
       });
+    // }
+    // else{}
   }
 
   const navigate = useNavigate();
@@ -193,7 +215,7 @@ function CodeReview() {
       <div className='bottomBox'>
         <div className='leftBlank'></div>
         <div className='midCore'>
-          <div className='lecture' style = {{fontWeight: 'bold'}}>
+          <div className='lecture' style={{ fontWeight: 'bold' }}>
             📖 {className}
           </div>
           <div className='mainContent'>

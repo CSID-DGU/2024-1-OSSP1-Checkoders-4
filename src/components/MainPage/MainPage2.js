@@ -246,7 +246,8 @@ function MainPage2() {
               </div>
             </div>
 
-            <TaskCalendar />
+            {/* <TaskCalendar /> */}
+            <TaskCalendar deadlines={lectures.flatMap(lecture => lecture.deadline)} />
 
             <div className="main-task-info">
               <TaskInfo lecture_name={closestLectureName} 

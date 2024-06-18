@@ -7,3 +7,10 @@
     line-height: 1.125em;
     font-size: 1.1vw !important;
   }
+
+  /* 수정 */
+  .deadline {
+    background: red !important;
+    color: white !important;
+  }
+  
