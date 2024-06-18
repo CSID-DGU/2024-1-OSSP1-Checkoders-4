@@ -21,7 +21,7 @@ function StudentQListPage() {
 
   const userToken = localStorage.getItem('userToken_main')
   const lectureToken = localStorage.getItem('classToken');
-  const memberToken = localStorage.getItem('membertoken');
+  const memberToken = localStorage.getItem('memberTokenCR');  // detail-moveToSQL
 
   const fetchData = () => {
     console.log("유저 토큰: ", userToken);
@@ -29,12 +29,24 @@ function StudentQListPage() {
     console.log("팀원 토큰: ", memberToken);
 
     axios.get(`${API_BASE_URL}/${userToken}/${lectureToken}/${memberToken}`)
-    .then((response) => {
-      
-    })
-    .catch(error => {
-      
-    });
+      .then((response) => {
+        /*받아야될 예상 목록
+        문제번호
+        문제이름
+        문제설명
+        response.data = {
+        0:{ assignmnetId: "", assignmentName: "", assignmentDescription: "" },
+        1:{ assignmnetId: "", assignmentName: "", assignmentDescription: "" },
+        2:{ assignmnetId: "", assignmentName: "", assignmentDescription: "" },
+        ...
+        }
+        setQList(response.data);
+        */
+
+      })
+      .catch(error => {
+
+      });
   }
 
   useEffect(() => {
@@ -107,7 +119,9 @@ function StudentQListPage() {
                 {qList.map(q => (
                   <QListComponent key={q.q_name} q_name={q.q_name} q_problem={q.q_problem} />
                 ))}
-
+                {/* {qList.map(q => (
+                  <QListComponent key={q.q_name} q_name={q.q_name} q_problem={q.q_problem} q_token={q.q_token}/>
+                ))} */}
               </div>
 
             </div>

@@ -41,7 +41,6 @@ function DetailPage() {
   useEffect(() => {
     const storedName = localStorage.getItem('name_main');
     change_lectureId(localStorage.getItem('classToken'));
-    change_lectureId(localStorage.getItem('classToken'));
     const lectureMadeBy = location.state?.lecture_madeby; // 강의 생성자 정보 가져오기
 
     console.log('storedName:', storedName, 'lectureMadeBy:', lectureMadeBy);
@@ -101,10 +100,11 @@ function DetailPage() {
     navigate('/SetAssign', { state: { lecture_name: lectureName } });
   }
 
-  function moveToStudentQList(memberName, memberId) {
+  function moveToStudentQList(memberName, memberToken) {
     console.log("이름: ", memberName);
-    console.log("토큰: ", memberId);
-    localStorage.setItem('memberToken', memberId);
+    console.log("토큰: ", memberToken);
+    localStorage.setItem('memberNameCR', memberName);
+    localStorage.setItem('memberTokenCR', memberToken);
     navigate('/StudentQListPage', { state: { team_member: memberName} });
   }
 
@@ -113,13 +113,15 @@ function DetailPage() {
   }
 
   function moveToSubmitAssign(assignmentId, correct, title) {
+    const isMySelf = 1;
     console.log("assignToken", assignmentId);
     console.log("correct", correct);
-
     localStorage.setItem("assignmentTitle", title);
     localStorage.setItem('assignmentToken', assignmentId);
 
     if (correct) {
+      const isMySelf = true;
+      localStorage.setItem("mySelf", isMySelf);
       navigate('/CodeReview');
     }
     if (!correct) {
@@ -196,7 +198,7 @@ function DetailPage() {
                 </button>
                 <div className="team-container">
                   {teamMembers.map(member => (
-                    <button className="team-name" onClick={() => moveToStudentQList(member.name, member.id)} key={member.id}>
+                    <button className="team-name" onClick={() => moveToStudentQList(member.name, member.token)} key={member.id}>
                       {member.name}
                     </button>
                   ))}
