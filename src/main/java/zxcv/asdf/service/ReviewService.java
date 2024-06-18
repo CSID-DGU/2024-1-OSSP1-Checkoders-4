@@ -93,23 +93,30 @@ public class ReviewService {
     }
 
     public page7 getReviewList(String token, Long lectureId) {
-        List<LectureAssignmentMapping> allMappings = lectureAssignmentMappingRepository.findByLectureId(lectureId);
+        // Answer 데이터베이스에서 해당 사용자와 lectureId에 해당하는 답변을 조회
+        List<Answer> userAnswers = answerRepository.findByUserToken(token);
 
-        List<Long> otherAssignmentIds = allMappings.stream()
-                .filter(mapping -> !mapping.getUser().getToken().equals(token))
-                .map(LectureAssignmentMapping::getLectureAssignmentId)
+        // Answer에서 과제 ID 목록 추출 및 lectureId로 필터링
+        List<Long> userAssignmentIds = userAnswers.stream()
+                .filter(answer -> answer.getAssignment().getLecture().getId().equals(lectureId))
+                .map(answer -> answer.getAssignment().getId())
                 .collect(Collectors.toList());
 
-        List<LectureAssignment> otherAssignments = lectureAssignmentRepository.findAllById(otherAssignmentIds);
+        // 과제 ID 목록으로 LectureAssignment 조회 및 problem = 1로 필터링
+        List<LectureAssignment> filteredAssignments = lectureAssignmentRepository.findByIdIn(userAssignmentIds).stream()
+                .filter(assignment -> "1".equals(assignment.getProblem()))
+                .collect(Collectors.toList());
 
-
-        List<AssignmentDTO> otherAssignmentDTOs = otherAssignments.stream()
+        // DTO로 변환
+        List<AssignmentDTO> assignmentDTOs = filteredAssignments.stream()
                 .map(assignment -> convertToDTO(assignment, token))
                 .collect(Collectors.toList());
 
         return page7.builder()
-                .list(otherAssignmentDTOs)
+                .list(assignmentDTOs)
                 .build();
     }
+
+
 }
 

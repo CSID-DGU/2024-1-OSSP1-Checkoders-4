@@ -15,4 +15,7 @@ public interface LectureAssignmentRepository extends JpaRepository<LectureAssign
     @Query("SELECT la.deadline FROM LectureAssignment la WHERE la.lecture.id IN :lectureIds")
     List<LocalDateTime> findDeadlinesByLectureIds(@Param("lectureIds") List<Long> lectureIds);
 
+    @Query("SELECT la FROM LectureAssignment la WHERE la.id IN :ids")
+    List<LectureAssignment> findByIdIn(List<Long> ids);
+
 }
