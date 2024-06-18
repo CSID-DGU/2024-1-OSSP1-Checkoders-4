@@ -31,29 +31,15 @@ function StudentQListPage() {
     axios.get(`${API_BASE_URL}/page7/${memberToken}/${lectureToken}`)
       .then((response) => {
         console.log("PAGE7요청에 대한 응답:", response);
-      })
-    axios.get(`${API_BASE_URL}/${userToken}/${lectureToken}/${memberToken}`)
-      .then((response) => {
-        /*받아야될 예상 목록
-        문제번호
-        문제이름
-        문제설명
-        response.data = {
-        0:{ assignmnetId: "", assignmentName: "", assignmentDescription: "" },
-        1:{ assignmnetId: "", assignmentName: "", assignmentDescription: "" },
-        2:{ assignmnetId: "", assignmentName: "", assignmentDescription: "" },
-        ...
-        }
-        setQList(response.data);
-        */
 
-        const formattedData = Object.values(response.data).map(item => ({
-          q_name: item.assignmentName,
-          q_problem: item.assignmentDescription
+        const formattedData = response.data.list.map(item => ({
+          q_name: item.title,
+          q_problem: item.description,
+          q_token: item.assignmentId
         }));
         setQList(formattedData);
-
       })
+
       .catch(error => {
         console.error("문제list 가져오기 실패", error);
       });
@@ -61,7 +47,6 @@ function StudentQListPage() {
 
   useEffect(() => {
     fetchData();
-    setQList(DummyQList.Data); // JSON 데이터를 상태로 설정
   }, []);
 
   const handleSiteName = () => {  // 메인페이지 이동을 위한 함수
@@ -126,12 +111,12 @@ function StudentQListPage() {
               </div>
 
               <div className="q-container-box">
-                {qList.map(q => (
-                  <QListComponent key={q.q_name} q_name={q.q_name} q_problem={q.q_problem} />
-                ))}
                 {/* {qList.map(q => (
-                  <QListComponent key={q.q_name} q_name={q.q_name} q_problem={q.q_problem} q_token={q.q_token}/>
+                  <QListComponent key={q.q_name} q_name={q.q_name} q_problem={q.q_problem} />
                 ))} */}
+                {qList.map(q => (
+                  <QListComponent key={q.q_name} q_name={q.q_name} q_problem={q.q_problem} q_token={q.q_token}/>
+                ))}
               </div>
 
             </div>

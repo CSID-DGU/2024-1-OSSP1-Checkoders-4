@@ -53,6 +53,6 @@
 }
 
 .deadline {
-  background: red !important;
+  background: rgb(240, 108, 108) !important;
   color: white !important;
 }
