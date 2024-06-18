@@ -71,7 +71,7 @@ function StudentQListPage() {
         <div>
 
           <div className="stud-info">
-            <FaUserCircle style={{width: '3vw'}}/>
+            <FaUserCircle style={{ width: '3vw' }} />
             <div className="stud-name">
               <span>{team_member}</span>
             </div>
@@ -84,9 +84,9 @@ function StudentQListPage() {
               </div>
 
               <div className="q-container-box">
-                    {qList.map(q => (
-                      <QListComponent key={q.q_name} q_name={q.q_name} q_problem={q.q_problem} />
-                    ))}
+                {qList.map(q => (
+                  <QListComponent key={q.q_name} q_name={q.q_name} q_problem={q.q_problem} />
+                ))}
 
               </div>
 
