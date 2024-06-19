@@ -13,7 +13,7 @@
 
 .student-table-column {
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: 0.5vw;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
@@ -27,6 +27,7 @@
 table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 1.3vh;
 }
 
 thead th {

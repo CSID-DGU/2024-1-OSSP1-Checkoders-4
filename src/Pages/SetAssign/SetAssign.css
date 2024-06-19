@@ -44,7 +44,7 @@
 
 }
 
-.assignInfo {
+.assignInfoSetAssign {
   height: 96%;
   background-color: #F9EBD0;
   flex-grow: 1;
@@ -82,7 +82,7 @@
 .problemNameSpace {
   width: 8vw;
   padding-left: 0.5vw;
-  font-size: 2vh;
+  font-size: 2.5vh;
   padding-right: 1.5vw;
 }
 
@@ -97,7 +97,7 @@
 
 /* problemExplanation 설정 */
 .problemExplanaitonCover {
-  font-size: 2vh;
+  font-size: 2.5vh;
   padding-top: 1vh;
   padding-bottom: 1vh;
   padding-left: 1vw;
@@ -135,6 +135,8 @@
   color: white;
   cursor: pointer;
   font-size: 2vh;
+  border-radius: 4px;
+  border-color: #7EA8EB;
 }
 
 .problemInputs {
@@ -169,33 +171,40 @@
 }
 
 .inputBox {
-  font-size: 16px;
+  font-size: 14px;
   border-radius: 4px;
 }
 
 /* 입력 데이터 */
 .getInputData .inputIndicate {
-  color: #007bff;
+  color: #3e86d4;
 }
 
 .getInputData .inputBox {
-  border-color: #007bff;
+  border-color: #000000;
 }
 
 /* 예상 답안 */
 .getExpectedAnswer .inputIndicate {
-  color: #28a745;
+  color: #676565;
 }
 
 .getExpectedAnswer .inputBox {
-  border-color: #28a745;
+  border-color: #464242;
 }
 
 /* 제출 기한 */
 .getDeadline .inputIndicate {
-  color: #ff6347;
+  color: #ff806a;
 }
 
 .getDeadline .inputBox {
-  border-color: #ff6347;
+  border-color: #ff806a;
+}
+
+.problemNameTextArea::placeholder,
+.problemExplanationTextArea::placeholder,
+.inputBox::placeholder {
+  color: #d3d3d3; /* 연한 회색으로 설정 */
+  opacity: 1; /* 불투명도 설정 (0에서 1까지 값) */
 }

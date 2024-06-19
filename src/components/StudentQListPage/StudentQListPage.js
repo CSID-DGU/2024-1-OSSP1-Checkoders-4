@@ -8,6 +8,9 @@ import QListComponent from './QListComponent.js';
 import DummyQList from './DummyQList.json';
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
+import { LuLogOut } from "react-icons/lu";
+
+const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function StudentQListPage() {
   const navigate = useNavigate();
@@ -17,8 +20,34 @@ function StudentQListPage() {
 
   const [qList, setQList] = useState([]);
 
+  const userToken = localStorage.getItem('userToken_main')
+  const lectureToken = localStorage.getItem('classToken');
+  const memberToken = localStorage.getItem('memberTokenCR');  // detail-moveToSQL
+
+  const fetchData = () => {
+    console.log("유저 토큰: ", userToken);
+    console.log("강의 토큰: ", lectureToken);
+    console.log("팀원 토큰: ", memberToken);
+
+    axios.get(`${API_BASE_URL}/page7/${userToken}/${memberToken}/${lectureToken}`)
+      .then((response) => {
+        console.log("PAGE7요청에 대한 응답:", response);
+
+        const formattedData = response.data.list.map(item => ({
+          q_name: item.title,
+          q_problem: item.description,
+          q_token: item.assignmentId
+        }));
+        setQList(formattedData);
+      })
+
+      .catch(error => {
+        console.error("문제list 가져오기 실패", error);
+      });
+  }
+
   useEffect(() => {
-    setQList(DummyQList.Data); // JSON 데이터를 상태로 설정
+    fetchData();
   }, []);
 
   const handleSiteName = () => {  // 메인페이지 이동을 위한 함수
@@ -26,25 +55,24 @@ function StudentQListPage() {
   }
 
   const kakaoLogout = () => { // 카카오 로그아웃을 위한 함수, post 요청을 통해 accessToken을 보내 토큰을 만료시켜 로그아웃함
-    const accessToken = localStorage.getItem('accessToken');
-    //const accessToken = '8FF_3A_k1jjn6a3dvsHOPhvpT3maVxJgAAAAAQo9c5oAAAGPxKDi4sc_xW4TVk05';
+    const accessToken_main = localStorage.getItem('accessToken_main');
     axios({
       method: 'POST',
       url: 'https://kapi.kakao.com/v1/user/logout',
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": `Bearer ${accessToken}`
+        "Authorization": `Bearer ${accessToken_main}`
       },
     })
       .then((response) => { // 로그아웃 성공 시 메인페이지로 이동되야함
         console.log("logout 성공");
-        console.log(response.id);
+        console.log(response);
+        console.log(response.data.id);
         localStorage.clear();
         navigate('/');
       })
       .catch(error => {
         console.log("logout 실패");
-        //navigate('/');
       });
   }
 
@@ -62,7 +90,7 @@ function StudentQListPage() {
         </div>
         <div className='logOut'>
           <button className='logOut_button' onClick={kakaoLogout}>
-            Logout🔓
+            Logout<LuLogOut />
             {/* 온클릭하면 로그아웃 후 로그인 페이지 */}
           </button>
         </div>
@@ -71,7 +99,7 @@ function StudentQListPage() {
         <div>
 
           <div className="stud-info">
-            <FaUserCircle style={{width: '3vw'}}/>
+            <FaUserCircle style={{ width: '3vw' }} />
             <div className="stud-name">
               <span>{team_member}</span>
             </div>
@@ -80,14 +108,16 @@ function StudentQListPage() {
           <div className="qlist-bottom-box">
             <div className="q-container">
               <div className="q-container-title">
-                출제한 문제
+                해결한 문제
               </div>
 
               <div className="q-container-box">
-                    {qList.map(q => (
-                      <QListComponent key={q.q_name} q_name={q.q_name} q_problem={q.q_problem} />
-                    ))}
-
+                {/* {qList.map(q => (
+                  <QListComponent key={q.q_name} q_name={q.q_name} q_problem={q.q_problem} />
+                ))} */}
+                {qList.map(q => (
+                  <QListComponent key={q.q_name} q_name={q.q_name} q_problem={q.q_problem} q_token={q.q_token} />
+                ))}
               </div>
 
             </div>

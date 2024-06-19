@@ -1,6 +1,7 @@
 import React from 'react';
 import './Foundation.css'; // 헤더 스타일을 정의한 CSS 파일
 import { AiOutlineLaptop } from "react-icons/ai"; // AiOutlineLaptop 아이콘 import
+import { LuLogOut } from "react-icons/lu";
 
 function Foundation() {
   return (
@@ -26,7 +27,8 @@ function Foundation() {
       </div>
       <div className='logOut'>
         <button className='logOut_button'>
-          Logout🔓
+          Logout
+          <LuLogOut />
           {/* 온클릭하면 로그아웃 후 로그인 페이지 */}
         </button>
       </div>
