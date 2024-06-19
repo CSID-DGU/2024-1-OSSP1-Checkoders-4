@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react';
 import StudentTable from './StudentTable/StudentTable';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import stuData from './StudentTable/sData.json';
-import stuData2 from './StudentTable/sData2.json';
+import { LuLogOut } from "react-icons/lu";
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SetTeam() {
@@ -41,10 +40,15 @@ function SetTeam() {
   }
 
   useEffect(() => {
-    fetchData();
     setUserData();
     setClassData();
   }, []);
+
+  useEffect(() => {
+    if (userToken && classToken) {
+      fetchData();
+    }
+  }, [userToken, classToken]);
 
   let [tableName, changeTable] = useState('실습 팀');
   let [table_data, changeTableData] = useState(null);
@@ -65,10 +69,10 @@ function SetTeam() {
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        console.log('테이블 데이터 요청 실패');
+        console.log('테이블 데이터 요청 실패', error);
       });
   }
-  
+
   const navigate = useNavigate();
   const handleSiteName = () => {
     navigate('/Main');
@@ -138,7 +142,8 @@ function SetTeam() {
         </div>
         <div className='logOut'>
           <button className='logOut_button' onClick={kakaoLogout}>
-            Logout🔓
+            Logout
+            <LuLogOut />
             {/* 온클릭하면 로그아웃 후 로그인 페이지 */}
           </button>
         </div>
@@ -146,13 +151,13 @@ function SetTeam() {
       <div className='bottomBox'>
         <div className='leftBlank'></div>
         <div className='midCore'>
-          <div className='lecture'>
+          <div className='lecture' style = {{fontWeight: 'bold'}}>
             📖 {className}
           </div>
           <div className='mainContent'>
             <div className='tabCover'>
             </div>
-            <div className='assignInfo'>
+            <div className='assignInfoSetT'>
               <div className='teamSetting'>
                 <div className='teamCover'>
                   팀 배정

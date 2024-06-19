@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { LuLogOut } from "react-icons/lu";
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SetAssign() {
@@ -173,7 +174,8 @@ function SetAssign() {
         </div>
         <div className='logOut'>
           <button className='logOut_button' onClick={kakaoLogout}>
-            Logout🔓
+            Logout
+            <LuLogOut />
             {/* 온클릭하면 로그아웃 후 로그인 페이지 */}
           </button>
         </div>
@@ -181,13 +183,13 @@ function SetAssign() {
       <div className='bottomBox'>
         <div className='leftBlank'></div>
         <div className='midCore'>
-          <div className='lecture'>
+          <div className='lecture' style = {{fontWeight: 'bold'}}>
             📖 {className}
           </div>
           <div className='mainContent'>
             <div className='tabCover'>
             </div>
-            <div className='assignInfo'>
+            <div className='assignInfoSetAssign'>
               <div className='problemName'>
                 <div className='problemNameSpace'>
                   문제 제목:

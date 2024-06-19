@@ -3,7 +3,8 @@ import './SubmitAssign.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
-import p_data from './problem_data.json'
+import { LuLogOut } from "react-icons/lu";
+
 const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
 function SubmitAssign() {
@@ -39,7 +40,7 @@ function SubmitAssign() {
     console.log("클레스 데이터 확인(과목생성자토큰): ", localStorage.getItem('classMakerToken'));
   }
 
-  const setAssignmentData = () =>{
+  const setAssignmentData = () => {
     setAssignmentToken(localStorage.getItem('assignmentToken'))
     console.log("과제 번호 확인(과제번호): ", localStorage.getItem('assignmentToken'));
   }
@@ -72,10 +73,6 @@ function SubmitAssign() {
       })
       .catch(error => {
         // 요청 실패 시 실행되는 코드
-        change_hw_name(p_data.hw[0].hw_name);
-        change_hw_problem(p_data.hw[0].hw_problem);
-        change_hw_test1(p_data.hw[0].hw_test1);
-        change_hw_test_answer1(p_data.hw[0].hw_test_answer1);
         console.log('데이터 받아오기 실패123');
       });
   }
@@ -100,7 +97,7 @@ function SubmitAssign() {
       change_PopupMessage('과제 번호가 설정되지 않았습니다.');
       change_IsPopupVisible(true);
       return;
-  }
+    }
 
     console.log("제출 소스 코드: ", submit_source); // 콘솔 로그 추가
     axios({
@@ -111,14 +108,14 @@ function SubmitAssign() {
       }
     })
       .then((response) => {
-        console.log('제출에 대한 응답: ',response);
-
-        const success = response.data.success;
-        if (success) {
-          change_PopupMessage('제출 성공: 성공');  // 팝업창 관련
-        } else {
-          change_PopupMessage('제출 실패: 성공'); // 팝업창 관련
+        console.log('제출에 대한 응답: ', response);
+        if (response.data === "성공") {
+          change_PopupMessage('제출 성공: 정답');
         }
+        else {
+          change_PopupMessage('제출 실패: 오답'); // 팝업창 관련
+        }
+
         change_IsPopupVisible(true);  // 팝업창 관련
         console.log("제출 성공1");
         console.log(response);
@@ -126,7 +123,7 @@ function SubmitAssign() {
       .catch(error => {
         console.log('submit 에러: ', error);
 
-        change_PopupMessage('제출 실패: 에러'); // 팝업창 관련
+        change_PopupMessage('통신 실패: 에러'); // 팝업창 관련
         change_IsPopupVisible(true);  // 팝업창 관련
         console.log("제출 실패1");
       });
@@ -164,7 +161,7 @@ function SubmitAssign() {
     setClassData();
     setAssignmentData();
   }, []);
-  
+
   useEffect(() => {
     if (userToken && classToken && assignmentToken) {
       fetchData();
@@ -184,7 +181,7 @@ function SubmitAssign() {
         </div>
         <div className='logOut'>
           <button className='logOut_button' onClick={kakaoLogout}>
-            Logout🔓
+            Logout<LuLogOut />
             {/* 온클릭하면 로그아웃 후 로그인 페이지 */}
           </button>
         </div>
@@ -192,14 +189,14 @@ function SubmitAssign() {
       <div className='bottomBox'>
         <div className='leftBlank'></div>
         <div className='midCore'>
-          <div className='lecture' style = {{fontWeight: 'bold'}}>
+          <div className='lecture' style={{ fontWeight: 'bold' }}>
             📖 {className}
           </div>
           <div className='mainContent'>
             <div className='tabCover'>
 
             </div>
-            <div className='assignInfo'>
+            <div className='assignInfoSubAssign'>
               <div className='assignContent'>
                 <div className='problem'>
                   문제 내용
@@ -252,12 +249,15 @@ function SubmitAssign() {
       </div>
 
       {isPopupVisible && (
-        <div className='popup'>
-          <div className='popup-inner'>
-            <p>{popupMessage}</p>
-            <button onClick={closePopup}>닫기</button>
+        <>
+          <div className='modal-backdrop'></div> {/* New backdrop */}
+          <div className='popup'>
+            <div className='popup-inner'>
+              <p>{popupMessage}</p>
+              <button onClick={closePopup}>닫기</button>
+            </div>
           </div>
-        </div>
+        </>
       )}
 
     </div>

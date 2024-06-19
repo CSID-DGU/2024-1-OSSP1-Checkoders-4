@@ -11,6 +11,7 @@ import ClassCreate from './ClassCreate.js';
 import ClassSearch from './ClassSearch.js';
 import ClassComponent from './ClassComponent.js';
 import axios from 'axios';
+import { LuLogOut } from "react-icons/lu";
 import DummyClass from './DummyClass.json';
 import { ko } from 'date-fns/locale';
 
@@ -20,9 +21,8 @@ function MainPage2() {
   const navigate = useNavigate();
   const [lectures, setLectures] = useState([]);
   const [name_main, setName_main] = useState("홍길동");
-  const [userToken_main, setUserToken_main] = useState('0123456789');
+  const [userToken_main, setUserToken_main] = useState();
   const [accessToken_main, setAccessToken_main] = useState('');
-  const [lecture_name, setLectureName] = useState("객체지향 프로그래밍");
   const API_BASE_URL = process.env.REACT_APP_LOCAL_API_BASE_URL;
 
   // 로그인 관련
@@ -45,16 +45,51 @@ function MainPage2() {
   //   return savedCount ? parseInt(savedCount, 10) : 0;
   // });
 
+  const [closestLectureName, setClosestLectureName] = useState("");
+  const [formattedDate, setFormattedDate] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [lectureName, setLectureName] = useState("");
+  const [daysRemaining, setDaysRemaining] = useState("");
+
   const fetchClassData = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/${userToken_main}/mainpage`);
+      // const response = await axios.get(`${API_BASE_URL}/${usertoken}/mainpage`);
       setLectures(response.data.lectures);
+
+      let closestDeadline = new Date(response.data.lectures[0].deadline[0]);
+      let lectureName = response.data.lectures[0].name;
+
+      response.data.lectures.forEach(lecture => {
+        lecture.deadline.forEach(date => {
+          const currentDeadline = new Date(date);
+          if (currentDeadline < closestDeadline) {
+            closestDeadline = currentDeadline;
+            lectureName = lecture.name;
+          }
+        });
+      });
+
+      // 현재 날짜
+      const currentDate = new Date();
+      // 형식 변환
+      const deadlineDate = `${closestDeadline.getMonth() + 1}/${closestDeadline.getDate()}`;
+      // D-N 계산
+      const timeDiff = closestDeadline - currentDate;
+      const remainingDays = `D-${Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) }`;
+
+      setClosestLectureName(lectureName);
+      setFormattedDate(deadlineDate);
+      setDaysRemaining(remainingDays);
+      
     } catch (error) {
       console.error('강의 데이터 받아오기 실패:', error);
     }
+
   };
 
   useEffect(() => {
+
     fetchClassData();
   }, [userToken_main]); // userToken_main이 변경될 때마다 데이터를 다시 불러옴
 
@@ -127,25 +162,6 @@ function MainPage2() {
     fetchClassData();
   }, [username, usertoken, access_token]);
 
-  // useEffect(() => {
-  //   localStorage.setItem('count', count);
-  // }, [count]);
-
-  // const incrementCount = () => {
-  //   setCount(count + 1);
-  // };
-
-  // const sendClassName = async () => {
-  //   try {
-  //     await axios.post(`${API_BASE_URL}/${token}/participate`, new URLSearchParams({ lectureName: lecture_id }));
-  //     // 성공적으로 강의가 추가된 후, 강의 목록을 새로 고침
-  //     const updatedLectures = await axios.get(`${API_BASE_URL}/${token}/lectures`);
-  //     setLectures(updatedLectures.data);  // 강의 목록을 업데이트
-  //   } catch (error) {
-  //     console.error('클래스 ID를 전달하는 데 실패했습니다!!', error);
-  //   }
-  // };
-
   const handleClassAdded = (lecture) => {
     if (lecture) {
       // Assuming 'setLectures' updates the lectures state, you could do something like:
@@ -159,7 +175,10 @@ function MainPage2() {
 
   const renderClassComponents = () => {
     return lectures.map((lecture, index) => (
-      <ClassComponent key={index} lectureData={lecture} />
+      <ClassComponent
+        key={index}
+        lectureData={lecture}
+      />
     ));
   };
 
@@ -201,7 +220,8 @@ function MainPage2() {
         <div className='midBlank'></div>
         <div className='logOut'>
           <button className='logOut_button' onClick={kakaoLogout}>
-            Logout🔓
+            Logout
+            <LuLogOut />
             {/* 온클릭하면 로그아웃 후 로그인 페이지 */}
           </button>
         </div>
@@ -230,10 +250,13 @@ function MainPage2() {
               </div>
             </div>
 
-            <TaskCalendar />
+            {/* <TaskCalendar /> */}
+            <TaskCalendar deadlines={lectures.flatMap(lecture => lecture.deadline)} />
 
             <div className="main-task-info">
-              <TaskInfo lecture_name={lecture_name} />
+              <TaskInfo lecture_name={closestLectureName} 
+                deadline={formattedDate} 
+                daysRemaining={daysRemaining} />
             </div>
           </div>
         </div>
